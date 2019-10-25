@@ -1,9 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { QuizService } from '../../services/quiz.service';
 import { QuizQuestion } from '../../model/QuizQuestion';
-import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-question-container',
@@ -12,42 +10,55 @@ import { FormGroup } from '@angular/forms';
 })
 export class QuestionComponent implements OnInit {
   question: QuizQuestion;
+  questionID = 1;
+  @Output() allQuestions: QuizQuestion[] = [
+    {
+      questionId: 1,
+      question: 'Which of the following is correct about TypeScript?',
+      options: [
+        { optionValue: 1, optionText: 'Angular is based on TypeScript.' },
+        { optionValue: 2, optionText: 'This is a superset of JavaScript.' },
+        { optionValue: 3, optionText: 'TypeScript is maintained by Microsoft.' },
+        { optionValue: 4, optionText: 'All of the above.' }],
+      answer: 4,
+      explanation: 'all of these are true statements about TypeScript'
+    }
+  ];
+
   @Output() count: number;
   @Output() numberOfQuestions: number;
   currentIndex = 0;
-  currentQuestion = this.service.getQuestion[this.currentIndex];
+  // currentQuestion = this.getQuestion[this.currentIndex];
   
   correctAnswerCount = 0;
   numberOfQuestionsAnswered = 0;  
   questionCount = 0;
   progressValue = 0;
   progressPercentage: number = 0;
+
   timeLeft = 20;
   interval: any;
 
+  selectedOption: number;
   userAnswers = [];
 
-  CONGRATULATIONS = '../../../assets/img/congratulations.jpg';
-  TRY_AGAIN = '../../../assets/img/try-again.png';
+  CONGRATULATIONS = '../../../assets/images/congratulations.jpg';
+  TRY_AGAIN = '../../../assets/images/try-again.png';
 
-  constructor(private service: QuizService, private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router) {
     this.route.paramMap.subscribe(params => {
       // get the question ID and store it.
-      this.service.setQuestionID(+params.get('questionId'));
-      this.question = this.service.getQuestion;
+      this.setQuestionID(+params.get('questionId'));
+      // this.question = this.getQuestion;
       this.questionCount = this.numberOfQuestions;
       this.progressValue = (this.numberOfQuestionsAnswered / this.numberOfQuestions) * 100;
     });
   }
 
   ngOnInit() {
-    this.question = this.service.getQuestion;
-    this.numberOfQuestions = this.service.numberOfQuestions();
+    // this.question = this.getQuestion;
+    this.numberOfQuestions = this.allQuestions.length;
     this.countDown();
-
-    if (this.timeLeft == 0) {
-      this.timeLeft = 20;
-    }
   }
 
   answer(value: string) {
@@ -55,30 +66,33 @@ export class QuestionComponent implements OnInit {
     // may want to do something with the answer here
   }
 
-  nextQuestion() {
+  nextQuestion(): void {
+    this.questionID++;
+    // console.log(this.questionID);
+
     this.incrementQuestionsAnswered();
 
-    if (this.question.answer === this.question.selectedOption) {
+    if (this.question.answer === this.selectedOption) {
       this.incrementCorrectAnswerCount();
     }
-    
     this.progressValue = (this.numberOfQuestionsAnswered / this.numberOfQuestions) * 100;
   
-    if (this.service.isThereAnotherQuestion()) {
-      this.router.navigate(['/question', this.service.getQuestionID() + 1 ]);
+    if (this.isThereAnotherQuestion()) {
+      this.router.navigate(['/question', this.getQuestionID() + 1 ]);
       this.timeLeft = 20;
     }
 
-    delete this.question.selectedOption;
+    // delete this.question.selectedOption
   }
 
   prevQuestion() {
-     this.router.navigate(['/question', this.service.getQuestionID() - 1 ]);
+    this.questionID--;
+    this.router.navigate(['/question', this.getQuestionID() - 1 ]);
   }
 
-  showResults() {
+  /* showResults() {
     this.router.navigate(['/results']);
-  }
+  } */
 
   incrementCorrectAnswerCount(): number {
     // this.count.emit(this.correctAnswerCount);
@@ -96,5 +110,21 @@ export class QuestionComponent implements OnInit {
         this.timeLeft--;
       }
     }, 1000);
+  }
+
+  getQuestionID() {
+    return this.questionID;
+  }
+
+  setQuestionID(id: number) {
+    return this.questionID = id;
+  }
+
+  isThereAnotherQuestion(): boolean {
+    return this.questionID < this.allQuestions.length;
+  }
+
+  get getQuestion(): QuizQuestion {
+    return this.allQuestions.filter(question => (question.questionId === this.questionID))[0];
   }
 }

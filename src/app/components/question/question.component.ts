@@ -1,30 +1,31 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, Form } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { QuizQuestion } from '../../model/QuizQuestion';
-import { QuizService } from '../../services/quiz.service';
 
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.scss']
 })
-export class QuestionComponent implements OnInit, OnChanges, AfterViewInit {
+export class QuestionComponent implements OnInit, OnChanges {
+  questionID = 1;
   quizForm: Form;
   formGroup: FormGroup;
 
   @Input() question: QuizQuestion;
   @Input() numberOfQuestions: number;
-  @Output() answer = new EventEmitter<string>();
+  @Input() allQuestions: QuizQuestion[];
+  @Output() answer = new EventEmitter<number>();
   
   itemFrom: HTMLElement;
   itemTo: HTMLElement;
   
-  option = '';
-  
-  constructor(private fb: FormBuilder, private service: QuizService, private route: ActivatedRoute, 
-              private router: Router) {}
+  option: number;
+  selectedOption: number;
+
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     this.buildForm();
@@ -34,14 +35,9 @@ export class QuestionComponent implements OnInit, OnChanges, AfterViewInit {
     if (changes.question && changes.question.currentValue && !changes.question.firstChange) {
       this.formGroup.patchValue({answer: ''});
     }
-    /*if (this.formGroup.invalid) {
+    /* if (this.formGroup.invalid) {
       alert('Please select an option!');
-    } else return;*/
-  }
-
-  ngAfterViewInit() {
-    this.itemFrom = document.getElementById('explanation');
-    this.itemTo = document.getElementById('question');
+    } else return; */
   }
 
   private buildForm() {
@@ -50,32 +46,35 @@ export class QuestionComponent implements OnInit, OnChanges, AfterViewInit {
     });
   }
 
-  radioChange(answer: string) {
-    this.question.selectedOption = answer;
+  radioChange(answer: number) {
+    this.selectedOption = answer;
     this.answer.emit(answer);
-    this.moveExplanation(this.itemFrom, this.itemTo);
   }
 
-  initialState(): boolean {
-    return this.question.selectedOption === '';
+/*  initialState(): boolean {
+    return this.selectedOption === '';
+  } */
+
+  isCorrect(option: number): boolean {
+    return option === this.question.answer && this.selectedOption === option;
   }
 
-  isCorrect(option: string): boolean {
-    return option === this.question.answer && this.question.selectedOption === option;
-  }
-
-  isIncorrect(option: string): boolean {
-    return option !== this.question.answer && this.question.selectedOption === option;
-  }
-
-  moveExplanation(from: HTMLElement, to: HTMLElement) {
-    to.replaceWith(from);
+  isIncorrect(option: number): boolean {
+    return option !== this.question.answer && this.selectedOption === option;
   }
 
   nextQuestion() {
-    if (this.service.isThereAnotherQuestion()) {
-      this.router.navigate(['/question', this.service.getQuestionID() + 1 ]);
+    if (this.isThereAnotherQuestion()) {
+      this.router.navigate(['/question', this.getQuestionID() + 1 ]);
     }
+  }
+
+  isThereAnotherQuestion(): boolean {
+    return this.questionID < this.allQuestions.length;
+  }
+
+  getQuestionID() {
+    return this.questionID;
   }
 
   onSubmit(formData) {

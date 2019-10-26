@@ -51,9 +51,9 @@ export class QuestionComponent implements OnInit, OnChanges {
     this.answer.emit(answer);
   }
 
-/*  initialState(): boolean {
+  /*initialState(): boolean {
     return this.selectedOption === '';
-  } */
+  }*/
 
   isCorrect(option: number): boolean {
     return option === this.question.answer && this.selectedOption === option;

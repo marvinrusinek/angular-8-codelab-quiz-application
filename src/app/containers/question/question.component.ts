@@ -9,9 +9,9 @@ import { QuizQuestion } from '../../model/QuizQuestion';
   styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit {
-  question: QuizQuestion;
   questionID = 1;
-  @Output() allQuestions: QuizQuestion[] = [
+  question: QuizQuestion;
+  questions: QuizQuestion[] = [
     {
       questionId: 1,
       question: 'Which of the following is correct about TypeScript?',
@@ -49,15 +49,15 @@ export class QuestionComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       // get the question ID and store it.
       this.setQuestionID(+params.get('questionId'));
-      // this.question = this.getQuestion;
+      this.question = this.getQuestion;
       this.questionCount = this.numberOfQuestions;
       this.progressValue = (this.numberOfQuestionsAnswered / this.numberOfQuestions) * 100;
     });
   }
 
   ngOnInit() {
-    // this.question = this.getQuestion;
-    this.numberOfQuestions = this.allQuestions.length;
+    this.question = this.getQuestion;
+    this.numberOfQuestions = this.questions.length;
     this.countDown();
   }
 
@@ -121,10 +121,10 @@ export class QuestionComponent implements OnInit {
   }
 
   isThereAnotherQuestion(): boolean {
-    return this.questionID < this.allQuestions.length;
+    return this.questionID < this.questions.length;
   }
 
   get getQuestion(): QuizQuestion {
-    return this.allQuestions.filter(question => (question.questionId === this.questionID))[0];
+    return this.questions.filter(question => (question.questionId === this.questionID))[0];
   }
 }

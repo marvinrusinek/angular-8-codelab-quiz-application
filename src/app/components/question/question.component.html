@@ -6,7 +6,7 @@
       <div *ngFor="let option of question.options">
         <mat-radio-button class="option" [value]="option.optionValue" disableRipple="true"
           [checked]="question.selectedOption == option"
-          [ngClass]="{'initial-state': initialState(),
+          [ngClass]="{
                       'is-correct': isCorrect(option.optionValue),
                       'is-incorrect': isIncorrect(option.optionValue)}">
           <li>{{ option.optionText }}</li>

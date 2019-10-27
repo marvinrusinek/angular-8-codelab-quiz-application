@@ -23,10 +23,6 @@ ol li {
   outline: 2px solid #007aff;
 }
  
-.form-group #explanation {
-  display: none;
-}
-
 .message-buttons {
   display: flex;
   justify-content: center;
@@ -69,21 +65,6 @@ ol li {
   color: #9acd32;
 }
 
-#explanation {
-  text-align: center;
-  font-size: 20px;
-  font-family: "Space Mono", monospace;
-  color: #0f0900;
-  border: 2px solid #979797;
-  background-color: #f5f5f5;
-  padding: 10px;
-  height: auto;
-  width: 38rem;
-  margin-top: 12px;
-  margin-left: -2px;
-  vertical-align: middle;
-}
-
 mat-radio-group > div {
   margin-bottom: 5px;
   padding: 4px;
@@ -100,9 +81,6 @@ mat-radio-group > div {
   margin-top: -25px;
 }
 
-.initial-state {
-  background-color: #f5f5f5 !important;
-}
 .is-correct {
   background-color: #00c853 !important;
 }

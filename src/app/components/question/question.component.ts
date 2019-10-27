@@ -55,11 +55,10 @@ export class QuestionComponent implements OnInit, OnChanges {
   displayExplanation() {
     var questionString = this.question.question;
     var explanationString = this.question.explanation;
-    var replacedExplanation = questionString.replace(questionString, explanationString);
     var explanationToDisplay = 
-      "Option " + this.question.answer + " was correct because " + replacedExplanation + ".";
+      "Option " + this.question.answer + " was correct because " + this.question.explanation + ".";
     document.getElementById("question").innerHTML = explanationToDisplay;
-    // document.getElementById("question").style.border = "gray";
+    document.getElementById("question").style.border = "2px solid #979797";
   }
 
   isCorrect(option: number): boolean {

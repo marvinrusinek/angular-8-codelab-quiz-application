@@ -61,6 +61,11 @@ export class QuestionComponent implements OnInit, OnChanges {
     document.getElementById("question").style.border = "2px solid #979797";
   }
 
+  displayQuestion() {
+    document.getElementById("question").innerHTML = this.allQuestions[this.questionID++].question;
+    document.getElementById("question").style.border = "2px solid #007aff";
+  }
+
   isCorrect(option: number): boolean {
     return option === this.question.answer && this.selectedOption === option;
   }
@@ -72,6 +77,7 @@ export class QuestionComponent implements OnInit, OnChanges {
   nextQuestion() {
     if (this.isThereAnotherQuestion()) {
       this.router.navigate(['/question', this.getQuestionID() + 1 ]);
+      this.displayQuestion();
     }
   }
 

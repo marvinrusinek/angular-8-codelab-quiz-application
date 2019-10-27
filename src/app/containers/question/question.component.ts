@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { QuizQuestion } from '../../model/QuizQuestion';
@@ -10,8 +10,8 @@ import { QuizQuestion } from '../../model/QuizQuestion';
 })
 export class QuestionComponent implements OnInit {
   questionID = 1;
-  question: QuizQuestion;
-  questions: QuizQuestion[] = [
+  @Output() question: QuizQuestion;
+  @Output() allQuestions: QuizQuestion[] = [
     {
       questionId: 1,
       question: 'Which of the following is correct about TypeScript?',
@@ -22,6 +22,108 @@ export class QuestionComponent implements OnInit {
         { optionValue: 4, optionText: 'All of the above.' }],
       answer: 4,
       explanation: 'all of these are true statements about TypeScript'
+    },
+    {
+      questionId: 2,
+      question: 'What is the decorator used for configuring your module class?',
+      options: [
+        { optionValue: 1, optionText: '@NgModule' },
+        { optionValue: 2, optionText: '@NgApp' },
+        { optionValue: 3, optionText: 'Both' },
+        { optionValue: 4, optionText: 'None of the above.' }],
+      answer: 1,
+      explanation: '@NgModule decorator is used for configuring your module class'
+    },
+    {
+      questionId: 3,
+      question: 'Which of the following is not a hook application life cycle?',
+      options: [
+        { optionValue: 1, optionText: 'ngOnChanges' },
+        { optionValue: 2, optionText: 'ngViewStart' },
+        { optionValue: 3, optionText: 'ngOnInit' },
+        { optionValue: 4, optionText: 'None of the above.' }],
+      answer: 2,
+      explanation: 'ngViewStart is not a hook application life cycle'
+    },
+    {
+      questionId: 4,
+      question: 'What does AOT stand for?',
+      options: [
+        { optionValue: 1, optionText: 'Angular Object Templates' },
+        { optionValue: 2, optionText: 'ahead-of-time compilation' },
+        { optionValue: 3, optionText: 'Angular Open Terminal' }],
+      answer: 2,
+      explanation: 'AOT stands for ahead-of-time compilation'
+    },
+    {
+      questionId: 5,
+      question: 'Which of the following is the correct way to apply a filter?',
+      options: [
+        { optionValue: 1, optionText: 'Property-value || filter' },
+        { optionValue: 2, optionText: 'Property-value && filter' },
+        { optionValue: 3, optionText: 'Property-value | filter' }],
+      answer: 3,
+      explanation: 'Property-value | filter'
+    },
+    {
+      questionId: 6,
+      question: 'Interpolation in Angular 2 is done using...',
+      options: [
+        { optionValue: 1, optionText: '{{}}' },
+        { optionValue: 2, optionText: '{{|var}}' },
+        { optionValue: 3, optionText: '{{{}}}' },
+        { optionValue: 4, optionText: '!!!!' },
+      ],
+      answer: 1,
+      explanation: 'interpolation in Angular 2 is done using {{}}'
+    },
+    {  
+      questionId: 7,
+      question: 'Which character is used for chaining multiple pipes in Angular?',
+      options: [
+        { optionValue: 1, optionText: ':' },
+        { optionValue: 2, optionText: '-' },
+        { optionValue: 3, optionText: '/' },
+        { optionValue: 4, optionText: '|' },
+      ],
+      answer: 4,
+      explanation: 'the | character is used for chaining multiple pipes in Angular'
+    },
+    {
+      questionId: 8,
+      question: 'Which of the following filters is used to convert input to all uppercase?',
+      options: [
+        { optionValue: 1, optionText: 'upper' },
+        { optionValue: 2, optionText: 'uppercase' },
+        { optionValue: 3, optionText: 'toUpper' },
+        { optionValue: 4, optionText: 'None of the above.' },
+      ],
+      answer: 2,
+      explanation: 'uppercase: {{ value | uppercase}}'
+    },
+    {
+      questionId: 9,
+      question: 'What is angular.json used for?',
+      options: [
+        { optionValue: 1, optionText: 'Used to configure your Angular project' },
+        { optionValue: 2, optionText: 'Used to link external files.' },
+        { optionValue: 3, optionText: 'Used to install required project packages.' },
+        { optionValue: 4, optionText: 'None of the above.' },
+      ],
+      answer: 1,
+      explanation: 'angular.json is used to configure your Angular project'
+    },
+    {
+      questionId: 10,
+      question: 'Which file is responsible for startup of an Angular 2 project?',
+      options: [
+        { optionValue: 1, optionText: 'main.ts' },
+        { optionValue: 2, optionText: 'index.js' },
+        { optionValue: 3, optionText: 'app.ts' },
+        { optionValue: 4, optionText: 'angular.cli.json' },
+      ],
+      answer: 1,
+      explanation: 'main.ts is responsible for startup of an Angular 2 application'
     }
   ];
 
@@ -31,15 +133,13 @@ export class QuestionComponent implements OnInit {
   // currentQuestion = this.getQuestion[this.currentIndex];
   
   correctAnswerCount = 0;
-  numberOfQuestionsAnswered = 0;  
-  questionCount = 0;
+  numberOfQuestionsAnswered = 0;
   progressValue = 0;
-  progressPercentage: number = 0;
 
   timeLeft = 20;
   interval: any;
 
-  selectedOption: number;
+  @Input() selectedOption: number;
   userAnswers = [];
 
   CONGRATULATIONS = '../../../assets/images/congratulations.jpg';
@@ -50,30 +150,25 @@ export class QuestionComponent implements OnInit {
       // get the question ID and store it.
       this.setQuestionID(+params.get('questionId'));
       this.question = this.getQuestion;
-      this.questionCount = this.numberOfQuestions;
       this.progressValue = (this.numberOfQuestionsAnswered / this.numberOfQuestions) * 100;
     });
   }
 
   ngOnInit() {
     this.question = this.getQuestion;
-    this.numberOfQuestions = this.questions.length;
+    this.numberOfQuestions = this.allQuestions.length;
     this.countDown();
   }
 
-  answer(value: string) {
+  answer(value: number) {
     console.log(value);
-    // may want to do something with the answer here
   }
 
   nextQuestion(): void {
-    this.questionID++;
-    // console.log(this.questionID);
-
-    this.incrementQuestionsAnswered();
+    this.numberOfQuestionsAnswered++;
 
     if (this.question.answer === this.selectedOption) {
-      this.incrementCorrectAnswerCount();
+      this.correctAnswerCount++;
     }
     this.progressValue = (this.numberOfQuestionsAnswered / this.numberOfQuestions) * 100;
   
@@ -82,27 +177,16 @@ export class QuestionComponent implements OnInit {
       this.timeLeft = 20;
     }
 
-    // delete this.question.selectedOption
+    delete this.selectedOption;
   }
 
-  prevQuestion() {
-    this.questionID--;
+  prevQuestion(): void {
     this.router.navigate(['/question', this.getQuestionID() - 1 ]);
   }
 
   /* showResults() {
     this.router.navigate(['/results']);
   } */
-
-  incrementCorrectAnswerCount(): number {
-    // this.count.emit(this.correctAnswerCount);
-    return this.correctAnswerCount++;
-  }
-
-  incrementQuestionsAnswered(): number {
-    // this.numberOfQuestions.emit(this.numberOfQuestionsAnswered);
-    return this.numberOfQuestionsAnswered++;
-  }
 
   private countDown() {
     this.interval = setInterval(() => {
@@ -112,6 +196,7 @@ export class QuestionComponent implements OnInit {
     }, 1000);
   }
 
+  /* core API */
   getQuestionID() {
     return this.questionID;
   }
@@ -121,10 +206,10 @@ export class QuestionComponent implements OnInit {
   }
 
   isThereAnotherQuestion(): boolean {
-    return this.questionID < this.questions.length;
+    return this.questionID < this.allQuestions.length;
   }
 
   get getQuestion(): QuizQuestion {
-    return this.questions.filter(question => (question.questionId === this.questionID))[0];
+    return this.allQuestions.filter(question => (question.questionId === this.questionID))[0];
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, Form } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { QuizQuestion } from '../../model/QuizQuestion';
 
@@ -23,9 +23,9 @@ export class QuestionComponent implements OnInit, OnChanges {
   itemTo: HTMLElement;
   
   option: number;
-  selectedOption: number;
+  @Output() selectedOption: number;
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private router: Router) {}
+  constructor(private fb: FormBuilder, private router: Router) {}
 
   ngOnInit() {
     this.buildForm();
@@ -49,11 +49,18 @@ export class QuestionComponent implements OnInit, OnChanges {
   radioChange(answer: number) {
     this.selectedOption = answer;
     this.answer.emit(answer);
+    this.displayExplanation();
   }
 
-  /*initialState(): boolean {
-    return this.selectedOption === '';
-  }*/
+  displayExplanation() {
+    var questionString = this.question.question;
+    var explanationString = this.question.explanation;
+    var replacedExplanation = questionString.replace(questionString, explanationString);
+    var explanationToDisplay = 
+      "Option " + this.question.answer + " was correct because " + replacedExplanation + ".";
+    document.getElementById("question").innerHTML = explanationToDisplay;
+    // document.getElementById("question").style.border = "gray";
+  }
 
   isCorrect(option: number): boolean {
     return option === this.question.answer && this.selectedOption === option;

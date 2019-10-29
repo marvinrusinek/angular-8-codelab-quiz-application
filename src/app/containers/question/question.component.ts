@@ -140,7 +140,7 @@ export class QuestionComponent implements OnInit {
   timeLeft = 20;
   interval: any;
 
-  formGroup: FormGroup;
+  @Input() formGroup: FormGroup;
   @Input() selectedOption: number;
   userAnswers = [];
 

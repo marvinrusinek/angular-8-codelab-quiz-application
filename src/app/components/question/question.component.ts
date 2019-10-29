@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, Form } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators, Form } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { QuizQuestion } from '../../model/QuizQuestion';
@@ -13,11 +13,12 @@ export class QuestionComponent implements OnInit, OnChanges {
   questionID = 1;
   quizForm: Form;
   formGroup: FormGroup;
+  answer: FormControl;
 
   @Input() question: QuizQuestion;
   @Input() numberOfQuestions: number;
   @Input() allQuestions: QuizQuestion[];
-  @Output() answer = new EventEmitter<number>();
+  // @Output() answer = new EventEmitter<number>();
   
   itemFrom: HTMLElement;
   itemTo: HTMLElement;
@@ -48,7 +49,7 @@ export class QuestionComponent implements OnInit, OnChanges {
 
   radioChange(answer: number) {
     this.selectedOption = answer;
-    this.answer.emit(answer);
+    // this.answer.emit(answer);
     this.displayExplanation();
   }
 
@@ -78,7 +79,9 @@ export class QuestionComponent implements OnInit, OnChanges {
     if (this.isThereAnotherQuestion()) {
       this.router.navigate(['/question', this.getQuestionID() + 1 ]);
       this.displayNextQuestion();
-      this.formGroup.reset({answer: null});
+      // this.formGroup.reset({answer: null});
+    
+      this.quizForm.getControl('answer').reset({answer: null});
     }
   }
 
@@ -90,10 +93,10 @@ export class QuestionComponent implements OnInit, OnChanges {
     return this.questionID;
   }
 
-  onSubmit(formData) {
-    if (formData.valid) {
-      console.log("Form Submitted!");
+  onSubmit() {
+    //if (formData.valid) {
+    //  console.log("Form Submitted!");
       this.formGroup.reset({answer: null});
-    }
+    //}
   }
 }

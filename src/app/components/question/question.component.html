@@ -1,4 +1,4 @@
-<form #quizForm="ngForm" [formGroup]="formGroup" (ngSubmit)="onSubmit(quizForm.value)">
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <ng-content></ng-content>
   <ol class="form-group">
     <mat-radio-group formControlName="answer" name="answer" (change)="radioChange($event.value)"

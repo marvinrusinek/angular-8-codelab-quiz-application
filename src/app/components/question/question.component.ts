@@ -70,14 +70,7 @@ export class QuestionComponent implements OnInit, OnChanges {
     return option !== this.question.answer && this.selectedOption === option;
   }
 
-  nextQuestion() {
-    if (this.isThereAnotherQuestion()) {
-      this.router.navigate(['/question', this.getQuestionID() + 1 ]);
-      // this.formGroup.reset({answer: null});
-    
-      // this.quizForm.getControl('answer').reset({answer: null});
-    }
-  }
+
 
   isThereAnotherQuestion(): boolean {
     return this.questionID < this.allQuestions.length;

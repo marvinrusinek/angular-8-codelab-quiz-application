@@ -61,7 +61,7 @@ export class QuestionComponent implements OnInit, OnChanges {
     document.getElementById("question").style.border = "2px solid #979797";
   }
 
-  displayQuestion() {
+  displayNextQuestion() {
     document.getElementById("question").innerHTML = this.allQuestions[this.questionID++].question;
     document.getElementById("question").style.border = "2px solid #007aff";
   }
@@ -77,7 +77,8 @@ export class QuestionComponent implements OnInit, OnChanges {
   nextQuestion() {
     if (this.isThereAnotherQuestion()) {
       this.router.navigate(['/question', this.getQuestionID() + 1 ]);
-      this.displayQuestion();
+      this.displayNextQuestion();
+      this.formGroup.reset({answer: null});
     }
   }
 

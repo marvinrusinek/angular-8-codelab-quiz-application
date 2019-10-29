@@ -90,6 +90,9 @@ export class QuestionComponent implements OnInit, OnChanges {
   }
 
   onSubmit(formData) {
-    this.formGroup.reset({answer: null});
+    if (formData.valid) {
+      console.log("Form Submitted!");
+      this.formGroup.reset({answer: null});
+    }
   }
 }

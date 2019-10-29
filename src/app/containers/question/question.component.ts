@@ -166,6 +166,11 @@ export class QuestionComponent implements OnInit {
     console.log(value);
   }
 
+  displayNextQuestion() {
+    document.getElementById('question').innerHTML = this.allQuestions[this.questionID++].question;
+    document.getElementById('question').style.border = '2px solid #007aff';
+  }
+
   nextQuestion(): void {
     this.numberOfQuestionsAnswered++;
 
@@ -177,6 +182,7 @@ export class QuestionComponent implements OnInit {
     if (this.isThereAnotherQuestion()) {
       this.router.navigate(['/question', this.getQuestionID() + 1 ]);
       this.timeLeft = 20;
+      this.displayNextQuestion();
     }
 
     delete this.selectedOption;

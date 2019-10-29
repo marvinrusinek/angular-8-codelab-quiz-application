@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormGroup } from '@angular/forms';
 
 import { QuizQuestion } from '../../model/QuizQuestion';
 
@@ -125,7 +126,7 @@ export class QuestionComponent implements OnInit {
       answer: 1,
       explanation: 'main.ts is responsible for startup of an Angular 2 application'
     }
-  ];
+  ]
 
   @Output() count: number;
   @Output() numberOfQuestions: number;
@@ -139,6 +140,7 @@ export class QuestionComponent implements OnInit {
   timeLeft = 20;
   interval: any;
 
+  formGroup: FormGroup;
   @Input() selectedOption: number;
   userAnswers = [];
 
@@ -178,6 +180,7 @@ export class QuestionComponent implements OnInit {
     }
 
     delete this.selectedOption;
+    this.formGroup.reset({answer: null});
   }
 
   prevQuestion(): void {

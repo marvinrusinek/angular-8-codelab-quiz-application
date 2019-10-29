@@ -1,4 +1,4 @@
 export interface Option {
-  optionValue: string;
+  optionValue: number;
   optionText: string;
 }

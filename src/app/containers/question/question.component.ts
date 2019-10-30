@@ -166,6 +166,10 @@ export class QuestionComponent implements OnInit {
     console.log(value);
   }
 
+  reset() {
+    this.formGroup.reset();
+  }
+
   displayNextQuestion() {
     document.getElementById('question').innerHTML = this.allQuestions[this.questionID++].question;
     document.getElementById('question').style.border = '2px solid #007aff';

@@ -51,7 +51,7 @@
             </button>
           </div>
           <div class="nextQuestion" *ngIf="question && question.questionId <= numberOfQuestions">
-            <button (click)="nextQuestion()">
+            <button type="button" (click)="nextQuestion();reset()">
               Next &raquo;
             </button>
           </div>

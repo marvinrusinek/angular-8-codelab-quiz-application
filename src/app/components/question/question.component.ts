@@ -48,7 +48,7 @@ export class QuestionComponent implements OnInit, OnChanges {
   }
 
   reset() {
-    this.formGroup.reset();
+    this.formGroup.reset({answer: null});
   }
 
   radioChange(answer: number) {

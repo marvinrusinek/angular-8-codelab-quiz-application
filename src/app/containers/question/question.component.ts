@@ -167,7 +167,7 @@ export class QuestionComponent implements OnInit {
   }
 
   reset() {
-    this.formGroup.reset();
+    this.formGroup.reset({answer: null});
   }
 
   displayNextQuestion() {

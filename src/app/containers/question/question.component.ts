@@ -239,9 +239,6 @@ export class QuestionComponent implements OnInit {
     }, 1000);
   }
 
-  navigateToResults() {
-    this.router.navigate(['/results']);
-  }
 
   /* API functions */
   getQuestionID() {

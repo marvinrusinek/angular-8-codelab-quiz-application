@@ -36,6 +36,7 @@
       <app-question 
         [question]="question" 
         [numberOfQuestions]="numberOfQuestions"
+        [formGroup]="formGroup"
         (answer)="answer($event)" 
         (score)="incrementScore($event)">
           <div id="question">{{ question.question }}</div>
@@ -51,7 +52,7 @@
             </button>
           </div>
           <div class="nextQuestion" *ngIf="question && question.questionId !== numberOfQuestions">
-            <button type="button" (click)="navigateToNextQuestion()">
+            <button type="button" [disabled]="!formGroup.valid" (click)="navigateToNextQuestion()">
               Next &raquo;
             </button>
           </div>

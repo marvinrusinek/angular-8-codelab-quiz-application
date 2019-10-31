@@ -176,7 +176,7 @@ export class QuestionComponent implements OnInit {
   }
 
   answer(value: string) {
-    console.log(value);
+    /* console.log(value); might want to do something with the answer here... */
   }
 
   displayNextQuestion() {

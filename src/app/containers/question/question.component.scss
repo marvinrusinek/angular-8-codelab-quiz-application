@@ -139,7 +139,9 @@ mat-card-footer {
 
 .showResults {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 40px !important;
+  display: inline-block;
+  margin: 0 auto !important; 
 }
 
 .paging > button {

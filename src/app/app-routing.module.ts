@@ -6,7 +6,7 @@ import { ResultsComponent } from './containers/results/results.component';
 const routes: Route[] = [
   { path: 'question/:questionId', component: QuestionComponent, pathMatch: 'full' },
   { path: '', redirectTo: '/question/1', pathMatch: 'full' },
-  path: 'results', component: ResultsComponent, pathMatch: 'full' }
+  { path: 'results', component: ResultsComponent, pathMatch: 'full' }
 ];
 
 @NgModule({

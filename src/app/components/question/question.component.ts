@@ -12,7 +12,7 @@ import { QuizQuestion } from '../../model/QuizQuestion';
 export class QuestionComponent implements OnInit, OnChanges {
   questionID = 1;
   quizForm: Form;
-  @Output() formGroup: FormGroup;
+  @Output('formGroup') formGroup: FormGroup;
 
   @Input() question: QuizQuestion;
   @Input() numberOfQuestions: number;

@@ -211,10 +211,6 @@ export class QuestionComponent implements OnInit {
     this.router.navigate(['/results']);
   }
 
-  /* showResults() {
-    this.router.navigate(['/results']);
-  } */
-
   private countDown() {
     // this.nextQuestion = this.getQuestionID() + 1;
     this.interval = setInterval(() => {
@@ -238,7 +234,6 @@ export class QuestionComponent implements OnInit {
       }
     }, 1000);
   }
-
 
   /* API functions */
   getQuestionID() {

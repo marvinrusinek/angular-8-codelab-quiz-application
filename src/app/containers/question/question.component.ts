@@ -207,6 +207,10 @@ export class QuestionComponent implements OnInit {
     this.router.navigate(['/question', this.getQuestionID() - 1]);
   }
 
+  navigateToResults(): void {
+    this.router.navigate(['/results']);
+  }
+
   /* showResults() {
     this.router.navigate(['/results']);
   } */

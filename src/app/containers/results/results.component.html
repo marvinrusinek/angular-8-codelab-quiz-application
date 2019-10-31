@@ -1,0 +1,21 @@
+<mat-card>
+  <mat-card-header>
+    <div mat-card-avatar class="header-image"></div>
+    <mat-card-title>Angular/TypeScript Codelab Quiz</mat-card-title>
+    <mat-card-subtitle>Results</mat-card-subtitle>
+  </mat-card-header>
+
+  <img *ngIf="correctAnswerCount > 2; else try_again" mat-card-image [src]="CONGRATULATIONS" alt="Photo of congratulations">
+
+  <ng-template #try_again>
+    <img mat-card-image [src]="TRY_AGAIN" alt="Photo of Try again">
+  </ng-template>
+
+  <mat-card-content>
+    <h4>You got {{ correctAnswerCount }} correct out of {{ numberOfQuestions }} questions.</h4>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-raised-button type="button" routerLink="/">Try Again</button>
+  </mat-card-actions>
+ </mat-card>

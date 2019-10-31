@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators, Form } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, Form } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { QuizQuestion } from '../../model/QuizQuestion';
@@ -13,18 +13,13 @@ export class QuestionComponent implements OnInit, OnChanges {
   questionID = 1;
   quizForm: Form;
   @Output() formGroup: FormGroup;
-  answer: FormControl;
 
   @Input() question: QuizQuestion;
   @Input() numberOfQuestions: number;
   @Input() allQuestions: QuizQuestion[];
-  // @Output() answer = new EventEmitter<number>();
-  
-  itemFrom: HTMLElement;
-  itemTo: HTMLElement;
-  
-  option: number;
-  @Output() selectedOption: number;
+  @Output() answer = new EventEmitter<string>();
+  option = '';
+  @Output() selectedOption = '';
 
   constructor(private fb: FormBuilder, private router: Router) {}
 
@@ -47,47 +42,28 @@ export class QuestionComponent implements OnInit, OnChanges {
     });
   }
 
-  reset() {
-    this.formGroup.reset({answer: null});
-  }
-
-  radioChange(answer: number) {
-    this.selectedOption = answer;
-    // this.answer.emit(answer);
+  radioChange(answer: string) {
+    this.question.selectedOption = answer;
+    this.answer.emit(answer);
     this.displayExplanation();
   }
 
   displayExplanation() {
-    var questionString = this.question.question;
-    var explanationString = this.question.explanation;
-    var explanationToDisplay = 
-      "Option " + this.question.answer + " was correct because " + this.question.explanation + ".";
-    document.getElementById("question").innerHTML = explanationToDisplay;
-    document.getElementById("question").style.border = "2px solid #979797";
+    const explanationToDisplay = 'Option ' + this.question.answer + ' was correct because ' 
+                                           + this.question.explanation + '.';
+    document.getElementById('question').innerHTML = explanationToDisplay;
+    document.getElementById('question').style.border = '2px solid #979797';
   }
 
-  isCorrect(option: number): boolean {
-    return option === this.question.answer && this.selectedOption === option;
+  isCorrect(option: string): boolean {
+    return option === this.question.answer && this.question.selectedOption === option;
   }
 
-  isIncorrect(option: number): boolean {
-    return option !== this.question.answer && this.selectedOption === option;
-  }
-
-
-
-  isThereAnotherQuestion(): boolean {
-    return this.questionID < this.allQuestions.length;
-  }
-
-  getQuestionID() {
-    return this.questionID;
+  isIncorrect(option: string): boolean {
+    return option !== this.question.answer && this.question.selectedOption === option;
   }
 
   onSubmit() {
-    //if (formData.valid) {
-    //  console.log("Form Submitted!");
-      this.formGroup.reset({answer: null});
-    //}
+    this.formGroup.reset({answer: null});
   }
 }

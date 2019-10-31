@@ -1,4 +1,4 @@
-<mat-card class="card">
+<mat-card class="animated fadeInRight delay-0.5s">
   <ng-container *ngIf="question.questionId <= numberOfQuestions; else quiz_results">
     <mat-card-header>
       <div mat-card-avatar class="header-image"></div>
@@ -9,7 +9,7 @@
       </mat-card-subtitle>
     </mat-card-header>
 
-    <mat-card-content class="animated fadeInRight delay-0.5s">
+    <mat-card-content>
       <div class="score">
         <span class="leader">Score:</span>
         <span class="scoreboard">{{ correctAnswerCount }} / {{ numberOfQuestions }}</span>
@@ -20,7 +20,7 @@
       </div>
       <div class="no-time-left">
         <button mat-raised-button class="no-time-left-btn" 
-            *ngIf="timeLeft === 0" (click)="nextQuestion()">
+            *ngIf="timeLeft === 0" (click)="navigateToNextQuestion()">
           <mat-icon class="timer-expired" inline="true">timer</mat-icon>
           <span> Time&apos;s up!</span>
           <span class="proceed" *ngIf="question && question.questionId !== numberOfQuestions">
@@ -35,7 +35,7 @@
 
       <app-question 
         [question]="question" 
-        [numberOfQuestions]="numberOfQuestions" 
+        [numberOfQuestions]="numberOfQuestions"
         (answer)="answer($event)" 
         (score)="incrementScore($event)">
           <div id="question">{{ question.question }}</div>
@@ -46,13 +46,18 @@
       <mat-card-actions>
         <div class="paging">
           <div class="prevQuestion" *ngIf="question && question.questionId !== 1">
-            <button (click)="prevQuestion()">
+            <button (click)="navigateToPreviousQuestion()">
               &laquo; Previous
             </button>
           </div>
           <div class="nextQuestion" *ngIf="question && question.questionId <= numberOfQuestions">
-            <button type="button" (click)="nextQuestion();reset()">
+            <button type="button" (click)="navigateToNextQuestion()">
               Next &raquo;
+            </button>
+          </div>
+          <div class="showResults" *ngIf="question && question.questionId === numberOfQuestions">
+            <button type="button" (click)="navigateToResults()">
+              Show Your Score!
             </button>
           </div>
         </div>

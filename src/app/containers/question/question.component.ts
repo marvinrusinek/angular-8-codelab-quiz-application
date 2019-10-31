@@ -216,7 +216,7 @@ export class QuestionComponent implements OnInit {
       if (this.timeLeft > 0) {
         this.timeLeft--;
       }
-      if (this.timeLeft === 0  && this.question.questionId <= this.numberOfQuestions) {
+      if (this.timeLeft === 0  && this.questionID <= this.numberOfQuestions) {
         // this.allQuestions[this.questionID++];
         this.timeLeft = 20;
         this.router.navigate(['/question', this.getQuestionID() + 1]);

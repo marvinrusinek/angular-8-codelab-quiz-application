@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ResultsComponent implements OnInit {
 
-  @Input() questionId: number;
+  // @Input() questionId: number;
   @Input() numberOfQuestions: number;
   @Input() correctAnswerCount: number;
   

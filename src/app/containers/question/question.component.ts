@@ -212,13 +212,11 @@ export class QuestionComponent implements OnInit {
   }
 
   private countDown() {
-    // this.nextQuestion = this.getQuestionID() + 1;
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
         this.timeLeft--;
       }
       if (this.timeLeft === 0  && this.question.questionId <= this.numberOfQuestions) {
-        // this.question.questionId++;
         // this.allQuestions[this.questionID++];
         this.timeLeft = 20;
         this.router.navigate(['/question', this.getQuestionID() + 1]);

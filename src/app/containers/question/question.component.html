@@ -46,7 +46,7 @@
       <mat-card-actions>
         <div class="paging">
           <div class="prevQuestion" *ngIf="question && question.questionId !== 1">
-            <button (click)="navigateToPreviousQuestion()">
+            <button type="button" (click)="navigateToPreviousQuestion()">
               &laquo; Previous
             </button>
           </div>

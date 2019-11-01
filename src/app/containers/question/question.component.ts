@@ -188,9 +188,6 @@ export class QuestionComponent implements OnInit {
   navigateToNextQuestion(): void {
     this.numberOfQuestionsAnswered++;
 
-    if (this.question.selectedOption === this.question.answer) {
-      this.correctAnswerCount++;
-    }
     this.progressValue =
       (this.numberOfQuestionsAnswered / this.numberOfQuestions) * 100;
 

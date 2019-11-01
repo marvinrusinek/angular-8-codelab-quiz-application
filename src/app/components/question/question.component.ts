@@ -20,6 +20,7 @@ export class QuestionComponent implements OnInit, OnChanges {
   @Output() answer = new EventEmitter<string>();
   option = '';
   @Output() selectedOption = '';
+  correctAnswerCount = 0;
 
   constructor(private fb: FormBuilder, private router: Router) {}
 
@@ -46,6 +47,7 @@ export class QuestionComponent implements OnInit, OnChanges {
     this.question.selectedOption = answer;
     this.answer.emit(answer);
     this.displayExplanation();
+    this.displayScore();
   }
 
   displayExplanation() {
@@ -53,6 +55,12 @@ export class QuestionComponent implements OnInit, OnChanges {
                                            + this.question.explanation + '.';
     document.getElementById('question').innerHTML = explanationToDisplay;
     document.getElementById('question').style.border = '2px solid #979797';
+  }
+
+  displayScore() {
+    if (this.question.selectedOption === this.question.answer) {
+      this.correctAnswerCount++;
+    }
   }
 
   isCorrect(option: string): boolean {

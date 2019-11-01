@@ -152,7 +152,7 @@ export class QuestionComponent implements OnInit {
   timeLeft = 20;
   interval: any;
 
-  @Input('formGroup') formGroup: FormGroup;
+  @Output('formGroup') formGroup: FormGroup;
   quizForm: NgForm;
   userAnswers = [];
 

@@ -155,9 +155,7 @@ export class QuestionComponent implements OnInit {
   @Output('formGroup') formGroup: FormGroup;
   quizForm: NgForm;
   userAnswers = [];
-
-  CONGRATULATIONS = '../../../assets/images/congratulations.jpg';
-  TRY_AGAIN = '../../../assets/images/try-again.png';
+  correctAnswers = [];
 
   constructor(private route: ActivatedRoute, private router: Router) {
     this.route.paramMap.subscribe(params => {
@@ -188,16 +186,21 @@ export class QuestionComponent implements OnInit {
   navigateToNextQuestion(): void {
     this.numberOfQuestionsAnswered++;
 
+    this.userAnswers.push(this.question.selectedOption);
+    this.correctAnswers.push(this.question.answer);
+
     this.progressValue =
       (this.numberOfQuestionsAnswered / this.numberOfQuestions) * 100;
+
+    if (this.question.selectedOption === this.question.answer) {
+      this.correctAnswerCount++;
+    }
 
     if (this.isThereAnotherQuestion()) {
       this.router.navigate(['/question', this.getQuestionID() + 1]);
       this.timeLeft = 20;
       this.displayNextQuestion();
     }
-
-    delete this.question.selectedOption;
   }
 
   navigateToPreviousQuestion(): void {

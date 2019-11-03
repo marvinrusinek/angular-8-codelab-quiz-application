@@ -2,8 +2,8 @@
   <ng-container *ngIf="question.questionId <= numberOfQuestions">
     <mat-card-header>
       <div mat-card-avatar class="header-image"></div>
-      <mat-card-title>Angular/TypeScript Codelab Quiz</mat-card-title>
-      <mat-card-subtitle>
+      <mat-card-title i18n>Angular/TypeScript Codelab Quiz</mat-card-title>
+      <mat-card-subtitle i18n>
         How well do you know Angular? Take the quiz and find out!
       </mat-card-subtitle>
     </mat-card-header>
@@ -11,49 +11,49 @@
     <mat-card-content>
       <div class="row">
         <div class="stats">
-          <span class="leader">Stats</span><br>
-          <span class="scoreboard">{{ correctAnswerCount }}/{{ numberOfQuestions }}</span>
+          <span i18n class="leader">Stats</span><br>
+          <span i18n class="scoreboard">{{ correctAnswerCount }}/{{ numberOfQuestions }}</span>
         </div>
         <div class="badge" *ngIf="question.questionId <= numberOfQuestions">
-          Question {{ question.questionId }} of {{ numberOfQuestions }}
+          <span i18n>Question {{ question.questionId }} of {{ numberOfQuestions }}</span>
         </div>
         <div class="time-left">
-          <span class="leader">Time</span><br>
-          <span class="scoreboard">:<span *ngIf="timeLeft < 10">0</span>{{ timeLeft }}</span>
-        </div>        
+          <span i18n class="leader">Time</span><br>
+          <span i18n class="scoreboard">0:<span *ngIf="timeLeft < 10">0</span>{{ timeLeft }}</span>
+        </div>
       </div>
 
       <div class="time-expired">
-        <button mat-raised-button class="time-expired-btn" 
-            *ngIf="timeLeft === 0 && question.questionId !== numberOfQuestions" 
+        <button mat-raised-button class="time-expired-btn"
+            *ngIf="timeLeft === 0 && question.questionId !== numberOfQuestions"
             (click)="navigateToNextQuestion()">
           <mat-icon class="timer-expired-icon" inline="true">timer</mat-icon>
-          <span> Time&apos;s Up!</span>
-          <span class="proceed">
+          <span i18n> Time&apos;s Up!</span>
+          <span i18n class="proceed">
             You may proceed to the next question&hellip;
           </span>
         </button>
-        <button mat-raised-button class="time-expired-btn" 
+        <button mat-raised-button class="time-expired-btn"
             *ngIf="timeLeft === 0 && question.questionId === numberOfQuestions"
             (click)="navigateToResults()">
           <mat-icon class="timer-expired-icon" inline="true">timer</mat-icon>
-          <span> Time&apos;s Up!</span>
-          <span class="viewResults">
+          <span i18n> Time&apos;s Up!</span>
+          <span i18n class="viewResults">
             View Your Results&hellip;
           </span>
         </button>
       </div>
       <br clear="all" />
-    
-      <app-question 
-        [question]="question" 
+
+      <app-question
+        [question]="question"
         [numberOfQuestions]="numberOfQuestions"
-        (answer)="answer($event)" 
+        (answer)="answer($event)"
         (score)="incrementScore($event)">
           <div id="question">{{ question.question }}</div>
       </app-question>
-    </mat-card-content>    
-    
+    </mat-card-content>
+
     <mat-card-footer>
       <mat-card-actions>
         <div class="previousQuestionNav" *ngIf="question && question.questionId !== 1">
@@ -75,7 +75,7 @@
 
       <section class="progress-bar">
         <ngb-progressbar
-         *ngIf="progressValue <= 100 && question.questionId <= numberOfQuestions; else quiz_start" 
+         *ngIf="progressValue <= 100 && question.questionId <= numberOfQuestions; else quiz_start"
           type="success" [striped]="true" [animated]="true" [value]="progressValue">
             <strong>{{ progressValue.toFixed(0) }}%</strong>
         </ngb-progressbar>
@@ -87,4 +87,12 @@
       </section>
     </mat-card-footer>
   </ng-container>
+
+  <app-results
+    [allQuestions]="allQuestions"
+    [numberOfQuestions]="numberOfQuestions"
+    [numberOfQuestionsAnswered]="numberOfQuestionsAnswered"
+    [correctAnswerCount]="correctAnswerCount"
+    [progressValue]="progressValue">
+  </app-results>
 </mat-card>

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -12,7 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { QuestionComponent } from './containers/question/question.component';
 import * as QuestionComponent2 from './components/question/question.component';
-import { ResultsComponent } from './components/results/results.component';
+import { ResultsComponent } from './containers/results/results.component';
 
 @NgModule({
   declarations: [

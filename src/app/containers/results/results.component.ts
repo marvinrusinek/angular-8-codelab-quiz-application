@@ -7,13 +7,14 @@ import { QuizQuestion } from '../../model/QuizQuestion';
   styleUrls: ['./results.component.scss']
 })
 export class ResultsComponent implements OnInit {
-  @Input() numberOfQuestions: number;
-  @Input() correctAnswerCount: number;
   @Input() allQuestions: QuizQuestion[];
+  @Input() numberOfQuestions: number;
+  @Input() numberOfQuestionsAnswered: number;
+  @Input() correctAnswerCount: number;
   @Input() progressValue: number;
 
   ANGULAR_TROPHY = '../../../assets/images/ng-trophy.png';
-  TRY_AGAIN = '../../../assets/images/try-again.png';
+  TRY_AGAIN = '../../../assets/images/try-again.jpeg';
 
   constructor() { }
 

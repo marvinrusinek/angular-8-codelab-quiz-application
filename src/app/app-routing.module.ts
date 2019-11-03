@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
 import { QuestionComponent } from './containers/question/question.component';
-import { ResultsComponent } from './components/results/results.component';
+import { ResultsComponent } from './containers/results/results.component';
 
 const routes: Route[] = [
   { path: 'question/:questionId', component: QuestionComponent, pathMatch: 'full' },

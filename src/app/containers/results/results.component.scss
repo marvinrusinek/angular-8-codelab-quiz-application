@@ -1,0 +1,31 @@
+.quiz-summary {
+  border: 2px solid #007aff;
+  border-radius: 5px;
+  background-color: lightgray;
+  color: #0f0900;
+  font-family: "Space Mono", monospace;
+  font-size: 14px;
+  margin-bottom: 15px;
+  padding: 10px;
+}
+
+.trophy, .try-again {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto !important;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+mat-icon {
+  font-size: larger;
+  top: 10px !important;
+}
+
+mat-card-actions button {
+  margin: 0 auto !important;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}

@@ -11,8 +11,17 @@ import { QuizQuestion } from '../../model/QuizQuestion';
 })
 export class QuestionComponent implements OnInit {
   questionID = 1;
-  @Output() formGroup: FormGroup;
+  //@Output() private formGroup: FormGroup;
   @Output() question: QuizQuestion;
+  @Output() numberOfQuestions: number;
+  @Output() correctAnswerCount = 0;
+  @Output() progressValue = 0;
+  @Output() numberOfQuestionsAnswered = 0;
+
+  timeLeft = 20;
+  interval: any;
+  blueBorder = '2px solid #007aff';
+
   @Output() allQuestions: QuizQuestion[] = [
     {
       questionId: 1,
@@ -76,7 +85,7 @@ export class QuestionComponent implements OnInit {
       answer: '3',
       explanation: 'Property-value | filter',
       selectedOption: ''
-    },
+    }/*,
     {
       questionId: 6,
       question: 'Interpolation in Angular 2 is done using...',
@@ -141,19 +150,8 @@ export class QuestionComponent implements OnInit {
       answer: '1',
       explanation: 'main.ts is responsible for startup of an Angular 2 application',
       selectedOption: ''
-    }
+    } */
   ];
-
-  // @Output() count: number; not being used???
-  @Input() numberOfQuestions: number;
-  @Output() correctAnswerCount = 0;
-  numberOfQuestionsAnswered = 0;
-  @Output() progressValue = 0;
-
-  timeLeft = 20;
-  interval: any;
-
-  blueBorder = '2px solid #007aff';
 
   constructor(private route: ActivatedRoute, private router: Router) {
     this.route.paramMap.subscribe(params => {

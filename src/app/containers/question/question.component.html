@@ -48,7 +48,6 @@
       <app-question 
         [question]="question" 
         [numberOfQuestions]="numberOfQuestions"
-        [formGroup]="formGroup"
         (answer)="answer($event)" 
         (score)="incrementScore($event)">
           <div id="question">{{ question.question }}</div>

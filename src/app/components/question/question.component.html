@@ -8,7 +8,8 @@
         <mat-radio-button class="option" [value]="option.optionValue" disableRipple="true"
           [checked]="question.selectedOption == option"
           [ngClass]="{'is-correct': isCorrect(option.optionValue),
-                      'is-incorrect': isIncorrect(option.optionValue)}">
+                      'is-incorrect': isIncorrect(option.optionValue)}"
+                      (click)="incrementScore()">
           <li>{{ option.optionText }}</li>
 
           <mat-icon class="feedback-icon" *ngIf="isCorrect(option.optionValue)">done</mat-icon>

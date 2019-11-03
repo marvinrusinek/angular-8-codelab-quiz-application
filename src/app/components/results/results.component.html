@@ -5,17 +5,28 @@
     <mat-card-subtitle>Results</mat-card-subtitle>
   </mat-card-header>
 
-  <img *ngIf="correctAnswerCount > 2; else try_again" mat-card-image [src]="CONGRATULATIONS" alt="Photo of congratulations">
-
-  <ng-template #try_again>
-    <img mat-card-image [src]="TRY_AGAIN" alt="Photo of Try again">
-  </ng-template>
-
   <mat-card-content>
-    <h4>You got {{ correctAnswerCount }} correct out of {{ numberOfQuestions }} questions.</h4>
-  </mat-card-content>
+    <ng-container>
+      <img mat-card-image [src]="ANGULAR_TROPHY" class="trophy" alt="Photo of Angular Trophy">
+      <h4><span *ngIf="progressValue >= 80; else try_again">Great job! </span>
+        <span *ngIf="progressValue >= 50 && progressValue < 80; else try_again">Not bad. </span>
+        You got {{ correctAnswerCount }} out of {{ numberOfQuestions }} questions right.</h4>
+    </ng-container>
 
-  <mat-card-actions>
-    <button mat-raised-button type="button" routerLink="/">Restart</button>
-  </mat-card-actions>
+    <ng-container>
+      <h2>Quiz Summary</h2>
+      <div class="quiz-summary" *ngFor="let question of allQuestions">
+        <span>Question {{ question.questionId }}: {{ question.question }}</span>
+        <span>Correct Answer: Option {{ question.answer }}</span>
+        <span>Your Answer: Option {{ question.selectedOption }}</span>
+      </div>
+    </ng-container>
+  </mat-card-content>
+ 
+  <ng-template #try_again>
+    <img mat-card-image [src]="TRY_AGAIN" class="try-again" alt="Photo of Try Again">
+    <mat-card-actions>
+      <button mat-raised-button type="button" routerLink="/">Restart</button>
+    </mat-card-actions>
+  </ng-template>
  </mat-card>

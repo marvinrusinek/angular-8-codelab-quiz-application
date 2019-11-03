@@ -1,6 +1,5 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, Form } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { QuizQuestion } from '../../model/QuizQuestion';
 
@@ -10,9 +9,7 @@ import { QuizQuestion } from '../../model/QuizQuestion';
   styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit, OnChanges {
-  questionID = 1;
-  quizForm: Form;
-  @Input('formGroup') formGroup: FormGroup;
+  @Input() formGroup: FormGroup;
 
   @Input() question: QuizQuestion;
   @Input() numberOfQuestions: number;
@@ -22,7 +19,9 @@ export class QuestionComponent implements OnInit, OnChanges {
   @Output() selectedOption = '';
   correctAnswerCount = 0;
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  grayBorder = '2px solid #979797';
+
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
     this.buildForm();
@@ -32,9 +31,6 @@ export class QuestionComponent implements OnInit, OnChanges {
     if (changes.question && changes.question.currentValue && !changes.question.firstChange) {
       this.formGroup.patchValue({answer: ''});
     }
-    /* if (this.formGroup.invalid) {
-      alert('Please select an option!');
-    } else return; */
   }
 
   private buildForm() {
@@ -47,20 +43,17 @@ export class QuestionComponent implements OnInit, OnChanges {
     this.question.selectedOption = answer;
     this.answer.emit(answer);
     this.displayExplanation();
-    this.displayScore();
   }
 
-  displayExplanation() {
-    const explanationToDisplay = 'Option ' + this.question.answer + ' was correct because ' 
-                                           + this.question.explanation + '.';
-    document.getElementById('question').innerHTML = explanationToDisplay;
-    document.getElementById('question').style.border = '2px solid #979797';
-  }
-
-  displayScore() {
+  incrementScore() {
     if (this.question.selectedOption === this.question.answer) {
       this.correctAnswerCount++;
     }
+  }
+
+  displayExplanation() {
+    document.getElementById('question').innerHTML = 'Option ' + this.question.answer + ' was correct because ' + this.question.explanation + '.';
+    document.getElementById('question').style.border = this.grayBorder;
   }
 
   isCorrect(option: string): boolean {

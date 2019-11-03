@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormGroup } from '@angular/forms';
 
 import { QuizQuestion } from '../../model/QuizQuestion';
-import { FormGroup, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-question-container',
@@ -11,6 +11,7 @@ import { FormGroup, NgForm } from '@angular/forms';
 })
 export class QuestionComponent implements OnInit {
   questionID = 1;
+  @Output() formGroup: FormGroup;
   @Output() question: QuizQuestion;
   @Output() allQuestions: QuizQuestion[] = [
     {
@@ -119,7 +120,7 @@ export class QuestionComponent implements OnInit {
       questionId: 9,
       question: 'What is angular.json used for?',
       options: [
-        { optionValue: '1', optionText: 'Used to configure your Angular project' },
+        { optionValue: '1', optionText: 'Used to configure your Angular project.' },
         { optionValue: '2', optionText: 'Used to link external files.' },
         { optionValue: '3', optionText: 'Used to install required project packages.' },
         { optionValue: '4', optionText: 'None of the above.' }
@@ -143,19 +144,16 @@ export class QuestionComponent implements OnInit {
     }
   ];
 
-  @Output() count: number;
-  @Output() numberOfQuestions: number;
-  correctAnswerCount = 0;
+  // @Output() count: number; not being used???
+  @Input() numberOfQuestions: number;
+  @Output() correctAnswerCount = 0;
   numberOfQuestionsAnswered = 0;
-  progressValue = 0;
+  @Output() progressValue = 0;
 
   timeLeft = 20;
   interval: any;
 
-  @Output('formGroup') formGroup: FormGroup;
-  quizForm: NgForm;
-  userAnswers = [];
-  correctAnswers = [];
+  blueBorder = '2px solid #007aff';
 
   constructor(private route: ActivatedRoute, private router: Router) {
     this.route.paramMap.subscribe(params => {
@@ -174,66 +172,60 @@ export class QuestionComponent implements OnInit {
   }
 
   answer(value: string) {
-    /* console.log(value); might want to do something with the answer here... */
+    // console.log(value);   might want to do something with the answer here
   }
 
   displayNextQuestion() {
     document.getElementById('question').innerHTML =
       this.allQuestions[this.questionID++].question;
-    document.getElementById('question').style.border = '2px solid #007aff';
+    document.getElementById('question').style.border = this.blueBorder;
+  }
+
+  displayPreviousQuestion() {
+    document.getElementById('question').innerHTML =
+      this.allQuestions[this.questionID].question;
+    document.getElementById('question').style.border = this.blueBorder;
   }
 
   navigateToNextQuestion(): void {
-    this.numberOfQuestionsAnswered++;
-
-    this.userAnswers.push(this.question.selectedOption);
-    this.correctAnswers.push(this.question.answer);
-
-    this.progressValue =
-      (this.numberOfQuestionsAnswered / this.numberOfQuestions) * 100;
-
-    if (this.question.selectedOption === this.question.answer) {
-      this.correctAnswerCount++;
-    }
-
     if (this.isThereAnotherQuestion()) {
       this.router.navigate(['/question', this.getQuestionID() + 1]);
       this.timeLeft = 20;
       this.displayNextQuestion();
     }
+
+    this.incrementCorrectAnswerCount();
+    this.increaseProgressValue();
   }
 
   navigateToPreviousQuestion(): void {
     this.router.navigate(['/question', this.getQuestionID() - 1]);
+    this.timeLeft = 20;
+    this.displayPreviousQuestion();
+    this.decreaseProgressValue();
   }
 
   navigateToResults(): void {
     this.router.navigate(['/results']);
   }
 
-  private countDown() {
-    this.interval = setInterval(() => {
-      if (this.timeLeft > 0) {
-        this.timeLeft--;
-      }
-      if (this.timeLeft === 0  && this.questionID <= this.numberOfQuestions) {
-        // this.allQuestions[this.questionID++];
-        this.timeLeft = 20;
-        this.router.navigate(['/question', this.getQuestionID() + 1]);
-        this.displayNextQuestion();
-        // need to show the options for the next question
-        // also need to prevent navigating past last question in allQuestions
-        
-        if (this.question.selectedOption === this.question.answer) {
-          this.correctAnswerCount++;
-          this.progressValue =
-            (this.numberOfQuestionsAnswered / this.numberOfQuestions) * 100;
-        }
-      }
-    }, 1000);
+  incrementCorrectAnswerCount(): void {
+    if (this.question.selectedOption === this.question.answer) {
+      this.correctAnswerCount++;
+    }
   }
 
-  /* API functions */
+  increaseProgressValue() {
+    this.progressValue =
+      (this.numberOfQuestionsAnswered++ / this.numberOfQuestions) * 100;
+  }
+
+  decreaseProgressValue() {
+    this.progressValue =
+      (this.numberOfQuestionsAnswered-- / this.numberOfQuestions) * 100;
+  }
+
+  /****************  public API functions ***************/
   getQuestionID() {
     return this.questionID;
   }
@@ -250,5 +242,26 @@ export class QuestionComponent implements OnInit {
     return this.allQuestions.filter(
       question => question.questionId === this.questionID
     )[0];
+  }
+
+  /* countdown clock */
+  private countDown() {
+    this.interval = setInterval(() => {
+      if (this.timeLeft > 0) {
+        this.timeLeft--;
+      }
+      if (this.timeLeft === 0) {
+        if (this.questionID < this.numberOfQuestions) {
+          this.router.navigate(['/question', this.getQuestionID() + 1]);
+          this.timeLeft = 20;
+          this.displayNextQuestion();
+          this.incrementCorrectAnswerCount();
+          this.increaseProgressValue();
+        }
+        if (this.questionID === this.numberOfQuestions) {
+          // don't navigate anymore
+        }
+      }
+    }, 1000);
   }
 }

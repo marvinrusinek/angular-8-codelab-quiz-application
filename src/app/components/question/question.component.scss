@@ -7,6 +7,12 @@ ol li {
   margin-left: 30px;
 }
 
+.radio-options {
+  margin-bottom: 5px;
+  margin-left: 0.5rem;
+  padding: 4px;
+}
+
 .option {
   border: 2px solid #979797;
   font-family: "Space Mono", monospace;
@@ -22,7 +28,7 @@ ol li {
 .option:hover {
   outline: 2px solid #007aff;
 }
- 
+
 .message-buttons {
   display: flex;
   justify-content: center;
@@ -63,11 +69,6 @@ ol li {
 .sentiment {
   font-size: 30px !important;
   color: #9acd32;
-}
-
-mat-radio-group > div {
-  margin-bottom: 5px;
-  padding: 4px;
 }
 
 ::ng-deep .mat-radio-button .mat-radio-container {

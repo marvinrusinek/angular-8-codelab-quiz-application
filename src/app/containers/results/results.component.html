@@ -6,34 +6,59 @@
   </mat-card-header>
 
   <mat-card-content>
-    <ng-container>
-      <img mat-card-image [src]="ANGULAR_TROPHY" class="trophy" alt="Photo of Angular Trophy">
-      <h4><span *ngIf="progressValue >= 80">Great job! </span>
-        <span *ngIf="progressValue >= 50 && progressValue < 80; else try_again">Not bad. </span>
-        You got {{ correctAnswerCount }} out of {{ numberOfQuestions }} questions right.</h4>
-    </ng-container>
+    <section class="statistics">
+      <h3>Statistics</h3>
+      <p>You got {{ correctAnswerCount }} out of {{ numberOfQuestions }} questions correct and completed
+        {{ percentage }}% of the quiz.</p>
+    </section>
 
-    <div>You completed {{ progressValue }}% of the quiz.</div>
-    <hr>
-
-    <ng-container>
-      <h2 class="text-center">Quiz Summary</h2>
-      <div class="quiz-summary" *ngFor="let question of allQuestions">
-        <span><strong>Question #{{ question.questionId }}: </strong>{{ question.question }}</span><br>
-        <span><strong>Correct Answer: </strong>Option {{ question.answer }} <mat-icon>done</mat-icon></span><br>
-        <span><strong>Your Answer: </strong>Option {{ question.selectedOption }}&nbsp;
-        <mat-icon inline="true" *ngIf="question.answer === question.selectedOption">done</mat-icon>
-        <mat-icon inline="true" *ngIf="question.answer !== question.selectedOption">clear</mat-icon>
-        </span>
+    <section class="results">
+      <img *ngIf="percentage >= 50" mat-card-image [src]="ANGULAR_TROPHY" class="trophy" alt="Photo of Angular Trophy">
+      <div *ngIf="percentage >= 80">
+        <h3 class="text-center">Great job!</h3>
       </div>
-    </ng-container>
-  </mat-card-content>
+      <div *ngIf="percentage >= 50 && percentage < 80">
+        <h3 class="text-center">Not bad!</h3>
+      </div>
+      <div &ngIf="percentage < 50">
+        <img mat-card-image [src]="TRY_AGAIN" class="try-again" alt="Photo of Try Again"><br>
+        <p class="text-center">You may want to review the questions that you missed.</p>
+        <mat-card-actions>
+          <button mat-raised-button type="button" routerLink="/">Restart Quiz</button>
+        </mat-card-actions>
+      </div>
+    </section>
 
-  <ng-template #try_again>
-    <img mat-card-image [src]="TRY_AGAIN" class="try-again" alt="Photo of Try Again"><br>
-    <p class="text-center">You may want to review the questions that your missed.</p>
-    <mat-card-actions>
-      <button mat-raised-button type="button" routerLink="/">Restart Quiz</button>
-    </mat-card-actions>
-  </ng-template>
+    <hr />
+
+    <section class="quiz-summary">
+      <h3 class="text-center">Detailed Quiz Summary</h3>
+      <div class="quiz-summary-question" *ngFor="let question of allQuestions">
+        <p><strong>Question #{{ question.questionId }}: </strong>{{ question.question }}</p>
+        <p><strong>Correct Answer: </strong>Option {{ question.answer }} <mat-icon>done</mat-icon></p>
+        <p><strong>Your Answer: </strong>Option {{ question.selectedOption }}&nbsp;
+          <mat-icon inline="true" *ngIf="question.answer === question.selectedOption">done</mat-icon>
+          <mat-icon inline="true" *ngIf="question.answer !== question.selectedOption">clear</mat-icon>
+        </p>
+        <p>Option {{ question.answer }} was correct because {{ question.explanation }}.</p>
+      </div>
+    </section>
+
+    <hr />
+
+    <section class="challenge-social">
+      <h4 class="text-center">Challenge your friends on social media!</h4>
+      <div class="text-center">
+        <a class="btn facebook" target="_blank"
+           href="https://www.facebook.com/share?text=I scored ' + percentage + ' on this awesome Angular quiz. Try to
+           beat my score at &amp;hashtag=quiz&amp;url=' + codelabUrl + '">Share your score</a>
+        <a class="btn twitter" target="_blank"
+           href="https://www.twitter.com/share?text=I scored ' + percentage + ' on this awesome Angular quiz. Try to
+           beat my score at &amp;hashtag=quiz&amp;url=' + codelabUrl + '">Tweet your score</a>
+        <a class="btn email"
+           href="mailto:?subject=Try to beat my quiz score!&amp;body=I scored ' + percentage + ' on this awesome
+           Angular quiz. Try to beat my score at ' + codelabUrl + '">Email a friend</a>
+      </div>
+    </section>
+  </mat-card-content>
 </mat-card>

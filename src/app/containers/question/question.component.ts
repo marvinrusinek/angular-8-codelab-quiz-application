@@ -11,146 +11,83 @@ import { QuizQuestion } from '../../model/QuizQuestion';
 })
 export class QuestionComponent implements OnInit {
   questionID = 1;
-  //@Output() private formGroup: FormGroup;
+  @Input() formGroup: FormGroup;
   @Output() question: QuizQuestion;
   @Output() numberOfQuestions: number;
+  @Output() numberOfQuestionsAnswered = 0;
   @Output() correctAnswerCount = 0;
   @Output() progressValue = 0;
-  @Output() numberOfQuestionsAnswered = 0;
 
   timeLeft = 20;
   interval: any;
+  questionIndex: number;
+  quizOver = false;
+  inProgress = true;
   blueBorder = '2px solid #007aff';
+  nextBtnDisabled = true;
+
+  validQuestion: string;
+  validProgress: string;
+  /* prevCondition: string;
+  nextCondition: string;
+  lastQuestion: string;
+  timeExpiredCondition: string;
+  timeExpiredNextCondition: string;
+  timeExpiredLastCondition: string;
+  validQuestion: string; */
 
   @Output() allQuestions: QuizQuestion[] = [
     {
       questionId: 1,
-      question: 'Which of the following is correct about TypeScript?',
+      question: 'The objective of dependency injection is to...',
       options: [
-        { optionValue: '1', optionText: 'Angular is based on TypeScript.' },
-        { optionValue: '2', optionText: 'This is a superset of JavaScript.' },
-        { optionValue: '3', optionText: 'TypeScript is maintained by Microsoft.' },
-        { optionValue: '4', optionText: 'All of the above.' }
+        { optionValue: '1', optionText: 'pass the service to the client.' },
+        { optionValue: '2', optionText: 'allow the client to find service.' },
+        { optionValue: '3', optionText: 'allow the client to build service.' },
+        { optionValue: '4', optionText: 'give the client part service.' }
       ],
-      answer: '4',
-      explanation: 'all of these are true statements about TypeScript',
+      answer: '1',
+      explanation: 'a service gets passed to the client during DI',
       selectedOption: ''
     },
     {
       questionId: 2,
-      question: 'What is the decorator used for configuring your module class?',
+      question: 'Which of the following is the first step in setting up Dependency Injection?',
       options: [
-        { optionValue: '1', optionText: '@NgModule' },
-        { optionValue: '2', optionText: '@NgApp' },
-        { optionValue: '3', optionText: 'Both' },
-        { optionValue: '4', optionText: 'None of the above.' }
+        { optionValue: '1', optionText: 'Require in the component.' },
+        { optionValue: '2', optionText: 'Provide in the module.' },
+        { optionValue: '3', optionText: 'Mark dependency as @Injectable().' }
       ],
-      answer: '1',
-      explanation: '@NgModule decorator is used for configuring your module class',
+      answer: '3',
+      explanation: 'the first step is marking the class as @Injectable()',
       selectedOption: ''
     },
     {
       questionId: 3,
-      question: 'Which of the following is not a hook application life cycle?',
+      question: 'Which of the following access modifiers make a service accessible in a class?',
       options: [
-        { optionValue: '1', optionText: 'ngOnChanges' },
-        { optionValue: '2', optionText: 'ngViewStart' },
-        { optionValue: '3', optionText: 'ngOnInit' },
-        { optionValue: '4', optionText: 'None of the above.' }
+        { optionValue: '1', optionText: 'public' },
+        { optionValue: '2', optionText: 'private' },
+        { optionValue: '3', optionText: 'protected' },
+        { optionValue: '4', optionText: 'static' },
       ],
       answer: '2',
-      explanation: 'ngViewStart is not a hook application life cycle',
+      explanation: 'the private access modifier tells Angular that the service becomes accessible',
       selectedOption: ''
     },
     {
       questionId: 4,
-      question: 'What does AOT stand for?',
+      question: 'Which of the following benefit from Dependency Injection?',
       options: [
-        { optionValue: '1', optionText: 'Angular Object Templates' },
-        { optionValue: '2', optionText: 'ahead-of-time compilation' },
-        { optionValue: '3', optionText: 'Angular Open Terminal' }
-      ],
-      answer: '2',
-      explanation: 'AOT stands for ahead-of-time compilation',
-      selectedOption: ''
-    },
-    {
-      questionId: 5,
-      question: 'Which of the following is the correct way to apply a filter?',
-      options: [
-        { optionValue: '1', optionText: 'Property-value || filter' },
-        { optionValue: '2', optionText: 'Property-value && filter' },
-        { optionValue: '3', optionText: 'Property-value | filter' }
+        { optionValue: '1', optionText: 'Programming' },
+        { optionValue: '2', optionText: 'Testing' },
+        { optionValue: '3', optionText: 'Both' },
+        { optionValue: '4', optionText: 'None of the above.' },
       ],
       answer: '3',
-      explanation: 'Property-value | filter',
+      explanation: 'dependency injection simplifies both programming and testing',
       selectedOption: ''
-    }/*,
-    {
-      questionId: 6,
-      question: 'Interpolation in Angular 2 is done using...',
-      options: [
-        { optionValue: '1', optionText: '{{}}' },
-        { optionValue: '2', optionText: '{{|var}}' },
-        { optionValue: '3', optionText: '{{{}}}' },
-        { optionValue: '4', optionText: '!!!!' }
-      ],
-      answer: '1',
-      explanation: 'interpolation in Angular 2 is done using {{}}',
-      selectedOption: ''
-    },
-    {
-      questionId: 7,
-      question: 'Which character is used for chaining multiple pipes in Angular?',
-      options: [
-        { optionValue: '1', optionText: ':' },
-        { optionValue: '2', optionText: '-' },
-        { optionValue: '3', optionText: '/' },
-        { optionValue: '4', optionText: '|' }
-      ],
-      answer: '4',
-      explanation: 'the | character is used for chaining multiple pipes in Angular',
-      selectedOption: ''
-    },
-    {
-      questionId: 8,
-      question: 'Which of the following filters is used to convert input to all uppercase?',
-      options: [
-        { optionValue: '1', optionText: 'upper' },
-        { optionValue: '2', optionText: 'uppercase' },
-        { optionValue: '3', optionText: 'toUpper' },
-        { optionValue: '4', optionText: 'None of the above.' }
-      ],
-      answer: '2',
-      explanation: 'uppercase: {{ value | uppercase}}',
-      selectedOption: ''
-    },
-    {
-      questionId: 9,
-      question: 'What is angular.json used for?',
-      options: [
-        { optionValue: '1', optionText: 'Used to configure your Angular project.' },
-        { optionValue: '2', optionText: 'Used to link external files.' },
-        { optionValue: '3', optionText: 'Used to install required project packages.' },
-        { optionValue: '4', optionText: 'None of the above.' }
-      ],
-      answer: '1',
-      explanation: 'angular.json is used to configure your Angular project',
-      selectedOption: ''
-    },
-    {
-      questionId: 10,
-      question: 'Which file is responsible for startup of an Angular 2 project?',
-      options: [
-        { optionValue: '1', optionText: 'main.ts' },
-        { optionValue: '2', optionText: 'index.js' },
-        { optionValue: '3', optionText: 'app.ts' },
-        { optionValue: '4', optionText: 'angular.cli.json' }
-      ],
-      answer: '1',
-      explanation: 'main.ts is responsible for startup of an Angular 2 application',
-      selectedOption: ''
-    } */
+    }
   ];
 
   constructor(private route: ActivatedRoute, private router: Router) {
@@ -158,8 +95,6 @@ export class QuestionComponent implements OnInit {
       // get the question ID and store it.
       this.setQuestionID(+params.get('questionId'));
       this.question = this.getQuestion;
-      this.progressValue =
-        (this.numberOfQuestionsAnswered / this.numberOfQuestions) * 100;
     });
   }
 
@@ -167,60 +102,82 @@ export class QuestionComponent implements OnInit {
     this.question = this.getQuestion;
     this.numberOfQuestions = this.allQuestions.length;
     this.countDown();
-  }
+    this.progressValue = 100 * (this.numberOfQuestionsAnswered += 1) / this.numberOfQuestions;
 
-  answer(value: string) {
-    // console.log(value);   might want to do something with the answer here
+    this.validQuestion = 'question && question.questionId <= numberOfQuestions';
+    this.validProgress = 'progressValue >= 0 && progressValue <= 100';
+    /* this.validQuestion = 'question && question.questionId <= numberOfQuestions';
+    this.prevCondition = 'question && question.questionId > 1';
+    this.nextCondition = 'question && question.questionId !== numberOfQuestions';
+    this.lastQuestion = 'question && question.questionId === numberOfQuestions';
+    this.timeExpiredCondition = 'timeLeft === 0';
+    this.timeExpiredNextCondition = this.timeExpiredCondition + ' && ' + this.nextCondition;
+    this.timeExpiredLastCondition = this.timeExpiredCondition + ' && ' + this.lastQuestion; */
+
+    /* if (!this.formGroup.valid) {
+      this.nextBtnDisabled;
+    } */
   }
 
   displayNextQuestion() {
-    document.getElementById('question').innerHTML =
-      this.allQuestions[this.questionID++].question;
+    // increase the question index by 1 for next question
+    this.questionIndex = this.questionID++;
+    document.getElementById('question').innerHTML = this.allQuestions[this.questionIndex].question;
     document.getElementById('question').style.border = this.blueBorder;
   }
 
   displayPreviousQuestion() {
-    document.getElementById('question').innerHTML =
-      this.allQuestions[this.questionID].question;
+    // decrease the question index by 2 for previous question
+    this.questionIndex = this.questionID - 2;
+    document.getElementById('question').innerHTML = this.allQuestions[this.questionIndex].question;
     document.getElementById('question').style.border = this.blueBorder;
   }
 
   navigateToNextQuestion(): void {
     if (this.isThereAnotherQuestion()) {
-      this.router.navigate(['/question', this.getQuestionID() + 1]);
-      this.timeLeft = 20;
-      this.displayNextQuestion();
+      this.router.navigate(['/question', this.getQuestionID() + 1]);  // navigates to the next question
+      this.resetTimer();                                              // reset the timer to 20 seconds
+      this.displayNextQuestion();                                     // displays the next question
     }
 
-    this.incrementCorrectAnswerCount();
-    this.increaseProgressValue();
+    this.incrementCorrectAnswerCount();                               // increases the correct answer count by 1
+    this.increaseProgressValue();                                     // calculates and increases the progress value
   }
 
   navigateToPreviousQuestion(): void {
-    this.router.navigate(['/question', this.getQuestionID() - 1]);
-    this.timeLeft = 20;
-    this.displayPreviousQuestion();
-    this.decreaseProgressValue();
+    this.router.navigate(['/question', this.getQuestionID() - 1]);  // navigates to the previous question
+    this.resetTimer();                                              // reset the timer to 20 seconds
+    this.displayPreviousQuestion();                                 // display the previous question
+    this.decreaseProgressValue();                                   // calculates and lowers the progress value
   }
 
+  // navigates to the results component
   navigateToResults(): void {
     this.router.navigate(['/results']);
+    this.quizOver = true;
+
+    if (this.questionID > this.numberOfQuestions) {
+      this.router.navigate(['/question', this.allQuestions.length]);  // send the user back to the last question
+      this.quizOver = true;                                           // signify that the quiz is over
+      this.inProgress = false;                                        // signify that the quiz is no longer in progress
+    }
   }
 
-  incrementCorrectAnswerCount(): void {
+  // increases the correct answer count when the correct answer is given
+  incrementCorrectAnswerCount() {
     if (this.question.selectedOption === this.question.answer) {
       this.correctAnswerCount++;
     }
   }
 
+  // increases the progress value when the user presses the next button
   increaseProgressValue() {
-    this.progressValue =
-      (this.numberOfQuestionsAnswered++ / this.numberOfQuestions) * 100;
+    this.progressValue = 100 * (this.numberOfQuestionsAnswered += 1) / this.numberOfQuestions;
   }
 
+  // decreases the progress value when the user presses the previous button
   decreaseProgressValue() {
-    this.progressValue =
-      (this.numberOfQuestionsAnswered-- / this.numberOfQuestions) * 100;
+    this.progressValue = 100 * (this.numberOfQuestionsAnswered-- / this.numberOfQuestions);
   }
 
   /****************  public API functions ***************/
@@ -229,7 +186,7 @@ export class QuestionComponent implements OnInit {
   }
 
   setQuestionID(id: number) {
-    return (this.questionID = id);
+    return this.questionID = id;
   }
 
   isThereAnotherQuestion(): boolean {
@@ -242,24 +199,28 @@ export class QuestionComponent implements OnInit {
     )[0];
   }
 
-  /* countdown clock */
+  /* countdown timer functions */
   private countDown() {
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
         this.timeLeft--;
       }
       if (this.timeLeft === 0) {
-        if (this.questionID < this.numberOfQuestions) {
-          this.router.navigate(['/question', this.getQuestionID() + 1]);
-          this.timeLeft = 20;
-          this.displayNextQuestion();
-          this.incrementCorrectAnswerCount();
-          this.increaseProgressValue();
+        if (this.questionID <= this.numberOfQuestions) {
+          this.router.navigate(['/question', this.getQuestionID() + 1]);   // navigate to next question
+          this.resetTimer();                                               // reset the timer to 20 seconds
+          this.displayNextQuestion();                                      // display the next question
+          this.incrementCorrectAnswerCount();                              // increase the correct answer count by 1
+          this.increaseProgressValue();                                    // calculates the increased progress value
         }
-        if (this.questionID === this.numberOfQuestions) {
-          // don't navigate anymore
+        if (this.questionID > this.numberOfQuestions) {
+          this.router.navigate(['/results']);                              // navigate to results
         }
       }
     }, 1000);
+  }
+
+  private resetTimer() {
+    this.timeLeft = 20;
   }
 }

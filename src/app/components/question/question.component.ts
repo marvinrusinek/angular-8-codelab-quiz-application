@@ -9,16 +9,14 @@ import { QuizQuestion } from '../../model/QuizQuestion';
   styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit, OnChanges {
-  @Input() formGroup: FormGroup;
-
+  @Output() formGroup: FormGroup;
   @Input() question: QuizQuestion;
-  @Input() numberOfQuestions: number;
   @Input() allQuestions: QuizQuestion[];
+  @Input() numberOfQuestions: number;
   @Output() answer = new EventEmitter<string>();
-  option = '';
-  @Output() selectedOption = '';
-  correctAnswerCount = 0;
+  selectedOption = '';
 
+  correctAnswerCount = 0;
   grayBorder = '2px solid #979797';
 
   constructor(private fb: FormBuilder) {}
@@ -45,14 +43,9 @@ export class QuestionComponent implements OnInit, OnChanges {
     this.displayExplanation();
   }
 
-  incrementScore() {
-    if (this.question.selectedOption === this.question.answer) {
-      this.correctAnswerCount++;
-    }
-  }
-
-  displayExplanation() {
-    document.getElementById('question').innerHTML = 'Option ' + this.question.answer + ' was correct because ' + this.question.explanation + '.';
+  displayExplanation(): void {
+    const explanation = 'Option ' + this.question.answer + ' was correct because ' + this.question.explanation + '.';
+    document.getElementById('question').innerHTML = explanation;
     document.getElementById('question').style.border = this.grayBorder;
   }
 

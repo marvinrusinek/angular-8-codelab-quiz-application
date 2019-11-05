@@ -1,55 +1,53 @@
 <mat-card class="animated fadeInRight delay-0.5s">
-  <ng-container *ngIf="question.questionId <= numberOfQuestions">
+  <ng-container *ngIf="validQuestion; else quiz_results">
     <mat-card-header>
       <div mat-card-avatar class="header-image"></div>
-      <mat-card-title i18n>Angular/TypeScript Codelab Quiz</mat-card-title>
-      <mat-card-subtitle i18n>
-        How well do you know Angular? Take the quiz and find out!
+      <mat-card-title>Dependency Injection Quiz</mat-card-title>
+      <mat-card-subtitle>
+        How well do you know Dependency Injection?<br>Take the quiz and find out!
       </mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
       <div class="row">
         <div class="stats">
-          <span i18n class="leader">Stats</span><br>
-          <span i18n class="scoreboard">{{ correctAnswerCount }}/{{ numberOfQuestions }}</span>
+          <span class="leader">Stats</span><br />
+          <span class="scoreboard">{{ correctAnswerCount }}/{{ numberOfQuestions }}</span>
         </div>
-        <div class="badge" *ngIf="question.questionId <= numberOfQuestions">
-          <span i18n>Question {{ question.questionId }} of {{ numberOfQuestions }}</span>
+        <div class="badge" *ngIf="validQuestion">
+          <span>Question {{ question.questionId }} of {{ numberOfQuestions }}</span>
         </div>
         <div class="time-left">
-          <span i18n class="leader">Time</span><br>
-          <span i18n class="scoreboard">0:<span *ngIf="timeLeft < 10">0</span>{{ timeLeft }}</span>
+          <span class="leader">Time</span><br />
+          <span class="scoreboard">0:<span *ngIf="timeLeft < 10">0</span>{{ timeLeft }}</span>
         </div>
       </div>
 
+      <!-- time expired buttons -->
       <div class="time-expired">
-        <button mat-raised-button class="time-expired-btn"
-            *ngIf="timeLeft === 0 && question.questionId !== numberOfQuestions"
-            (click)="navigateToNextQuestion()">
+        <button mat-raised-button class="time-expired-btn" *ngIf="timeLeft === 0 && question.questionId !== numberOfQuestions"
+                (click)="navigateToNextQuestion()">
           <mat-icon class="timer-expired-icon" inline="true">timer</mat-icon>
-          <span i18n> Time&apos;s Up!</span>
-          <span i18n class="proceed">
+          <span> Time&apos;s Up!</span>
+          <span class="proceed">
             You may proceed to the next question&hellip;
           </span>
         </button>
-        <button mat-raised-button class="time-expired-btn"
-            *ngIf="timeLeft === 0 && question.questionId === numberOfQuestions"
-            (click)="navigateToResults()">
+        <button mat-raised-button class="time-expired-btn" *ngIf="timeLeft === 0 && question.questionId === numberOfQuestions"
+                (click)="navigateToResults()">
           <mat-icon class="timer-expired-icon" inline="true">timer</mat-icon>
-          <span i18n> Time&apos;s Up!</span>
-          <span i18n class="viewResults">
+          <span> Time&apos;s Up!</span>
+          <span class="viewResults">
             View Your Results&hellip;
           </span>
         </button>
       </div>
-      <br clear="all" />
 
       <app-question
         [question]="question"
         [numberOfQuestions]="numberOfQuestions"
-        (answer)="answer($event)"
-        (score)="incrementScore($event)">
+        [formGroup]="formGroup"
+        (answer)="answer($event)">
           <div id="question">{{ question.question }}</div>
       </app-question>
     </mat-card-content>
@@ -74,20 +72,15 @@
       </mat-card-actions>
 
       <section class="progress-bar">
-        <ngb-progressbar
-         *ngIf="progressValue <= 100 && question.questionId <= numberOfQuestions; else quiz_start"
-          type="success" [striped]="true" [animated]="true" [value]="progressValue">
-            <strong>{{ progressValue.toFixed(0) }}%</strong>
+        <ngb-progressbar [value]="progressValue" type="success" [striped]="true" [animated]="true">
+          <strong>{{ progressValue.toFixed(0) }}%</strong>
         </ngb-progressbar>
-        <ng-template #quiz_start>
-          <mat-card-subtitle class="progress-note">
-            Please start the quiz and view your progress here&hellip;
-          </mat-card-subtitle>
-        </ng-template>
       </section>
     </mat-card-footer>
   </ng-container>
+</mat-card>
 
+<ng-template #quiz_results>
   <app-results
     [allQuestions]="allQuestions"
     [numberOfQuestions]="numberOfQuestions"
@@ -95,4 +88,4 @@
     [correctAnswerCount]="correctAnswerCount"
     [progressValue]="progressValue">
   </app-results>
-</mat-card>
+</ng-template>

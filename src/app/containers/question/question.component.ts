@@ -177,7 +177,7 @@ export class QuestionComponent implements OnInit {
 
   // decreases the progress value when the user presses the previous button
   decreaseProgressValue() {
-    this.progressValue = 100 * (this.numberOfQuestionsAnswered-- / this.numberOfQuestions);
+    this.progressValue = 100 * (this.numberOfQuestionsAnswered -= 1) / this.numberOfQuestions;
   }
 
   /****************  public API functions ***************/

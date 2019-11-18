@@ -16,11 +16,44 @@ section.results {
     justify-content: center;
     text-align: center;
   }
-  h3, p, .quiz-summary-link {
+  h3, p, .quiz-summary-link, #quizAccordion {
     text-align: center;
   }
   a {
     text-decoration: none;
+  }
+
+  section#quiz-summary {
+    display: flex;
+    flex-direction: column;
+
+    .quiz-summary-question {
+      font-family: $font-stack;
+      font-size: 14px;
+      border: 2px solid #385d8a;
+      border-radius: 5px;
+      color: black;
+      margin-bottom: 15px;
+      padding: 10px;
+
+      span {
+        color: #00008b;
+        font-weight: $font-weight-max;
+      }
+    }
+
+    mat-icon {
+      font-size: larger;
+      top: 10px !important;
+    }
+    mat-icon.correct {
+      color: #006400 !important;
+      font-weight: $font-weight-max;
+    }
+    mat-icon.incorrect {
+      color: #ff0000 !important;
+      font-weight: $font-weight-max;
+    }
   }
 }
 

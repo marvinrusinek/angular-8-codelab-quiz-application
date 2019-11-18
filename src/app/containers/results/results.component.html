@@ -30,9 +30,22 @@
         <img mat-card-image [src]="TRY_AGAIN" alt="Photo of Try Again"><br>
         <p>You may want to review the questions that you missed.</p>
       </div>
-      <div class="quiz-summary-link">
-        <a routerLink="/quiz-summary" target="_blank" (click)="sendMessageToParent(allQuestions)">
+
+      <div id="quizAccordion">
+        <a class="accordion" data-toggle="collapse" aria-expanded="false" target="_blank" href="#quiz-summary">
           Click here to view a more detailed summary of your quiz</a>
+
+        <section id="quiz-summary" data-parent="#quizAccordion">
+          <div class="quiz-summary-question collapse" *ngFor="let question of allQuestions">
+            <span>Question #{{ question.questionId }}: </span>{{ question.question }}<br />
+            <span>Correct Answer: </span>Option {{ question.answer }}<br />
+            <span>Your Answer: </span>Option {{ question.selectedOption }}&nbsp;
+            <mat-icon inline="true" class="correct" *ngIf="question.answer === question.selectedOption">done</mat-icon>
+            <mat-icon inline="true" class="incorrect" *ngIf="question.answer !== question.selectedOption">clear</mat-icon>
+            <br />
+            <span>Explanation: </span>Option {{ question.answer }} was correct because {{ question.explanation }}.
+          </div>
+        </section>
       </div>
     </section>
 

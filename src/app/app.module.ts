@@ -14,7 +14,6 @@ import { IntroductionComponent } from './containers/introduction/introduction.co
 import { QuestionComponent } from './containers/question/question.component';
 import * as QuestionComponent2 from './components/question/question.component';
 import { ResultsComponent } from './containers/results/results.component';
-import { QuizSummaryComponent } from './containers/quizsummary/quizsummary.component';
 
 @NgModule({
   declarations: [
@@ -22,8 +21,7 @@ import { QuizSummaryComponent } from './containers/quizsummary/quizsummary.compo
     IntroductionComponent,
     QuestionComponent,
     QuestionComponent2.QuestionComponent,
-    ResultsComponent,
-    QuizSummaryComponent
+    ResultsComponent
   ],
   imports: [
     BrowserModule,

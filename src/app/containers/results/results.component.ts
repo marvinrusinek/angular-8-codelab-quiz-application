@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { QuizQuestion } from '../../model/QuizQuestion';
 
@@ -8,7 +8,7 @@ import { QuizQuestion } from '../../model/QuizQuestion';
   styleUrls: ['./results.component.scss']
 })
 export class ResultsComponent implements OnInit {
-  @Output() allQuestions: QuizQuestion[];
+  @Input() allQuestions: QuizQuestion[];
   @Input() totalQuestions: number;
   @Input() totalQuestionsAttempted: number;
   @Input() correctAnswersCount: number;
@@ -30,11 +30,5 @@ export class ResultsComponent implements OnInit {
   ngOnInit() {
     this.remainingMinutes = Math.floor(this.completionTime / 60);
     this.remainingSeconds = this.completionTime % 60;
-  }
-
-  @Output() messageToEmit = new EventEmitter<any>();
-
-  sendMessageToParent(message) {
-    this.messageToEmit.emit(message);
   }
 }

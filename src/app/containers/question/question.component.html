@@ -90,6 +90,7 @@
 
 <ng-template #quiz_results>
   <app-results
+    [allQuestions]="allQuestions"
     [totalQuestions]="totalQuestions"
     [totalQuestionsAttempted]="totalQuestionsAttempted"
     [correctAnswersCount]="correctAnswersCount"
@@ -98,8 +99,4 @@
     [completionTime]="completionTime"
     [totalResponses]="totalResponses">
   </app-results>
-</ng-template>
-
-<ng-template #quiz_summary>
-  <app-quiz-summary [allQuestions]="allQuestions"></app-quiz-summary>
 </ng-template>

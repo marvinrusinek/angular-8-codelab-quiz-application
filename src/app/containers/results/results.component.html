@@ -35,8 +35,8 @@
         <a class="accordion" data-toggle="collapse" aria-expanded="false" target="_blank" href="#quiz-summary">
           Click here to view a more detailed summary of your quiz</a>
 
-        <section id="quiz-summary" data-parent="#quizAccordion">
-          <div class="quiz-summary-question collapse" *ngFor="let question of allQuestions">
+        <section class="quiz-summary" data-parent="#quizAccordion">
+          <div id="quiz-summary" class="quiz-summary-question collapse" *ngFor="let question of allQuestions">
             <span>Question #{{ question.questionId }}: </span>{{ question.question }}<br />
             <span>Correct Answer: </span>Option {{ question.answer }}<br />
             <span>Your Answer: </span>Option {{ question.selectedOption }}&nbsp;

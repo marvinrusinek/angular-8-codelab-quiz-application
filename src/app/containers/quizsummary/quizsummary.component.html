@@ -1,0 +1,26 @@
+<app-result (messageToEmit)="getMessage($event)"></app-result>
+<mat-card>
+  <mat-card-header>
+    <div mat-card-avatar class="header-image"></div>
+    <mat-card-title>Dependency Injection Quiz</mat-card-title>
+    <mat-card-subtitle><h2>Quiz Details</h2></mat-card-subtitle>
+  </mat-card-header>
+
+  <section class="quiz-summary">
+    <div class="quiz-summary-question" *ngFor="let question of allQuestions">
+      <span>Question #{{ question.questionId }}: </span>{{ question.question }}<br />
+      <span>Correct Answer: </span>Option {{ question.answer }}<br />
+      <span>Your Answer: </span>Option {{ question.selectedOption }}&nbsp;
+        <mat-icon inline="true" class="correct" *ngIf="question.answer === question.selectedOption">done</mat-icon>
+        <mat-icon inline="true" class="incorrect" *ngIf="question.answer !== question.selectedOption">clear</mat-icon>
+      <br />
+      <span>Explanation: </span>Option {{ question.answer }} was correct because {{ question.explanation }}.
+    </div>
+  </section>
+  <section class="return">
+    <mat-card-actions>
+      <a routerLink="/intro" class="btn">Restart Quiz</a>
+      <a href="https://www.codelab.fun" class="btn">Back to Codelab</a>
+    </mat-card-actions>
+  </section>
+</mat-card>

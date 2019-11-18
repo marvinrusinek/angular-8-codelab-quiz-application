@@ -2,82 +2,87 @@ $font-stack: Space Mono, monospace;
 $font-weight-max: 900;
 
 @font-face {
-  font-family: "DjbUpOnTheScoreboard";
-  src: url("../../../assets/DjbUpOnTheScoreboard.ttf") format("truetype");
+  font-family: "Alarm Clock";
+  src: url("../../../assets/alarm-clock.ttf") format("truetype");
 }
 
-.row {
-  display: inline;
+section.scoreboard {
+  .row {
+    display: inline;
+  }
+  .score {
+    float: left;
+    margin-left: 1rem;
+  }
+  .score .leader {
+    margin-left: 15px;
+  }
+  .badge {
+    float: left;
+    margin: 20px 10px 0 100px;
+    font-family: $font-stack;
+    font-size: 24px;
+    font-weight: $font-weight-max;
+    font-style: italic;
+  }
+  .time-left {
+    float: right;
+    margin-right: 1rem;
+  }
+  .time-left .leader {
+    margin-left: 20px;
+  }
+  .scoreboard {
+    font-family: "Alarm Clock", $font-stack;
+    font-weight: $font-weight-max;
+    font-size: 30px;
+    color: #006400;
+    display: inline-block;
+    margin: -5px 0 0 15px;
+    width: auto;
+  }
+  .leader {
+    font-weight: $font-weight-max;
+    font-size: 18px;
+    text-transform: uppercase;
+    position: relative;
+    top: -5px;
+  }
 }
-.stats {
-  float: left;
-  margin-left: 1rem;
-}
-.stats .leader {
-  margin-left: 5px;
-}
-.badge {
-  float: left;
-  margin: 20px 10px 0 100px;
-  font-family: $font-stack;
-  font-size: 24px;
-  font-weight: $font-weight-max;
-  font-style: italic;
-}
-.time-left {
-  float: right;
-  margin-right: 1rem;
-}
-.time-left .leader {
-  margin-left: 22.5px;
-}
-.scoreboard {
-  font-family: "DjbUpOnTheScoreboard", $font-stack;
-  font-weight: $font-weight-max;
-  font-size: 30px;
-  color: #006400;
-  display: inline-block;
-  margin: -5px 0 0 15px;
-  width: auto;
-}
-.leader {
-  font-weight: $font-weight-max;
-  font-size: 18px;
-  text-transform: uppercase;
-  position: relative;
-  top: -5px;
-}
-button.time-expired-btn {
-  font-family: $font-stack;
-  font-weight: $font-weight-max;
-  text-align: center;
-  font-style: italic;
-  color: #006400 !important;
-  width: 24rem;
-  border: 1px solid #ff0000;
-  border-radius: 5px;
-  padding: 5px;
-  margin-bottom: 20px;
-}
-.time-expired {
+
+section.time-expired {
   margin: 50px 0 20px 0 !important;
   display: flex;
   justify-content: center;
-}
-.timer-expired-icon, .qa-icon {
-  font-size: 30px !important;
-  color: #9acd32;
-  font-weight: $font-weight-max;
-}
-span.proceed, span.viewResults {
-  margin-top: -30px;
+
+  button.time-expired-btn {
+    font-family: $font-stack;
+    font-weight: $font-weight-max;
+    text-align: center;
+    font-style: italic;
+    color: #006400 !important;
+    width: 26.5rem;
+    border: 1px solid #ff0000;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 20px;
+  }
+  .timer-expired-icon, .qa-icon {
+    font-weight: $font-weight-max;
+    font-size: 30px !important;
+    color: #9acd32;
+  }
+  span.proceed, span.viewResults {
+    margin-top: -30px;
+  }
 }
 
 #question {
   font-family: $font-stack;
-  font-size: 30px !important;
   font-weight: 700;
+  font-size: 30px !important;
   margin: -25px 0 10px 0.5rem;
+  float: left;
   border: 2px solid #007aff;
   padding: 5px 10px 15px 20px;
   background-color: #f5f5f5;
@@ -87,36 +92,33 @@ span.proceed, span.viewResults {
   vertical-align: middle;
 }
 
-mat-card-footer {
+section.paging {
   width: 40rem;
-}
-mat-card-actions {
-  margin: -10px 0 10px 0;
 
-  .previousQuestionNav {
-    float: left;
-    margin-left: 1.5rem;
-  }
-  .nextQuestionNav {
-    float: right;
-    margin-right: 0.6rem;
-  }
-  .viewResultsNav {
-    float: left;
-    margin: 40px 0 20px 150px !important;
+  mat-card-actions {
+    margin: -10px 0 10px 0;
+
+    .previousQuestionNav {
+      float: left;
+      margin-left: 1.5rem;
+    }
+    .nextQuestionNav {
+      float: right;
+      margin-right: 0.6rem;
+    }
+    .viewResultsNav {
+      float: left;
+      margin: 40px 0 20px 150px !important;
+    }
   }
 }
 
-.progress-bar {
+section.progress-bar {
   margin: 40px 0 10px 1.5rem;
   width: 38rem;
   height: auto;
-}
-.progress-note {
-  font-family: $font-stack;
-  font-weight: $font-weight-max;
-  font-style: italic;
-  font-size: 20px;
-  color: #ffff00;
-  padding-top: 5px;
+
+  ngb-progressbar {
+    border-radius: 10px;
+  }
 }

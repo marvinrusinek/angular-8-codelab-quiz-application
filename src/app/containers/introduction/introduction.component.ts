@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./introduction.component.scss']
 })
 export class IntroductionComponent {
-  QUIZ_TOPIC_IMAGE = '../../../assets/images/dependency-injection-chart.png';
+  QUIZ_TOPIC_IMAGE = '../../../assets/images/dependency-injection-diagram.png';
   questionID = 1;
 
   constructor(private router: Router) {}

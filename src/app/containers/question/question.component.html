@@ -1,90 +1,105 @@
-<mat-card class="animated fadeInRight delay-0.5s">
-  <ng-container *ngIf="validQuestion; else quiz_results">
-    <mat-card-header>
-      <div mat-card-avatar class="header-image"></div>
+<mat-card class="animated fadeInRight delay-0.5s"
+          *ngIf="question && question.questionId <= totalQuestions; else quiz_results">
+  <mat-card-header>
+    <div mat-card-avatar class="header-image"></div>
       <mat-card-title>Dependency Injection Quiz</mat-card-title>
       <mat-card-subtitle>
-        How well do you know Dependency Injection?<br>Take the quiz and find out!
+        How well do you know Dependency Injection?<br />Take the quiz and find out!
       </mat-card-subtitle>
-    </mat-card-header>
+  </mat-card-header>
 
-    <mat-card-content>
+  <mat-card-content>
+    <section class="scoreboard">
       <div class="row">
-        <div class="stats">
+        <div class="score">
           <span class="leader">Score</span><br />
-          <span class="scoreboard">{{ correctAnswerCount }}/{{ numberOfQuestions }}</span>
+          <span class="scoreboard">
+            {{ correctAnswersCount }}/{{ totalQuestions }}
+          </span>
         </div>
-        <div class="badge" *ngIf="validQuestion">
-          <span>Question {{ question.questionId }} of {{ numberOfQuestions }}</span>
+        <div class="badge" *ngIf="question && question.questionId <= totalQuestions">
+          <span>Question {{ question.questionId }} of {{ totalQuestions }}</span>
         </div>
         <div class="time-left">
           <span class="leader">Time</span><br />
-          <span class="scoreboard">0:<span *ngIf="timeLeft < 10">0</span>{{ timeLeft }}</span>
+          <span class="scoreboard">
+            0:<span *ngIf="timeLeft < 10">0</span>{{ timeLeft }}
+          </span>
         </div>
       </div>
+    </section>
 
-      <!-- time expired buttons -->
-      <div class="time-expired">
-        <button mat-raised-button class="time-expired-btn" *ngIf="timeLeft === 0 && question.questionId !== numberOfQuestions"
-                (click)="navigateToNextQuestion()">
-          <mat-icon class="timer-expired-icon" inline="true">timer</mat-icon>
-          <span> Time&apos;s Up!</span>
-          <span class="proceed">
-            You may proceed to the next question&hellip;
-          </span>
-        </button>
-        <button mat-raised-button class="time-expired-btn" *ngIf="timeLeft === 0 && question.questionId === numberOfQuestions"
-                (click)="navigateToResults()">
-          <mat-icon class="timer-expired-icon" inline="true">timer</mat-icon>
-          <span> Time&apos;s Up!</span>
-          <span class="viewResults">
-            View Your Results&hellip;
-          </span>
-        </button>
-      </div>
+    <!-- time expiration buttons -->
+    <section class="time-expired">
+      <button mat-raised-button class="time-expired-btn"
+              *ngIf="timeLeft === 0 && question.questionId !== totalQuestions"
+              (click)="navigateToNextQuestion()">
+        <mat-icon class="timer-expired-icon" inline="true">timer</mat-icon>
+        <span> Time&apos;s Up!</span>
+        <span class="proceed">
+          You may proceed to the next question&hellip;
+        </span>
+      </button>
+      <button mat-raised-button class="time-expired-btn"
+              *ngIf="timeLeft === 0 && question.questionId === totalQuestions"
+              (click)="navigateToResults()">
+        <mat-icon class="timer-expired-icon" inline="true">timer</mat-icon>
+        <span> Time&apos;s Up!</span>
+        <span class="viewResults">
+          View Your Results&hellip;
+        </span>
+      </button>
+    </section>
 
-      <app-question
-        [question]="question"
-        [numberOfQuestions]="numberOfQuestions"
-        (answer)="answer($event)">
-          <div id="question">{{ question.question }}</div>
-      </app-question>
-    </mat-card-content>
+    <app-question
+      [question]="question"
+      [totalQuestions]="totalQuestions"
+      [correctAnswers]="correctAnswers">
+      <div id="question">{{ question.question }}</div>
+    </app-question>
+  </mat-card-content>
 
-    <mat-card-footer>
+  <mat-card-footer>
+    <section class="paging">
       <mat-card-actions>
         <div class="previousQuestionNav" *ngIf="question && question.questionId !== 1">
           <button type="button" (click)="navigateToPreviousQuestion()">
             &laquo; Previous
           </button>
         </div>
-        <div class="nextQuestionNav" *ngIf="question && question.questionId !== numberOfQuestions">
+        <div class="nextQuestionNav" *ngIf="question && question.questionId !== totalQuestions">
           <button type="button" (click)="navigateToNextQuestion()">
             Next &raquo;
           </button>
         </div>
-        <div class="viewResultsNav" *ngIf="question && question.questionId === numberOfQuestions">
+        <div class="viewResultsNav" *ngIf="question && question.questionId === totalQuestions">
           <button type="button" (click)="navigateToResults()">
             View Your Results
           </button>
         </div>
       </mat-card-actions>
+    </section>
 
-      <section class="progress-bar">
-        <ngb-progressbar [value]="progressValue" type="success" [striped]="true" [animated]="true">
-          <strong>{{ progressValue.toFixed(0) }}%</strong>
-        </ngb-progressbar>
-      </section>
-    </mat-card-footer>
-  </ng-container>
+    <section class="progress-bar">
+      <ngb-progressbar [value]="progressValue" type="success" [striped]="true" [animated]="true">
+        <strong>{{ progressValue.toFixed(0) }}%</strong>
+      </ngb-progressbar>
+    </section>
+  </mat-card-footer>
 </mat-card>
 
 <ng-template #quiz_results>
   <app-results
-    [allQuestions]="allQuestions"
-    [numberOfQuestions]="numberOfQuestions"
-    [numberOfQuestionsAnswered]="numberOfQuestionsAnswered"
-    [correctAnswerCount]="correctAnswerCount"
-    [progressValue]="progressValue">
+    [totalQuestions]="totalQuestions"
+    [totalQuestionsAttempted]="totalQuestionsAttempted"
+    [correctAnswersCount]="correctAnswersCount"
+    [progressValue]="progressValue"
+    [percentage]="percentage"
+    [completionTime]="completionTime"
+    [totalResponses]="totalResponses">
   </app-results>
+</ng-template>
+
+<ng-template #quiz_summary>
+  <app-quiz-summary [allQuestions]="allQuestions"></app-quiz-summary>
 </ng-template>

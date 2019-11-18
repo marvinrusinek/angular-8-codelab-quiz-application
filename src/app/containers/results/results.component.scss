@@ -1,43 +1,36 @@
 $font-stack: Space Mono, monospace;
 $font-weight-max: 900;
 
-.quiz-summary-question {
-  font-family: $font-stack;
-  font-size: 14px;
-  border: 2px solid #007aff;
-  border-radius: 5px;
-  background-color: lightgray;
-  color: #0f0900;
-  margin-bottom: 15px;
-  padding: 10px;
-}
-
-.trophy, .try-again {
-  width: 150px;
-  height: 150px;
-  margin: 0 auto !important;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-}
-
-mat-icon {
-  font-size: larger;
-  top: 10px !important;
-}
-
-mat-card-actions button {
-  margin: 0 auto !important;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-}
-
-.statistics h3, p {
+section.results {
+  img {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto !important;
+    display: flex;
+    justify-content: center;
     text-align: center;
+  }
+  mat-card-actions button {
+    margin: 0 auto !important;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+  h3, p, .quiz-summary-link {
+    text-align: center;
+  }
+  a {
+    text-decoration: none;
+  }
 }
 
-.challenge-social {
+section.statistics h3, p {
+  text-align: center;
+}
+
+section.challenge-social {
+  text-align: center;
+
   a.btn {
     text-decoration: none;
     margin-right: 20px;
@@ -57,5 +50,17 @@ mat-card-actions button {
   a.btn.email {
     background-color: #f0a121;
     background-image: url('../../../assets/images/email.svg');
+  }
+}
+
+section.return {
+  text-align: center;
+
+  a.btn {
+    margin-right: 15px;
+    background-color: #20b2aa;
+    color: white;
+    border: 1px solid black;
+    border-radius: 5px;
   }
 }

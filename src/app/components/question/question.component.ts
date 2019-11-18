@@ -12,11 +12,10 @@ export class QuestionComponent implements OnInit, OnChanges {
   @Output() formGroup: FormGroup;
   @Input() question: QuizQuestion;
   @Input() allQuestions: QuizQuestion[];
-  @Input() numberOfQuestions: number;
+  @Input() totalQuestions: number;
   @Output() answer = new EventEmitter<string>();
+  option = '';
   selectedOption = '';
-
-  correctAnswerCount = 0;
   grayBorder = '2px solid #979797';
 
   constructor(private fb: FormBuilder) {}

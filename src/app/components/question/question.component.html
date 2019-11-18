@@ -3,13 +3,12 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <ol class="form-group">
     <mat-radio-group formControlName="answer" name="answer" (change)="radioChange($event.value)"
-      (click)="question.selectedOption = option">
+                     (click)="question.selectedOption = option">
       <div class="radio-options" *ngFor="let option of question.options">
         <mat-radio-button class="option" [value]="option.optionValue" disableRipple="true"
-          [checked]="question.selectedOption == option"
-          [ngClass]="{'is-correct': isCorrect(option.optionValue),
-                      'is-incorrect': isIncorrect(option.optionValue)}"
-                      (click)="incrementScore()">
+                          [checked]="question.selectedOption == option"
+                          [ngClass]="{'is-correct': isCorrect(option.optionValue),
+                                      'is-incorrect': isIncorrect(option.optionValue)}">
           <li>{{ option.optionText }}</li>
 
           <mat-icon class="feedback-icon" *ngIf="isCorrect(option.optionValue)">done</mat-icon>
@@ -21,7 +20,7 @@
                   *ngIf="isCorrect(option.optionValue)" (click)="nextQuestion()">
             <mat-icon class="sentiment" inline="true">sentiment_very_satisfied</mat-icon>
             <span> You&apos;re right! The correct answer is Option {{ question.answer }}.</span>
-            <span class="proceed" *ngIf="question && question.questionId !== numberOfQuestions">
+            <span class="proceed" *ngIf="question && question.questionId !== totalQuestions">
               You may proceed to the next question&hellip;
             </span>
           </button>
@@ -30,7 +29,7 @@
                   *ngIf="isIncorrect(option.optionValue)" (click)="nextQuestion()">
             <mat-icon class="sentiment" inline="true">sentiment_very_dissatisfied</mat-icon>
             <span> That&apos;s wrong. The correct answer is Option {{ question.answer }}.</span>
-            <span class="proceed" *ngIf="question && question.questionId !== numberOfQuestions">
+            <span class="proceed" *ngIf="question && question.questionId !== totalQuestions">
               You may proceed to the next question&hellip;
             </span>
           </button>

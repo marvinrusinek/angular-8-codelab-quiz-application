@@ -26,6 +26,7 @@ section.results {
   section.quiz-summary {
     display: flex;
     flex-direction: column;
+    text-align: left;
 
     .quiz-summary-question {
       font-family: $font-stack;

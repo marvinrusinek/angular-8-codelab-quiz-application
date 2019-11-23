@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { QuizQuestion } from '../../model/QuizQuestion';
 
+
 @Component({
   selector: 'app-question-container',
   templateUrl: './question.component.html',
@@ -11,22 +12,20 @@ import { QuizQuestion } from '../../model/QuizQuestion';
 export class QuestionComponent implements OnInit {
   @Output() question: QuizQuestion;
   @Output() totalQuestions: number;
-  @Output() totalResponses = 0;
+  @Output() totalSelections = 0;
   @Output() correctAnswersCount = 0;
-  @Output() progressValue = 0;
   @Output() percentage = 0;
   @Output() completionTime: number;
 
-  elapsedTime: number;  // elapsed time per question in seconds
-  elapsedTimes = [];    // store elapsed times for all questions in an array
   questionID = 0;
   currentQuestion = 0;
+  questionIndex: number;
+  correctAnswer: boolean;
+  progressValue = 0;
   timeLeft = 20;
   interval: any;
-  questionIndex: number;
-  quizOver = false;
-  inProgress = true;
-  correctAnswer: boolean;
+  elapsedTime: number;  // elapsed time per question in seconds
+  elapsedTimes = [];    // store elapsed times for all questions in an array
   blueBorder = '2px solid #007aff';
 
   @Output() allQuestions: QuizQuestion[] = [
@@ -172,8 +171,8 @@ export class QuestionComponent implements OnInit {
   ngOnInit() {
     this.question = this.getQuestion;
     this.totalQuestions = this.allQuestions.length;
-    this.countDown();
     this.progressValue = 100 * (this.currentQuestion + 1) / this.totalQuestions;
+    this.countDown();
   }
 
   displayNextQuestion() {
@@ -206,35 +205,27 @@ export class QuestionComponent implements OnInit {
     this.decreaseProgressValue();                                   // calculates and lowers the progress value
   }
 
-  // navigates to the results component
-  navigateToResults(): void {
-    this.router.navigateByUrl('/results');
-    this.quizOver = true;                                           // signify that the quiz is over
-    this.inProgress = false;                                        // signify that the quiz is no longer in progress
-  }
-
-  // increases the correct answer count when the correct answer is selected
+  // increase the correct answer count when the correct answer is selected
   incrementCorrectAnswersCount() {
     if (this.question && this.question.selectedOption === this.question.answer) {
       this.correctAnswersCount++;
       this.correctAnswer = true;
-      setTimeout('', 5000);
     } else {
       this.correctAnswer = false;
     }
   }
 
-  // increases the total responses count when an option is selected (may want to include in ResultsComponent)
-  incrementResponseCount() {
-    this.totalResponses += 1;
+  // increase the total selections count when an option is selected
+  incrementSelectionCount() {
+    this.totalSelections += 1;
   }
 
-  // increases the progress value when the user presses the next button
+  // increase the progress value when the user presses the next button
   increaseProgressValue() {
     this.progressValue = 100 * (this.currentQuestion += 1) / this.totalQuestions;
   }
 
-  // decreases the progress value when the user presses the previous button
+  // decrease the progress value when the user presses the previous button
   decreaseProgressValue() {
     this.progressValue = 100 * (this.currentQuestion -= 1) / this.totalQuestions;
   }
@@ -263,36 +254,31 @@ export class QuestionComponent implements OnInit {
     )[0];
   }
 
-  /* countdown timer and associated methods*/
+  // countdown timer and associated methods
   private countDown() {
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
         this.timeLeft--;
         if (this.question.selectedOption !== '') {
-          this.incrementResponseCount();
+          this.incrementSelectionCount();           // record the amount of selections
         }
 
-        // checks if the question is a valid question and that it is answered correct
-        if (this.question && this.currentQuestion <= this.totalQuestions &&
-          this.question.selectedOption === this.question.answer) {
-          this.incrementCorrectAnswersCount();
-          this.elapsedTime = 20 - this.timeLeft;
-          this.elapsedTimes.push(this.elapsedTime);
-          this.stopTimer();
+        this.checkIfValidAndCorrect();  // check whether the question is valid and is answered correctly
 
-          this.router.navigate(['/question', this.getQuestionID() + 1]);
+        /* if (this.getQuestionID() >= this.totalQuestions) {
+          // stop navigating
+          this.router.navigateByUrl('/results');
+        } */
+
+        this.calculatePercentage();
+        this.calculateTotalElapsedTime(this.elapsedTimes);
+
+
+        // check if the timer is expired
+        if (this.timeLeft === 0 && this.question && this.currentQuestion < this.totalQuestions) {
           this.resetTimer();
           this.displayNextQuestion();
-          this.increaseProgressValue();
         }
-        this.calculatePercentage();
-        this.computeTotalElapsedTime(this.elapsedTimes);
-      }
-
-      // check if the timer is expired
-      if (this.timeLeft === 0 && this.question && this.currentQuestion <= this.totalQuestions) {
-        this.resetTimer();
-        this.displayNextQuestion();
       }
     }, 1000);
   }
@@ -304,7 +290,34 @@ export class QuestionComponent implements OnInit {
     this.timeLeft = 0;
   }
 
-  computeTotalElapsedTime(elapsedTimes) {
-    this.completionTime = elapsedTimes.reduce(function (acc, cur) { return acc + cur; });
+  private quizDelay(milliseconds) {
+    const start = new Date().getTime();
+    let counter = 0;
+    let end = 0;
+
+    while (counter < milliseconds) {
+      end = new Date().getTime();
+      counter = end - start;
+    }
+  }
+
+  private calculateTotalElapsedTime(elapsedTimes) {
+    this.completionTime = elapsedTimes.reduce((acc, cur) => acc + cur, 0);
+  }
+
+  checkIfValidAndCorrect(): void {
+    if (this.question && this.currentQuestion < this.totalQuestions &&
+        this.question.selectedOption === this.question.answer) {
+      this.incrementCorrectAnswersCount();
+      this.elapsedTime = 20 - this.timeLeft;
+      this.elapsedTimes.push(this.elapsedTime);
+      this.stopTimer();
+      this.quizDelay(3000);
+
+      this.router.navigate(['/question', this.getQuestionID() + 1]);
+      this.displayNextQuestion();
+      this.increaseProgressValue();
+      this.resetTimer();
+    }
   }
 }

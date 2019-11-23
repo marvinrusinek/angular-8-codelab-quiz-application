@@ -1,4 +1,8 @@
-mat-card-actions button {
-  margin-bottom: 10px !important;
-  background-color: #20b2aa;
+mat-card-actions {
+  button {
+    margin-bottom: 10px !important;
+  }
+  button:hover {
+    border: 1px solid #007aff;
+  }
 }

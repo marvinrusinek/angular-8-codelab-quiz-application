@@ -21,6 +21,13 @@ section.results {
   }
   a {
     text-decoration: none;
+    font-weight: $font-weight-max;
+  }
+
+  section.statistics {
+    h3, p, div.quiz-feedback, div span {
+      text-align: center;
+    }
   }
 
   section.quiz-summary {
@@ -58,8 +65,16 @@ section.results {
   }
 }
 
-section.statistics h3, p {
+section.return {
   text-align: center;
+
+  a.btn {
+    margin-right: 15px;
+    background-color: #20b2aa;
+    color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+  }
 }
 
 section.challenge-social {
@@ -76,25 +91,16 @@ section.challenge-social {
   a.btn.facebook {
     background-color: #4267b2;
     background-image: url('../../../assets/images/facebook.gif');
+    top: 5px;
   }
   a.btn.twitter {
     background-color: #59adeb;
     background-image: url('../../../assets/images/twitter.svg');
+    top: 5px;
   }
   a.btn.email {
     background-color: #f0a121;
     background-image: url('../../../assets/images/email.svg');
-  }
-}
-
-section.return {
-  text-align: center;
-
-  a.btn {
-    margin-right: 15px;
-    background-color: #20b2aa;
-    color: white;
-    border: 1px solid black;
-    border-radius: 5px;
+    top: 5px;
   }
 }

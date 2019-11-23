@@ -9,11 +9,11 @@ import { QuizQuestion } from '../../model/QuizQuestion';
   styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit, OnChanges {
+  @Output() answer = new EventEmitter<string>();
   @Output() formGroup: FormGroup;
   @Input() question: QuizQuestion;
   @Input() allQuestions: QuizQuestion[];
   @Input() totalQuestions: number;
-  @Output() answer = new EventEmitter<string>();
   option = '';
   selectedOption = '';
   grayBorder = '2px solid #979797';
@@ -54,6 +54,19 @@ export class QuestionComponent implements OnInit, OnChanges {
 
   isIncorrect(option: string): boolean {
     return option !== this.question.answer && this.question.selectedOption === option;
+  }
+
+  // todo: get this working!!!
+  checkAnswer() {
+    let radioElem = document.getElementById('mat-radio-btn');
+    if (this.question.selectedOption === this.question.answer) {
+      radioElem.classList.add('is-correct');
+    } else {
+      radioElem.classList.add('is-incorrect');
+      if (radioElem.innerHTML === this.question.answer) {
+        radioElem.classList.add('is-correct');
+      }
+    }
   }
 
   onSubmit() {

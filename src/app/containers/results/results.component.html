@@ -6,47 +6,52 @@
   </mat-card-header>
 
   <mat-card-content>
-    <section class="statistics">
-      <h3>Statistics</h3>
-      <p>You scored <strong>{{ correctAnswersCount }}</strong> out of <strong>{{ totalQuestions }}</strong> questions
-         (<strong>{{ percentage }}%</strong>) correct.</p>
-      <p *ngIf="completionTime < 60; else convert_elapsed_time;">
-        You completed the quiz in {{ completionTime }} seconds.</p>
-      <ng-template #convert_elapsed_time>
-        <p>You completed the quiz in {{ remainingMinutes }} minutes and {{ remainingSeconds }} seconds.</p>
-      </ng-template>
-      <p>You made a total of {{ totalResponses }} selections in completing this {{ totalQuestions }} questions quiz.</p>
-    </section>
-
     <section class="results">
-      <div *ngIf="percentage >= 80">
-        <img mat-card-image [src]="ANGULAR_TROPHY" alt="Photo of Angular Trophy">
-        <h3>Great job!</h3>
-      </div>
-      <div *ngIf="percentage >= 60 && percentage < 80">
-        <h3>Not bad!</h3>
-      </div>
-      <div *ngIf="percentage < 60">
-        <img mat-card-image [src]="TRY_AGAIN" alt="Photo of Try Again"><br>
-        <p>You may want to review the questions that you missed.</p>
-      </div>
+      <section class="statistics">
+        <h3>Statistics</h3>
+        <p>You scored {{ correctAnswersCount }} out of {{ totalQuestions }} questions correctly.<br />
+           You completed the quiz in {{ elapsedMinutes }} minutes and {{ elapsedSeconds }} seconds.<br />
+           You made {{ totalSelections }} selections in completing this {{ totalQuestions }} questions quiz.</p>
 
-      <div id="quizAccordion">
-        <a class="accordion" data-toggle="collapse" aria-expanded="false" target="_blank" href="#quiz-summary">
-          Click here to view a more detailed summary of your quiz</a>
+        <div class="quiz-feedback">
+          <span *ngIf="percentage >= 80">
+            <img mat-card-image [src]="ANGULAR_TROPHY" alt="Photo of Angular Trophy">
+            <h3>Great job! </h3>
+          </span>
+          <span *ngIf="percentage >= 60 && percentage < 80">
+            <img mat-card-image [src]="NOT_BAD" alt="Photo of 'Not Bad'">
+            <h3>Not bad! </h3>
+          </span>
+          <span *ngIf="percentage < 60">
+            <img mat-card-image [src]="TRY_AGAIN" alt="Photo of 'Try Again'"><br>
+            <h3>Try again! </h3>
+          </span>
+          <span>You answered {{ percentage }}% correct.</span>
+        </div>
 
-        <section class="quiz-summary" data-parent="#quizAccordion">
-          <div id="quiz-summary" class="quiz-summary-question collapse" *ngFor="let question of allQuestions">
-            <span>Question #{{ question.questionId }}: </span>{{ question.question }}<br />
-            <span>Correct Answer: </span>Option {{ question.answer }}<br />
-            <span>Your Answer: </span>Option {{ question.selectedOption }}&nbsp;
-            <mat-icon inline="true" class="correct" *ngIf="question.answer === question.selectedOption">done</mat-icon>
-            <mat-icon inline="true" class="incorrect" *ngIf="question.answer !== question.selectedOption">clear</mat-icon>
-            <br />
-            <span>Explanation: </span>Option {{ question.answer }} was correct because {{ question.explanation }}.
-          </div>
-        </section>
-      </div>
+        <div id="quizAccordion">
+          <a class="accordion" data-toggle="collapse" aria-expanded="false" target="_blank" href="#quiz-summary">
+            View a more detailed summary of your quiz
+            <span class="open-menu">+</span>
+            <!--<span class="caret arrow-up-shelf-nav d-none d-lg-block"></span>-->
+          </a>
+
+          <section class="quiz-summary" data-parent="#quizAccordion">
+            <div id="quiz-summary" class="quiz-summary-question collapse" *ngFor="let question of allQuestions">
+              <span>Question #{{ question.questionId }}: </span>{{ question.question }}<br />
+              <span>Correct Answer: </span>Option {{ question.answer }}<br />
+              <span>Your Answer: </span>Option {{ question.selectedOption }}&nbsp;
+              <mat-icon inline="true" class="correct"
+                        *ngIf="question.answer === question.selectedOption">done</mat-icon>
+              <mat-icon inline="true" class="incorrect"
+                        *ngIf="question.answer !== question.selectedOption">clear</mat-icon>
+              <br />
+              <span>Explanation: </span>Option {{ question.answer }} was correct because {{ question.explanation }}.
+            </div>
+          </section>
+        </div>
+        <br clear="all" />
+      </section>
     </section>
 
     <section class="return">

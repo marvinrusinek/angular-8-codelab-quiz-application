@@ -40,7 +40,7 @@
           You may proceed to the next question&hellip;
         </span>
       </button>
-      <button mat-raised-button class="time-expired-btn"
+      <!--<button mat-raised-button class="time-expired-btn"
               *ngIf="timeLeft === 0 && question.questionId === totalQuestions"
               (click)="navigateToResults()">
         <mat-icon class="timer-expired-icon" inline="true">timer</mat-icon>
@@ -48,13 +48,12 @@
         <span class="viewResults">
           View Your Results&hellip;
         </span>
-      </button>
+      </button>-->
     </section>
 
     <app-question
       [question]="question"
-      [totalQuestions]="totalQuestions"
-      [correctAnswers]="correctAnswers">
+      [totalQuestions]="totalQuestions">
       <div id="question">{{ question.question }}</div>
     </app-question>
   </mat-card-content>
@@ -70,11 +69,6 @@
         <div class="nextQuestionNav" *ngIf="question && question.questionId !== totalQuestions">
           <button type="button" (click)="navigateToNextQuestion()">
             Next &raquo;
-          </button>
-        </div>
-        <div class="viewResultsNav" *ngIf="question && question.questionId === totalQuestions">
-          <button type="button" (click)="navigateToResults()">
-            View Your Results
           </button>
         </div>
       </mat-card-actions>
@@ -93,10 +87,9 @@
     [allQuestions]="allQuestions"
     [totalQuestions]="totalQuestions"
     [totalQuestionsAttempted]="totalQuestionsAttempted"
+    [totalSelections]="totalSelections"
     [correctAnswersCount]="correctAnswersCount"
-    [progressValue]="progressValue"
     [percentage]="percentage"
-    [completionTime]="completionTime"
-    [totalResponses]="totalResponses">
+    [completionTime]="completionTime">
   </app-results>
 </ng-template>

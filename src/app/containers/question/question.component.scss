@@ -87,7 +87,7 @@ section.time-expired {
   padding: 5px 10px 15px 20px;
   background-color: #f5f5f5;
   color: #0f0900;
-  width: 38rem !important;
+  width: 39rem !important;
   height: auto;
   vertical-align: middle;
 }
@@ -104,18 +104,14 @@ section.paging {
     }
     .nextQuestionNav {
       float: right;
-      margin-right: 0.6rem;
-    }
-    .viewResultsNav {
-      float: left;
-      margin: 40px 0 20px 150px !important;
+      margin-right: -0.35rem;
     }
   }
 }
 
 section.progress-bar {
   margin: 40px 0 10px 1.5rem;
-  width: 38rem;
+  width: 39rem;
   height: auto;
 
   ngb-progressbar {

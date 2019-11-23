@@ -12,23 +12,22 @@ export class ResultsComponent implements OnInit {
   @Input() totalQuestions: number;
   @Input() totalQuestionsAttempted: number;
   @Input() correctAnswersCount: number;
-  @Input() progressValue: number;
   @Input() percentage: number;
   @Input() completionTime: number;
-  @Input() totalResponses: number;
+  @Input() totalSelections: number;
 
-  remainingMinutes: number;
-  remainingSeconds: number;
+  elapsedMinutes: number;
+  elapsedSeconds: number;
 
   ANGULAR_TROPHY = '../../../assets/images/ng-trophy.png';
+  NOT_BAD = '../../../assets/images/notbad.jpg';
   TRY_AGAIN = '../../../assets/images/try-again.jpeg';
   codelabUrl = 'https://www.codelab.fun';
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit() {
-    this.remainingMinutes = Math.floor(this.completionTime / 60);
-    this.remainingSeconds = this.completionTime % 60;
+    this.elapsedMinutes = Math.floor(this.completionTime / 60);
+    this.elapsedSeconds = this.completionTime % 60;
   }
 }

@@ -9,7 +9,6 @@ const routes: Route[] = [
   { path: 'question/:questionId', component: QuestionComponent, pathMatch: 'full' },
   { path: 'results', component: ResultsComponent, pathMatch: 'full' },
   { path: '', redirectTo: 'intro', pathMatch: 'full' }
-  // { path: '**', redirectTo: 'intro', pathMatch: 'full' }
 ];
 
 @NgModule({

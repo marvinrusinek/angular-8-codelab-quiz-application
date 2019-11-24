@@ -27,6 +27,13 @@ export class ResultsComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
+    if (this.percentage < 0) {
+      this.percentage = 0;
+    }
+    if (this.percentage > 100) {
+      this.percentage = 100;
+    }
+
     this.elapsedMinutes = Math.floor(this.completionTime / 60);
     this.elapsedSeconds = this.completionTime % 60;
   }

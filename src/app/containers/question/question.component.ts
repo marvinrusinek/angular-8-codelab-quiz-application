@@ -182,7 +182,10 @@ export class QuestionComponent implements OnInit {
     this.countDown();
   }
 
-  displayNextQuestionWithOptions() {
+  displayNextQuestion() {
+    this.resetTimer();
+    this.increaseProgressValue();
+
     this.questionIndex = this.questionID++;     // increase the question index by 1 for next question
     document.getElementById('question').innerHTML = this.allQuestions[this.questionIndex].question;
     document.getElementById('question').style.border = this.blueBorder;
@@ -191,11 +194,13 @@ export class QuestionComponent implements OnInit {
       document.getElementsByTagName('li')[this.optionIndex].textContent =
         this.allQuestions[this.questionIndex].options[this.optionIndex].optionText; // add option text for list items
     }
-    this.resetTimer();
   }
 
   displayPreviousQuestion() {
-    this.questionIndex = this.questionID - 2;   // decrease the question index by 2 for previous question
+    this.resetTimer();
+    this.decreaseProgressValue();
+
+    this.questionIndex = this.currentQuestion -= 1;   // decrease the question index by 2 for previous question
     document.getElementById('question').innerHTML = this.allQuestions[this.questionIndex].question;
     document.getElementById('question').style.border = this.blueBorder;
   }
@@ -205,18 +210,16 @@ export class QuestionComponent implements OnInit {
 
     if (this.isThereAnotherQuestion()) {
       this.router.navigate(['/question', this.getQuestionID() + 1]);  // navigates to the next question
-      this.displayNextQuestionWithOptions();                          // displays the next question
-      this.increaseProgressValue();                                   // calculate and increase progress value
-      this.resetTimer();                                              // reset the timer to 20 seconds
+      this.displayNextQuestion();                                     // displays the next question
     }
+
+    this.resetTimer();
   }
 
   navigateToPreviousQuestion(): void {
-    // this.currentQuestion--;
+    this.currentQuestion--;
     this.router.navigate(['/question', this.getQuestionID() - 1]);  // navigates to the previous question
     this.displayPreviousQuestion();                                 // display the previous question
-    this.decreaseProgressValue();                                   // calculates and lower the progress value
-    this.resetTimer();                                              // reset the timer to 20 seconds
   }
 
   // increase the correct answer count when the correct answer is selected
@@ -280,26 +283,26 @@ export class QuestionComponent implements OnInit {
         this.timeLeft--;
         this.selectionsWithAttemptedQuestions();  // todo: attempt amount is not correct, work on this!
 
-        this.checkIfValidAndCorrect();  // check whether the question is valid and is answered correctly
+        this.checkIfValidAndCorrect();  // checks whether the question is valid and is answered correctly
         this.calculatePercentage();
         this.calculateTotalElapsedTime(this.elapsedTimes);
 
         // check if the timer is expired
         if (this.timeLeft === 0 && this.question && this.currentQuestion <= this.totalQuestions) {
           this.question.questionId++;
-          this.displayNextQuestionWithOptions();
+          this.displayNextQuestion();
           this.resetTimer();
         }
 
-        if (this.question.questionId >= this.totalQuestions) {
-          this.router.navigateByUrl('/results');   // need to pass the data to results!!!
+        if (this.question.questionId > this.totalQuestions) {
+          this.router.navigateByUrl('/results');   // need to somehow pass the data to results!!!
         }
       }
     }, 1000);
   }
 
   private resetTimer() {
-    this.timeLeft = this.timePerQuestion;
+    this.timeLeft = this.timePerQuestion + 1;  // makes sure the timer starts at the right seconds amount
   }
   private stopTimer() {
     this.timeLeft = 0;
@@ -326,7 +329,6 @@ export class QuestionComponent implements OnInit {
       this.incrementCorrectAnswersCount();
       this.elapsedTime = this.timePerQuestion - this.timeLeft;
       this.elapsedTimes.push(this.elapsedTime);
-      this.stopTimer();
       this.quizDelay(3000);
       this.navigateToNextQuestion();
     }

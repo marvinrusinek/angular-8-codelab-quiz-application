@@ -21,7 +21,6 @@ export class QuestionComponent implements OnInit {
   @Output() completionTime: number;
 
   questionID = 0;
-  // optionID = 0;
   currentQuestion = 0;
   questionIndex: number;
   optionIndex: number;
@@ -188,9 +187,11 @@ export class QuestionComponent implements OnInit {
     document.getElementById('question').innerHTML = this.allQuestions[this.questionIndex].question;
     document.getElementById('question').style.border = this.blueBorder;
 
-    /* this.optionIndex = this.optionID++;
-    document.getElementById("option").innerHTML =
-      this.allQuestions[this.questionIndex].options[this.optionIndex].optionText; */
+    for (this.optionIndex = 0; this.optionIndex <= 3; this.optionIndex++) {
+      document.getElementsByTagName('li')[this.optionIndex].textContent =
+        this.allQuestions[this.questionIndex].options[this.optionIndex].optionText; // add option text for list items
+    }
+    this.resetTimer();
   }
 
   displayPreviousQuestion() {
@@ -205,17 +206,17 @@ export class QuestionComponent implements OnInit {
     if (this.isThereAnotherQuestion()) {
       this.router.navigate(['/question', this.getQuestionID() + 1]);  // navigates to the next question
       this.displayNextQuestionWithOptions();                          // displays the next question
-      this.resetTimer();                                              // reset the timer to 20 seconds
       this.increaseProgressValue();                                   // calculate and increase progress value
+      this.resetTimer();                                              // reset the timer to 20 seconds
     }
   }
 
   navigateToPreviousQuestion(): void {
-    this.currentQuestion--;
+    // this.currentQuestion--;
     this.router.navigate(['/question', this.getQuestionID() - 1]);  // navigates to the previous question
-    this.resetTimer();                                              // reset the timer to 20 seconds
     this.displayPreviousQuestion();                                 // display the previous question
     this.decreaseProgressValue();                                   // calculates and lower the progress value
+    this.resetTimer();                                              // reset the timer to 20 seconds
   }
 
   // increase the correct answer count when the correct answer is selected
@@ -245,7 +246,7 @@ export class QuestionComponent implements OnInit {
 
   // decrease the progress value when the user presses the previous button
   decreaseProgressValue() {
-    this.progressValue = 100 * (this.currentQuestion -= 1) / this.totalQuestions;
+    this.progressValue = (100 / this.totalQuestions) * (this.getQuestionID() - 1);
   }
 
   // determine the percentage from amount of correct answers given and the total number of questions
@@ -288,12 +289,10 @@ export class QuestionComponent implements OnInit {
           this.question.questionId++;
           this.displayNextQuestionWithOptions();
           this.resetTimer();
+        }
 
-          /* check if last question and time expired -- todo: NOT WORKING!
-          if (this.timeLeft === 0 && this.getQuestionID() > this.totalQuestions) {
-            this.stopTimer(); // timer should already be stopped!
-            this.router.navigateByUrl('/results');
-          } */
+        if (this.question.questionId >= this.totalQuestions) {
+          this.router.navigateByUrl('/results');   // need to pass the data to results!!!
         }
       }
     }, 1000);

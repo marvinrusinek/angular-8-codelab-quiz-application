@@ -12,7 +12,7 @@
     <section class="scoreboard">
       <div class="row">
         <div class="score">
-          <span class="leader">Score</span><br />
+          <span class="leader">Score</span>
           <span class="scoreboard">
             {{ correctAnswersCount }}/{{ totalQuestions }}
           </span>
@@ -21,7 +21,7 @@
           <span>Question {{ question.questionId }} of {{ totalQuestions }}</span>
         </div>
         <div class="time-left">
-          <span class="leader">Time</span><br />
+          <span class="leader">Time</span>
           <span class="scoreboard">
             0:<span *ngIf="timeLeft < 10">0</span>{{ timeLeft }}
           </span>

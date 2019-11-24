@@ -9,9 +9,9 @@
     <section class="results">
       <section class="statistics">
         <h3>Statistics</h3>
-        <p>You scored {{ correctAnswersCount }} out of {{ totalQuestions }} questions correctly.<br />
-           You attempted {{ totalQuestionsAttempted }} questions and made {{ totalSelections }} selections.<br />
-           You completed the quiz in {{ elapsedMinutes }} minutes and {{ elapsedSeconds }} seconds.</p>
+        <span>You scored {{ correctAnswersCount }} out of {{ totalQuestions }} questions correctly.</span>
+        <span>You attempted {{ totalQuestionsAttempted }} questions and made {{ totalSelections }} selections.</span>
+        <span>You completed the quiz in {{ elapsedMinutes }} minutes and {{ elapsedSeconds }} seconds.</span>
 
         <div class="quiz-feedback">
           <span *ngIf="percentage >= 80">
@@ -27,30 +27,47 @@
             <h3>Try again! </h3>
           </span>
           <span *ngIf="elapsedMinutes < 1">You answered {{ percentage }}% correct quickly.</span>
+          <span *ngIf="elapsedMinutes > 1">You answered {{ percentage }}% correct.</span>
         </div>
 
         <div id="quizAccordion">
-          <!--<div *ngIf="totalQuestionsAttempted <= totalQuestions">-->
-            <a class="accordion" data-toggle="collapse" aria-expanded="false" target="_blank" href="#quiz-summary">
-              View a more detailed summary of your quiz
-              <span class="open-menu">+</span>
-              <!--<span class="caret arrow-up-shelf-nav d-none d-lg-block"></span>-->
-            </a>
-          <!--</div>-->
+          <div *ngIf="correctAnswersCount <= totalQuestions">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#quiz-summary"
+                    aria-expanded="true" aria-controls="quizAccordion">
+              <!--<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;-->
+              <span>View a more detailed summary of your quiz</span>
+            </button>
 
-          <section class="quiz-summary" data-parent="#quizAccordion">
-            <div id="quiz-summary" class="quiz-summary-question collapse" *ngFor="let question of allQuestions">
-              <span>Question #{{ question.questionId }}: </span>{{ question.question }}<br />
-              <span>Correct Answer: </span>Option {{ question.answer }}<br />
-              <span>Your Answer: </span>Option {{ question.selectedOption }}&nbsp;
-              <mat-icon inline="true" class="correct"
-                        *ngIf="question.answer === question.selectedOption">done</mat-icon>
-              <mat-icon inline="true" class="incorrect"
-                        *ngIf="question.answer !== question.selectedOption">clear</mat-icon>
-              <br />
-              <span>Explanation: </span>Option {{ question.answer }} was correct because {{ question.explanation }}.
-            </div>
-          </section>
+            <section class="quizSummary">
+              <div id="quiz-summary" class="quiz-summary-question collapse" aria-labelledby="quizAccordion"
+                   data-parent="#quizAccordion" *ngFor="let question of allQuestions">
+                <div class="quiz-summary-field">
+                  <span>
+                    <span class="leader">Question #{{ question.questionId }}: </span>{{ question.question }}
+                  </span>
+                </div>
+                <div class="quiz-summary-field">
+                  <span>
+                    <span class="leader">Correct Answer: </span>Option {{ question.answer }}
+                  </span>
+                </div>
+                <div class="quiz-summary-field">
+                  <span>
+                    <span class="leader">Your Answer: </span>Option {{ question.selectedOption }}&nbsp;
+                      <mat-icon class="correct" *ngIf="question.answer === question.selectedOption">done</mat-icon>
+                      <mat-icon class="incorrect" *ngIf="question.answer !== question.selectedOption">clear</mat-icon>
+                      <span *ngIf="question.selectedOption == ''"> (no answer provided)</span>
+                  </span>
+                </div>
+                <div class="quiz-summary-field">
+                  <span>
+                    <span class="leader">Explanation: </span>
+                      Option {{ question.answer }} was correct because {{ question.explanation }}.
+                    </span>
+                </div>
+              </div>
+            </section>
+          </div>
         </div>
         <br clear="all" />
       </section>

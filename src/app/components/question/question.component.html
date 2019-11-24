@@ -7,19 +7,19 @@
         <mat-radio-button class="option" [value]="option.optionValue"
                           [ngClass]="{'is-correct': isCorrect(option.optionValue),
                                       'is-incorrect': isIncorrect(option.optionValue)}">
-          <li id="option">{{ option.optionText }}</li>
+          <li>{{ option.optionText }}</li>
           <mat-icon class="feedback-icon" *ngIf="isCorrect(option.optionValue)">done</mat-icon>
           <mat-icon class="feedback-icon" *ngIf="isIncorrect(option.optionValue)">clear</mat-icon>
         </mat-radio-button>
 
         <section class="messages">
-          <div class="message correct-message" *ngIf="isCorrect(option.optionValue)">
+          <div *ngIf="isCorrect(option.optionValue)">
             <mat-icon class="sentiment">sentiment_very_satisfied</mat-icon>
-            <span>&nbsp;&nbsp;You&apos;re right! The correct answer is Option {{ question.answer }}.</span>
+            <pre class="message correct-message">  You&apos;re right! The correct answer is Option {{ question.answer }}.</pre>
           </div>
-          <div class="message wrong-message" *ngIf="isIncorrect(option.optionValue)">
+          <div *ngIf="isIncorrect(option.optionValue)">
             <mat-icon class="sentiment">sentiment_very_dissatisfied</mat-icon>
-            <span>&nbsp;&nbsp;That&apos;s wrong. The correct answer is Option {{ question.answer }}.</span>
+            <pre class="message wrong-message">  That&apos;s wrong. The correct answer is Option {{ question.answer }}.</pre>
           </div>
         </section>
       </div>

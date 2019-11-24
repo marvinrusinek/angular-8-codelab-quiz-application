@@ -20,7 +20,7 @@ export class ResultsComponent implements OnInit {
   elapsedSeconds: number;
 
   ANGULAR_TROPHY = '../../../assets/images/ng-trophy.png';
-  NOT_BAD = '../../../assets/images/notbad.jpg';
+  NOT_BAD = '../../../assets/images/not-bad.jpg';
   TRY_AGAIN = '../../../assets/images/try-again.jpeg';
   codelabUrl = 'https://www.codelab.fun';
 

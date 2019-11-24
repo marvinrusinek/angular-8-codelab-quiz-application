@@ -7,6 +7,8 @@ $font-weight-max: 900;
 }
 
 section.scoreboard {
+  margin-top: 10px !important;
+
   .row {
     display: inline;
   }
@@ -42,6 +44,7 @@ section.scoreboard {
     width: auto;
   }
   .leader {
+    display: block;
     font-weight: $font-weight-max;
     font-size: 18px;
     text-transform: uppercase;
@@ -81,7 +84,7 @@ section.time-expired {
   font-family: $font-stack;
   font-weight: 700;
   font-size: 30px !important;
-  margin: -25px 0 10px 0.5rem;
+  margin: 0 0 10px 0.5rem;
   float: left;
   border: 2px solid #007aff;
   padding: 5px 10px 15px 20px;

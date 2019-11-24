@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { QuizQuestion } from '../../model/QuizQuestion';
@@ -49,24 +49,13 @@ export class QuestionComponent implements OnInit, OnChanges {
   }
 
   isCorrect(option: string): boolean {
-    return option === this.question.answer && this.question.selectedOption === option;
+    // mark the correct answer regardless of which option is selected once answered
+    return this.question.selectedOption && option === this.question.answer;
   }
 
   isIncorrect(option: string): boolean {
-    return option !== this.question.answer && this.question.selectedOption === option;
-  }
-
-  // todo: get this working!!!
-  checkAnswer() {
-    let radioElem = document.getElementById('mat-radio-btn');
-    if (this.question.selectedOption === this.question.answer) {
-      radioElem.classList.add('is-correct');
-    } else {
-      radioElem.classList.add('is-incorrect');
-      if (radioElem.innerHTML === this.question.answer) {
-        radioElem.classList.add('is-correct');
-      }
-    }
+    // mark incorrect answer if selected
+    return option === this.question.selectedOption && option !== this.question.answer;
   }
 
   onSubmit() {

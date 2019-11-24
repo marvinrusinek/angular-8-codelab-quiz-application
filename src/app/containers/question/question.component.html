@@ -4,7 +4,7 @@
     <div mat-card-avatar class="header-image"></div>
       <mat-card-title>Dependency Injection Quiz</mat-card-title>
       <mat-card-subtitle>
-        How well do you know Dependency Injection?<br />Take the quiz and find out!
+        Assess your knowledge of Dependency Injection (<abbr>DI</abbr>)
       </mat-card-subtitle>
   </mat-card-header>
 
@@ -29,31 +29,7 @@
       </div>
     </section>
 
-    <!-- time expiration buttons -->
-    <section class="time-expired">
-      <button mat-raised-button class="time-expired-btn"
-              *ngIf="timeLeft === 0 && question.questionId !== totalQuestions"
-              (click)="navigateToNextQuestion()">
-        <mat-icon class="timer-expired-icon" inline="true">timer</mat-icon>
-        <span> Time&apos;s Up!</span>
-        <span class="proceed">
-          You may proceed to the next question&hellip;
-        </span>
-      </button>
-      <!--<button mat-raised-button class="time-expired-btn"
-              *ngIf="timeLeft === 0 && question.questionId === totalQuestions"
-              (click)="navigateToResults()">
-        <mat-icon class="timer-expired-icon" inline="true">timer</mat-icon>
-        <span> Time&apos;s Up!</span>
-        <span class="viewResults">
-          View Your Results&hellip;
-        </span>
-      </button>-->
-    </section>
-
-    <app-question
-      [question]="question"
-      [totalQuestions]="totalQuestions">
+    <app-question [question]="question" [totalQuestions]="totalQuestions">
       <div id="question">{{ question.question }}</div>
     </app-question>
   </mat-card-content>

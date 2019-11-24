@@ -2,13 +2,12 @@
 
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <ol class="form-group">
-    <mat-radio-group formControlName="answer" name="answer" (change)="radioChange($event.value)"
-                     (click)="question.selectedOption = option">
+    <mat-radio-group formControlName="answer" name="answer" (change)="radioChange($event.value)">
       <div class="radio-options" *ngFor="let option of question.options">
-                <mat-radio-button class="option" [value]="option.optionValue" [checked]="question.selectedOption == option"
+        <mat-radio-button class="option" [value]="option.optionValue"
                           [ngClass]="{'is-correct': isCorrect(option.optionValue),
                                       'is-incorrect': isIncorrect(option.optionValue)}">
-          <li>{{ option.optionText }}</li>
+          <li id="option">{{ option.optionText }}</li>
           <mat-icon class="feedback-icon" *ngIf="isCorrect(option.optionValue)">done</mat-icon>
           <mat-icon class="feedback-icon" *ngIf="isIncorrect(option.optionValue)">clear</mat-icon>
         </mat-radio-button>

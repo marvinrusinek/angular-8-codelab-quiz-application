@@ -10,8 +10,8 @@
       <section class="statistics">
         <h3>Statistics</h3>
         <p>You scored {{ correctAnswersCount }} out of {{ totalQuestions }} questions correctly.<br />
-           You completed the quiz in {{ elapsedMinutes }} minutes and {{ elapsedSeconds }} seconds.<br />
-           You made {{ totalSelections }} selections in completing this {{ totalQuestions }} questions quiz.</p>
+           You attempted {{ totalQuestionsAttempted }} questions and made {{ totalSelections }} selections.<br />
+           You completed the quiz in {{ elapsedMinutes }} minutes and {{ elapsedSeconds }} seconds.</p>
 
         <div class="quiz-feedback">
           <span *ngIf="percentage >= 80">
@@ -26,15 +26,17 @@
             <img mat-card-image [src]="TRY_AGAIN" alt="Photo of 'Try Again'"><br>
             <h3>Try again! </h3>
           </span>
-          <span>You answered {{ percentage }}% correct.</span>
+          <span *ngIf="elapsedMinutes < 1">You answered {{ percentage }}% correct quickly.</span>
         </div>
 
         <div id="quizAccordion">
-          <a class="accordion" data-toggle="collapse" aria-expanded="false" target="_blank" href="#quiz-summary">
-            View a more detailed summary of your quiz
-            <span class="open-menu">+</span>
-            <!--<span class="caret arrow-up-shelf-nav d-none d-lg-block"></span>-->
-          </a>
+          <!--<div *ngIf="totalQuestionsAttempted <= totalQuestions">-->
+            <a class="accordion" data-toggle="collapse" aria-expanded="false" target="_blank" href="#quiz-summary">
+              View a more detailed summary of your quiz
+              <span class="open-menu">+</span>
+              <!--<span class="caret arrow-up-shelf-nav d-none d-lg-block"></span>-->
+            </a>
+          <!--</div>-->
 
           <section class="quiz-summary" data-parent="#quizAccordion">
             <div id="quiz-summary" class="quiz-summary-question collapse" *ngFor="let question of allQuestions">

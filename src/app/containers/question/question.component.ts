@@ -1,5 +1,6 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+// import { FormGroup } from '@angular/forms';
 
 import { QuizQuestion } from '../../model/QuizQuestion';
 
@@ -10,19 +11,24 @@ import { QuizQuestion } from '../../model/QuizQuestion';
   styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit {
+  // @Input() formGroup: FormGroup;
   @Output() question: QuizQuestion;
   @Output() totalQuestions: number;
   @Output() totalSelections = 0;
+  @Output() totalQuestionsAttempted: number;
   @Output() correctAnswersCount = 0;
   @Output() percentage = 0;
   @Output() completionTime: number;
 
   questionID = 0;
+  // optionID = 0;
   currentQuestion = 0;
   questionIndex: number;
+  optionIndex: number;
   correctAnswer: boolean;
   progressValue = 0;
-  timeLeft = 20;
+  timeLeft: number;
+  timePerQuestion = 20;
   interval: any;
   elapsedTime: number;  // elapsed time per question in seconds
   elapsedTimes = [];    // store elapsed times for all questions in an array
@@ -171,14 +177,20 @@ export class QuestionComponent implements OnInit {
   ngOnInit() {
     this.question = this.getQuestion;
     this.totalQuestions = this.allQuestions.length;
+    this.totalQuestionsAttempted = this.totalQuestions;
     this.progressValue = 100 * (this.currentQuestion + 1) / this.totalQuestions;
+    this.timeLeft = this.timePerQuestion;
     this.countDown();
   }
 
-  displayNextQuestion() {
+  displayNextQuestionWithOptions() {
     this.questionIndex = this.questionID++;     // increase the question index by 1 for next question
     document.getElementById('question').innerHTML = this.allQuestions[this.questionIndex].question;
     document.getElementById('question').style.border = this.blueBorder;
+
+    /* this.optionIndex = this.optionID++;
+    document.getElementById("option").innerHTML =
+      this.allQuestions[this.questionIndex].options[this.optionIndex].optionText; */
   }
 
   displayPreviousQuestion() {
@@ -192,8 +204,9 @@ export class QuestionComponent implements OnInit {
 
     if (this.isThereAnotherQuestion()) {
       this.router.navigate(['/question', this.getQuestionID() + 1]);  // navigates to the next question
+      this.displayNextQuestionWithOptions();                          // displays the next question
       this.resetTimer();                                              // reset the timer to 20 seconds
-      this.displayNextQuestion();                                     // displays the next question
+      this.increaseProgressValue();                                   // calculate and increase progress value
     }
   }
 
@@ -202,7 +215,7 @@ export class QuestionComponent implements OnInit {
     this.router.navigate(['/question', this.getQuestionID() - 1]);  // navigates to the previous question
     this.resetTimer();                                              // reset the timer to 20 seconds
     this.displayPreviousQuestion();                                 // display the previous question
-    this.decreaseProgressValue();                                   // calculates and lowers the progress value
+    this.decreaseProgressValue();                                   // calculates and lower the progress value
   }
 
   // increase the correct answer count when the correct answer is selected
@@ -215,14 +228,19 @@ export class QuestionComponent implements OnInit {
     }
   }
 
-  // increase the total selections count when an option is selected
-  incrementSelectionCount() {
-    this.totalSelections += 1;
+  selectionsWithAttemptedQuestions() {
+    if (this.question.selectedOption !== '') {
+      this.totalSelections++;           // record the amount of selections
+
+      if (this.question.selectedOption === '') {
+        this.totalQuestionsAttempted = this.totalQuestions - 1;
+      }
+    }
   }
 
   // increase the progress value when the user presses the next button
   increaseProgressValue() {
-    this.progressValue = 100 * (this.currentQuestion += 1) / this.totalQuestions;
+    this.progressValue = 100 * (this.currentQuestion + 1) / this.totalQuestions;
   }
 
   // decrease the progress value when the user presses the previous button
@@ -245,7 +263,7 @@ export class QuestionComponent implements OnInit {
   }
 
   isThereAnotherQuestion(): boolean {
-    return this.questionID < this.allQuestions.length;
+    return this.questionID <= this.allQuestions.length;
   }
 
   get getQuestion(): QuizQuestion {
@@ -259,32 +277,30 @@ export class QuestionComponent implements OnInit {
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
         this.timeLeft--;
-        if (this.question.selectedOption !== '') {
-          this.incrementSelectionCount();           // record the amount of selections
-        }
+        this.selectionsWithAttemptedQuestions();  // todo: attempt amount is not correct, work on this!
 
         this.checkIfValidAndCorrect();  // check whether the question is valid and is answered correctly
-
-        /* if (this.getQuestionID() >= this.totalQuestions) {
-          // stop navigating
-          this.router.navigateByUrl('/results');
-        } */
-
         this.calculatePercentage();
         this.calculateTotalElapsedTime(this.elapsedTimes);
 
-
         // check if the timer is expired
-        if (this.timeLeft === 0 && this.question && this.currentQuestion < this.totalQuestions) {
+        if (this.timeLeft === 0 && this.question && this.currentQuestion <= this.totalQuestions) {
+          this.question.questionId++;
+          this.displayNextQuestionWithOptions();
           this.resetTimer();
-          this.displayNextQuestion();
+
+          /* check if last question and time expired -- todo: NOT WORKING!
+          if (this.timeLeft === 0 && this.getQuestionID() > this.totalQuestions) {
+            this.stopTimer(); // timer should already be stopped!
+            this.router.navigateByUrl('/results');
+          } */
         }
       }
     }, 1000);
   }
 
   private resetTimer() {
-    this.timeLeft = 20;
+    this.timeLeft = this.timePerQuestion;
   }
   private stopTimer() {
     this.timeLeft = 0;
@@ -306,18 +322,14 @@ export class QuestionComponent implements OnInit {
   }
 
   checkIfValidAndCorrect(): void {
-    if (this.question && this.currentQuestion < this.totalQuestions &&
+    if (this.question && this.currentQuestion <= this.totalQuestions &&
         this.question.selectedOption === this.question.answer) {
       this.incrementCorrectAnswersCount();
-      this.elapsedTime = 20 - this.timeLeft;
+      this.elapsedTime = this.timePerQuestion - this.timeLeft;
       this.elapsedTimes.push(this.elapsedTime);
       this.stopTimer();
       this.quizDelay(3000);
-
-      this.router.navigate(['/question', this.getQuestionID() + 1]);
-      this.displayNextQuestion();
-      this.increaseProgressValue();
-      this.resetTimer();
+      this.navigateToNextQuestion();
     }
   }
 }

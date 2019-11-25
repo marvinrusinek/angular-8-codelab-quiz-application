@@ -1,6 +1,6 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-// import { FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 import { QuizQuestion } from '../../model/QuizQuestion';
 
@@ -11,7 +11,7 @@ import { QuizQuestion } from '../../model/QuizQuestion';
   styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit {
-  // @Input() formGroup: FormGroup;
+  @Input() formGroup: FormGroup;
   @Output() question: QuizQuestion;
   @Output() totalQuestions: number;
   @Output() totalSelections = 0;
@@ -25,6 +25,7 @@ export class QuestionComponent implements OnInit {
   questionIndex: number;
   optionIndex: number;
   correctAnswer: boolean;
+  disabled: boolean;
   progressValue = 0;
   timeLeft: number;
   timePerQuestion = 20;
@@ -240,7 +241,7 @@ export class QuestionComponent implements OnInit {
 
   recordTotalQuestionsAttempted() {
     if (this.question.selectedOption === '') {
-        this.totalQuestionsAttempted = this.totalQuestions - 1;
+      this.totalQuestionsAttempted = this.totalQuestions - 1; // record total questions attempted
     }
   }
 
@@ -285,6 +286,12 @@ export class QuestionComponent implements OnInit {
         this.timeLeft--;
         this.recordSelections();
         this.recordTotalQuestionsAttempted(); // todo: attempt amount is not correct, work on this!
+
+        if (this.question.selectedOption === '') {
+          this.disabled = true;
+        } else {
+          this.disabled = false;
+        }
 
         this.checkIfValidAndCorrect();  // checks whether the question is valid and is answered correctly
         this.calculatePercentage();

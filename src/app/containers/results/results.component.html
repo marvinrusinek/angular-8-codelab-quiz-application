@@ -26,7 +26,7 @@
             <img mat-card-image [src]="TRY_AGAIN" alt="Photo of 'Try Again'"><br>
             <h3>Try again! </h3>
           </span>
-          <span *ngIf="elapsedMinutes < 1">You answered {{ percentage }}% correct quickly.</span>
+          <span *ngIf="elapsedMinutes < 1">You answered {{ percentage }}% correctly (and quickly)!</span>
           <span *ngIf="elapsedMinutes > 1">You answered {{ percentage }}% correct.</span>
         </div>
 

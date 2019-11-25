@@ -190,7 +190,7 @@ export class QuestionComponent implements OnInit {
     document.getElementById('question').innerHTML = this.allQuestions[this.questionIndex].question;
     document.getElementById('question').style.border = this.blueBorder;
 
-    for (this.optionIndex = 0; this.optionIndex <= 3; this.optionIndex++) {
+    for (this.optionIndex = 0; this.optionIndex < 4; this.optionIndex++) {
       document.getElementsByTagName('li')[this.optionIndex].textContent =
         this.allQuestions[this.questionIndex].options[this.optionIndex].optionText; // add option text for list items
     }
@@ -232,13 +232,15 @@ export class QuestionComponent implements OnInit {
     }
   }
 
-  selectionsWithAttemptedQuestions() {
+  recordSelections() {
     if (this.question.selectedOption !== '') {
       this.totalSelections++;           // record the amount of selections
+    }
+  }
 
-      if (this.question.selectedOption === '') {
+  recordTotalQuestionsAttempted() {
+    if (this.question.selectedOption === '') {
         this.totalQuestionsAttempted = this.totalQuestions - 1;
-      }
     }
   }
 
@@ -281,7 +283,8 @@ export class QuestionComponent implements OnInit {
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
         this.timeLeft--;
-        this.selectionsWithAttemptedQuestions();  // todo: attempt amount is not correct, work on this!
+        this.recordSelections();
+        this.recordTotalQuestionsAttempted(); // todo: attempt amount is not correct, work on this!
 
         this.checkIfValidAndCorrect();  // checks whether the question is valid and is answered correctly
         this.calculatePercentage();
@@ -295,14 +298,14 @@ export class QuestionComponent implements OnInit {
         }
 
         if (this.question.questionId > this.totalQuestions) {
-          this.router.navigateByUrl('/results');   // need to somehow pass the data to results!!!
+          this.router.navigateByUrl('/results');   // todo: pass the data to ResultsComponent
         }
       }
     }, 1000);
   }
 
   private resetTimer() {
-    this.timeLeft = this.timePerQuestion + 1;  // makes sure the timer starts at the right seconds amount
+    this.timeLeft = this.timePerQuestion;
   }
   private stopTimer() {
     this.timeLeft = 0;

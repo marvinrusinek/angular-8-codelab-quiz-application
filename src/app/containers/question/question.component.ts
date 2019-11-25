@@ -4,7 +4,6 @@ import { FormGroup } from '@angular/forms';
 
 import { QuizQuestion } from '../../model/QuizQuestion';
 
-
 @Component({
   selector: 'app-question-container',
   templateUrl: './question.component.html',
@@ -30,8 +29,8 @@ export class QuestionComponent implements OnInit {
   timeLeft: number;
   timePerQuestion = 20;
   interval: any;
-  elapsedTime: number;  // elapsed time per question in seconds
-  elapsedTimes = [];    // store elapsed times for all questions in an array
+  elapsedTime: number;
+  elapsedTimes = [];
   blueBorder = '2px solid #007aff';
 
   @Output() allQuestions: QuizQuestion[] = [
@@ -187,7 +186,7 @@ export class QuestionComponent implements OnInit {
     this.resetTimer();
     this.increaseProgressValue();
 
-    this.questionIndex = this.questionID++;     // increase the question index by 1 for next question
+    this.questionIndex = this.questionID++;
     document.getElementById('question').innerHTML = this.allQuestions[this.questionIndex].question;
     document.getElementById('question').style.border = this.blueBorder;
 
@@ -233,18 +232,6 @@ export class QuestionComponent implements OnInit {
     }
   }
 
-  recordSelections() {
-    if (this.question.selectedOption !== '') {
-      this.totalSelections++;           // record the amount of selections
-    }
-  }
-
-  recordTotalQuestionsAttempted() {
-    if (this.question.selectedOption === '') {
-      this.totalQuestionsAttempted = this.totalQuestions - 1; // record total questions attempted
-    }
-  }
-
   // increase the progress value when the user presses the next button
   increaseProgressValue() {
     this.progressValue = 100 * (this.currentQuestion + 1) / this.totalQuestions;
@@ -258,6 +245,23 @@ export class QuestionComponent implements OnInit {
   // determine the percentage from amount of correct answers given and the total number of questions
   calculatePercentage() {
     this.percentage = 100 * (this.correctAnswersCount + 1) / this.totalQuestions;
+  }
+
+  recordSelections() {
+    if (this.question.selectedOption !== '') {
+      this.totalSelections++;
+    }
+  }
+
+  checkIfValidAndCorrect(): void {
+    if (this.question && this.currentQuestion <= this.totalQuestions &&
+      this.question.selectedOption === this.question.answer) {
+      this.incrementCorrectAnswersCount();
+      this.elapsedTime = this.timePerQuestion - this.timeLeft;
+      this.elapsedTimes.push(this.elapsedTime);
+      this.quizDelay(3000);
+      this.navigateToNextQuestion();
+    }
   }
 
   /****************  public API  ***************/
@@ -285,12 +289,16 @@ export class QuestionComponent implements OnInit {
       if (this.timeLeft > 0) {
         this.timeLeft--;
         this.recordSelections();
-        this.recordTotalQuestionsAttempted(); // todo: attempt amount is not correct, work on this!
 
-        if (this.question.selectedOption === '') {
+        // utilized for disabling the next button until an option has been selected
+        if (this.question && this.question.selectedOption === '') {
           this.disabled = true;
         } else {
           this.disabled = false;
+        }
+
+        if (this.question && this.question.selectedOption !== '') {
+          this.totalQuestionsAttempted++;
         }
 
         this.checkIfValidAndCorrect();  // checks whether the question is valid and is answered correctly
@@ -305,7 +313,7 @@ export class QuestionComponent implements OnInit {
         }
 
         if (this.question.questionId > this.totalQuestions) {
-          this.router.navigateByUrl('/results');   // todo: pass the data to ResultsComponent
+          this.router.navigateByUrl('/results');   // todo: pass the data to results!
         }
       }
     }, 1000);
@@ -318,6 +326,10 @@ export class QuestionComponent implements OnInit {
     this.timeLeft = 0;
   }
 
+  private calculateTotalElapsedTime(elapsedTimes) {
+    this.completionTime = elapsedTimes.reduce((acc, cur) => acc + cur, 0);
+  }
+
   private quizDelay(milliseconds) {
     const start = new Date().getTime();
     let counter = 0;
@@ -326,21 +338,6 @@ export class QuestionComponent implements OnInit {
     while (counter < milliseconds) {
       end = new Date().getTime();
       counter = end - start;
-    }
-  }
-
-  private calculateTotalElapsedTime(elapsedTimes) {
-    this.completionTime = elapsedTimes.reduce((acc, cur) => acc + cur, 0);
-  }
-
-  checkIfValidAndCorrect(): void {
-    if (this.question && this.currentQuestion <= this.totalQuestions &&
-        this.question.selectedOption === this.question.answer) {
-      this.incrementCorrectAnswersCount();
-      this.elapsedTime = this.timePerQuestion - this.timeLeft;
-      this.elapsedTimes.push(this.elapsedTime);
-      this.quizDelay(3000);
-      this.navigateToNextQuestion();
     }
   }
 }

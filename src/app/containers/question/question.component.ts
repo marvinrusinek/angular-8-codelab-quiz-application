@@ -183,7 +183,7 @@ export class QuestionComponent implements OnInit {
     this.countDown();
   }
 
-  displayNextQuestion() {
+  displayNextQuestionWithOptions() {
     this.resetTimer();
     this.increaseProgressValue();
 
@@ -211,7 +211,7 @@ export class QuestionComponent implements OnInit {
 
     if (this.isThereAnotherQuestion()) {
       this.router.navigate(['/question', this.getQuestionID() + 1]);  // navigates to the next question
-      this.displayNextQuestion();                                     // displays the next question
+      this.displayNextQuestionWithOptions();                          // displays the next question
     }
 
     this.resetTimer();
@@ -300,7 +300,7 @@ export class QuestionComponent implements OnInit {
         // check if the timer is expired
         if (this.timeLeft === 0 && this.question && this.currentQuestion <= this.totalQuestions) {
           this.question.questionId++;
-          this.displayNextQuestion();
+          this.displayNextQuestionWithOptions();
           this.resetTimer();
         }
 

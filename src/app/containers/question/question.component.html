@@ -54,7 +54,7 @@
     </section>
 
     <section class="progress-bar">
-      <ngb-progressbar [value]="progressValue" type="success" [striped]="true" [animated]="true">
+      <ngb-progressbar *ngIf="(progressValue > 0 && progressValue <= 100) && question && question.questionId <= totalQuestions; else quiz_start;" [value]="progressValue" type="success" [striped]="true" [animated]="true">
         <strong>{{ progressValue.toFixed(0) }}%</strong>
       </ngb-progressbar>
     </section>

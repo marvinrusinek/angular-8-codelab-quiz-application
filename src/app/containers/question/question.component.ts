@@ -176,7 +176,6 @@ export class QuestionComponent implements OnInit {
   ngOnInit() {
     this.question = this.getQuestion;
     this.totalQuestions = this.allQuestions.length;
-    this.progressValue = 100 * (this.currentQuestion + 1) / this.totalQuestions;
     this.timeLeft = this.timePerQuestion;
     this.countDown();
   }

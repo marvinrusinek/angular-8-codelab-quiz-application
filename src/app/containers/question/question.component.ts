@@ -255,10 +255,10 @@ export class QuestionComponent implements OnInit {
   checkIfValidAndCorrect(): void {
     if (this.question && this.currentQuestion <= this.totalQuestions &&
       this.question.selectedOption === this.question.answer) {
+      this.disabled = false;
       this.incrementCorrectAnswersCount();
       this.elapsedTime = this.timePerQuestion - this.timeLeft;
       this.elapsedTimes.push(this.elapsedTime);
-      this.disabled = false;
       this.quizDelay(3000);
       this.navigateToNextQuestion();
     }

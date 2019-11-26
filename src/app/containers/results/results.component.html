@@ -42,12 +42,12 @@
               </div>
               <div class="quiz-summary-field">
                 <span>
-                  <span class="leader">Correct Answer: </span>Option {{ question.answer }}
+                  <span class="leader">Correct Answer: </span>Option {{ question.answer }} &mdash; {{ question.options[question.answer - 1].optionText }}
                 </span>
               </div>
               <div class="quiz-summary-field">
                 <span>
-                  <span class="leader">Your Answer: </span>Option {{ question.selectedOption }}&nbsp;
+                  <span class="leader">Your Answer: </span>Option {{ question.selectedOption }} &mdash; {{ question.options[question.selectedOption - 1].optionText }}&nbsp;
                     <mat-icon class="correct" *ngIf="question.answer === question.selectedOption">done</mat-icon>
                     <mat-icon class="incorrect" *ngIf="question.answer !== question.selectedOption">clear</mat-icon>
                     <span *ngIf="question.selectedOption == ''"> (no answer provided)</span>

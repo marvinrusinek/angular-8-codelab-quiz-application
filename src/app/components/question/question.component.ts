@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { QuizQuestion } from '../../model/QuizQuestion';
 
@@ -31,8 +31,11 @@ export class QuestionComponent implements OnInit, OnChanges {
   }
 
   private buildForm() {
-    this.formGroup = this.fb.group({
+    /* this.formGroup = this.fb.group({
       answer: ['', Validators.required]
+    }); */
+    this.formGroup = new FormGroup({
+      answer: new FormControl()
     });
   }
 

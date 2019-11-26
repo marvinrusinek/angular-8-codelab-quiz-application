@@ -13,7 +13,7 @@
         </mat-radio-button>
 
         <section class="messages">
-          <div *ngIf="isCorrect(option.optionValue)">
+          <div *ngIf="isCorrect(option.optionValue) && !!isIncorrect(option.optionValue)">
             <mat-icon class="sentiment">sentiment_very_satisfied</mat-icon>
             <pre class="message correct-message">  You&apos;re right! The correct answer is Option {{ question.answer }}.</pre>
           </div>

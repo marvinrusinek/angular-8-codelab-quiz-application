@@ -191,7 +191,7 @@ export class QuestionComponent implements OnInit {
 
     for (this.optionIndex = 0; this.optionIndex < 4; this.optionIndex++) {
       document.getElementsByTagName('li')[this.optionIndex].textContent =
-        this.allQuestions[this.questionIndex].options[this.optionIndex].optionText; // add option text for list items
+        this.allQuestions[this.questionIndex].options[this.optionIndex].optionText; // add option text to the list items
     }
   }
 

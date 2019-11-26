@@ -46,6 +46,12 @@ section.results {
     flex-direction: column;
     text-align: left !important;
 
+    accordion {
+      text-align: center;
+      text-decoration: none;
+      background-color: none;
+    }
+
     .quiz-summary-question {
       font-family: $font-stack;
       font-size: 14px;

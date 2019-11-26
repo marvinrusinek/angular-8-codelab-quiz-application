@@ -44,9 +44,9 @@ section.results {
     text-align: left !important;
 
     .accordion {
-      text-align: center;
-      text-decoration: none;
-      background-color: white;
+      text-align: center !important;
+      text-decoration: none !important;
+      background-color: white !important;
 
       .quiz-summary-question {
         font-family: $font-stack;

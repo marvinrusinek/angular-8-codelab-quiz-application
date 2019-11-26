@@ -31,12 +31,12 @@ export class QuestionComponent implements OnInit, OnChanges {
   }
 
   private buildForm() {
-    /* this.formGroup = this.fb.group({
+    this.formGroup = this.fb.group({
       answer: ['', Validators.required]
-    }); */
-    this.formGroup = new FormGroup({
-      answer: new FormControl()
     });
+    /* this.formGroup = new FormGroup({
+      answer: new FormControl()
+    }); */
   }
 
   radioChange(answer: string) {

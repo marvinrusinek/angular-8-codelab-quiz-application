@@ -43,8 +43,8 @@ export class QuestionComponent implements OnInit, OnChanges {
   }
 
   displayExplanation(): void {
-    const explanation = 'Option ' + this.question.answer + ' was correct because ' + this.question.explanation + '.';
-    document.getElementById('question').innerHTML = explanation;
+    document.getElementById('question').innerHTML =
+      'Option ' + this.question.answer + ' was correct because ' + this.question.explanation + '.';
     document.getElementById('question').style.border = this.grayBorder;
   }
 
@@ -55,7 +55,7 @@ export class QuestionComponent implements OnInit, OnChanges {
 
   isIncorrect(option: string): boolean {
     // mark incorrect answer if selected
-    return option === this.question.selectedOption && option !== this.question.answer;
+    return option !== this.question.answer && option === this.question.selectedOption;
   }
 
   onSubmit() {

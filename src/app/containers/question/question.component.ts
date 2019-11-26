@@ -14,7 +14,7 @@ export class QuestionComponent implements OnInit {
   @Output() question: QuizQuestion;
   @Output() totalQuestions: number;
   @Output() totalSelections = 0;
-  @Output() totalQuestionsAttempted: number;
+  @Output() totalQuestionsAttempted = 0;
   @Output() correctAnswersCount = 0;
   @Output() percentage = 0;
   @Output() completionTime: number;
@@ -176,7 +176,6 @@ export class QuestionComponent implements OnInit {
   ngOnInit() {
     this.question = this.getQuestion;
     this.totalQuestions = this.allQuestions.length;
-    this.totalQuestionsAttempted = this.totalQuestions;
     this.progressValue = 100 * (this.currentQuestion + 1) / this.totalQuestions;
     this.timeLeft = this.timePerQuestion;
     this.countDown();
@@ -291,13 +290,13 @@ export class QuestionComponent implements OnInit {
         this.recordSelections();
 
         // utilized for disabling the next button until an option has been selected
-        if (this.question && this.question.selectedOption === '') {
+        if (this.question.selectedOption === '') {
           this.disabled = true;
         } else {
           this.disabled = false;
         }
 
-        if (this.question && this.question.selectedOption !== '') {
+        if (this.question && this.currentQuestion <= this.totalQuestions && this.question.selectedOption !== '') {
           this.totalQuestionsAttempted++;
         }
 

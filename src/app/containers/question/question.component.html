@@ -57,6 +57,11 @@
       <ngb-progressbar *ngIf="(progressValue > 0 && progressValue <= 100) && question && question.questionId <= totalQuestions; else quiz_start;" [value]="progressValue" type="success" [striped]="true" [animated]="true">
         <strong>{{ progressValue.toFixed(0) }}%</strong>
       </ngb-progressbar>
+      <ng-template #quiz_start>
+        <mat-card-subtitle class="progress-note">
+          Please make a selection and view your progress here&hellip;
+        </mat-card-subtitle>
+      </ng-template>  
     </section>
   </mat-card-footer>
 </mat-card>

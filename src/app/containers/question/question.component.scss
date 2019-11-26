@@ -243,4 +243,13 @@ section.progress-bar {
   ngb-progressbar {
     border-radius: 10px;
   }
+
+  .progress-note {
+    color: #ffff00;
+    font-family: $font-stack;
+    font-weight: $font-weight-max;
+    font-style: italic;
+    font-size: 20px;
+    padding-top: 5px;
+  }
 }

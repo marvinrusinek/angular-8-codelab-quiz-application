@@ -29,7 +29,10 @@
       </div>
     </section>
 
-    <app-question [question]="question" [totalQuestions]="totalQuestions" [formGroup]="formGroup">
+    <app-question 
+      [question]="question"
+      [totalQuestions]="totalQuestions"
+      [formGroup]="formGroup">
       <div id="question">{{ question.question }}</div>
     </app-question>
   </mat-card-content>

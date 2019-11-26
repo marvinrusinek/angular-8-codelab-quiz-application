@@ -31,7 +31,7 @@
         </div>
       </section>
       <section class="quizSummary" *ngIf="correctAnswersCount <= totalQuestions">
-        <accordion [isAnimated]="true" style="text-align: center; text-decoration: none; background-color: white;">
+        <accordion [isAnimated]="true" style="text-align: center; text-decoration: none; background-color: none !important; border: none !important;">
           <accordion-group heading="View a more detailed summary of your quiz">
             <div id="quiz-summary" class="quiz-summary-question" aria-labelledby="quizAccordion"
               data-parent="#quizAccordion" *ngFor="let question of allQuestions">

@@ -258,6 +258,7 @@ export class QuestionComponent implements OnInit {
       this.incrementCorrectAnswersCount();
       this.elapsedTime = this.timePerQuestion - this.timeLeft;
       this.elapsedTimes.push(this.elapsedTime);
+      this.disabled = false;
       this.quizDelay(3000);
       this.navigateToNextQuestion();
     }

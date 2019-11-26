@@ -23,9 +23,6 @@ section.results {
     justify-content: center;
     margin: 0 auto;
   }
-  accordion {
-    background-color: white;
-  }
 
   section.statistics {
     h3, span, div.quiz-feedback, div span {
@@ -49,7 +46,7 @@ section.results {
     accordion {
       text-align: center;
       text-decoration: none;
-      background-color: none;
+      background-color: white;
     }
 
     .quiz-summary-question {

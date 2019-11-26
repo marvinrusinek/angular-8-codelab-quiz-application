@@ -97,7 +97,7 @@ export class QuestionComponent implements OnInit {
       answer: '3',
       explanation: 'the private keyword, when used within the constructor, tells Angular that the service is accessible',
       selectedOption: ''
-    },
+    }/*,
     {
       questionId: 6,
       question: 'How does Angular know that a service is available?',
@@ -162,7 +162,7 @@ export class QuestionComponent implements OnInit {
       answer: '4',
       explanation: 'all of these are correct statements about dependency injection',
       selectedOption: ''
-    }
+    }*/
   ];
 
   constructor(private route: ActivatedRoute, private router: Router) {

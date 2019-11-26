@@ -257,7 +257,7 @@ export class QuestionComponent implements OnInit {
       this.question.selectedOption === this.question.answer) {
       this.disabled = false;  // trying to enable the next button when a correct answer is selected
       this.incrementCorrectAnswersCount();
-      this.elapsedTime = this.timePerQuestion - this.timeLeft;
+      this.elapsedTime = Math.floor(this.timePerQuestion - this.timeLeft);
       this.elapsedTimes.push(this.elapsedTime);
       this.quizDelay(3000);
       this.navigateToNextQuestion();

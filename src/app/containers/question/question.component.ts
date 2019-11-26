@@ -255,7 +255,7 @@ export class QuestionComponent implements OnInit {
   checkIfValidAndCorrect(): void {
     if (this.question && this.currentQuestion <= this.totalQuestions &&
       this.question.selectedOption === this.question.answer) {
-      this.disabled = false;
+      this.disabled = false;  // trying to enable the next button when a correct answer is selected
       this.incrementCorrectAnswersCount();
       this.elapsedTime = this.timePerQuestion - this.timeLeft;
       this.elapsedTimes.push(this.elapsedTime);

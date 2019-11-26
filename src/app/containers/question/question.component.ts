@@ -22,7 +22,7 @@ export class QuestionComponent implements OnInit {
   questionID = 0;
   currentQuestion = 0;
   questionIndex: number;
-  optionIndex: number;
+  optionIndex = 0;
   correctAnswer: boolean;
   disabled: boolean;
   progressValue = 0;

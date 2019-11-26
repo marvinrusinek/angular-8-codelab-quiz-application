@@ -38,6 +38,12 @@
               <span>View a more detailed summary of your quiz</span>
             </button>
 
+            <accordion [isAnimated]="true">
+              <accordion-group heading="Static Header">
+                This content is straight in the template.
+              </accordion-group>
+            </accordion>
+
             <section class="quizSummary">
               <div id="quiz-summary" class="quiz-summary-question collapse" aria-labelledby="quizAccordion"
                    data-parent="#quizAccordion" *ngFor="let question of allQuestions">

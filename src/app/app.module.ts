@@ -7,6 +7,7 @@ import { MatRadioModule, MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/rad
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,7 +33,8 @@ import { ResultsComponent } from './containers/results/results.component';
     MatRadioModule,
     MatIconModule,
     MatButtonModule,
-    NgbModule
+    NgbModule,
+    AccordionModule.forRoot() 
   ],
   providers: [{
     provide: MAT_RADIO_DEFAULT_OPTIONS,

@@ -29,82 +29,41 @@
           <span *ngIf="elapsedMinutes < 1">You answered {{ percentage }}% correctly (and quickly)!</span>
           <span *ngIf="elapsedMinutes > 1">You answered {{ percentage }}% correct.</span>
         </div>
-
-        <div id="quizAccordion">
-          <div *ngIf="correctAnswersCount <= totalQuestions">
-            <!--<button class="btn btn-link" data-toggle="collapse" data-target="#quiz-summary"
-                    aria-expanded="true" aria-controls="quizAccordion">-->
-              <!--<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;-->
-              <!--<span>View a more detailed summary of your quiz</span>
-            </button>-->
-
-            <section class="quizSummary">
-              <accordion [isAnimated]="true">
-                <accordion-group heading="View a more detailed summary of your quiz">
-                  <div id="quiz-summary" class="quiz-summary-question" aria-labelledby="quizAccordion"
-                    data-parent="#quizAccordion" *ngFor="let question of allQuestions">
-                    <div class="quiz-summary-field">
-                      <span>
-                        <span class="leader">Question #{{ question.questionId }}: </span>{{ question.question }}
-                    </span>
-                    </div>
-                    <div class="quiz-summary-field">
-                      <span>
-                        <span class="leader">Correct Answer: </span>Option {{ question.answer }}
-                      </span>
-                    </div>
-                    <div class="quiz-summary-field">
-                      <span>
-                        <span class="leader">Your Answer: </span>Option {{ question.selectedOption }}&nbsp;
-                          <mat-icon class="correct" *ngIf="question.answer === question.selectedOption">done</mat-icon>
-                          <mat-icon class="incorrect" *ngIf="question.answer !== question.selectedOption">clear</mat-icon>
-                          <span *ngIf="question.selectedOption == ''"> (no answer provided)</span>
-                      </span>
-                    </div>
-                    <div class="quiz-summary-field">
-                      <span>
-                        <span class="leader">Explanation: </span>
-                          Option {{ question.answer }} was correct because {{ question.explanation }}.
-                        </span>
-                    </div>
-                  </div>
-                </accordion-group>
-              </accordion>
-            </section>
-
-            <!--<section class="quizSummary">
-              <div id="quiz-summary" class="quiz-summary-question collapse" aria-labelledby="quizAccordion"
-                   data-parent="#quizAccordion" *ngFor="let question of allQuestions">
-                <div class="quiz-summary-field">
-                  <span>
-                    <span class="leader">Question #{{ question.questionId }}: </span>{{ question.question }}
-                  </span>
-                </div>
-                <div class="quiz-summary-field">
-                  <span>
-                    <span class="leader">Correct Answer: </span>Option {{ question.answer }}
-                  </span>
-                </div>
-                <div class="quiz-summary-field">
-                  <span>
-                    <span class="leader">Your Answer: </span>Option {{ question.selectedOption }}&nbsp;
-                      <mat-icon class="correct" *ngIf="question.answer === question.selectedOption">done</mat-icon>
-                      <mat-icon class="incorrect" *ngIf="question.answer !== question.selectedOption">clear</mat-icon>
-                      <span *ngIf="question.selectedOption == ''"> (no answer provided)</span>
-                  </span>
-                </div>
-                <div class="quiz-summary-field">
-                  <span>
-                    <span class="leader">Explanation: </span>
-                      Option {{ question.answer }} was correct because {{ question.explanation }}.
-                    </span>
-                </div>
-              </div>
-            </section>-->
-          </div>
-        </div>
-        <br clear="all" />
       </section>
+      <section class="quizSummary" *ngIf="correctAnswersCount <= totalQuestions">
+        <accordion [isAnimated]="true">
+          <accordion-group heading="View a more detailed summary of your quiz">
+            <div id="quiz-summary" class="quiz-summary-question" aria-labelledby="quizAccordion"
+              data-parent="#quizAccordion" *ngFor="let question of allQuestions">
+              <div class="quiz-summary-field">
+                <span>
+                  <span class="leader">Question #{{ question.questionId }}: </span>{{ question.question }}
+                </span>
+              </div>
+              <div class="quiz-summary-field">
+                <span>
+                  <span class="leader">Correct Answer: </span>Option {{ question.answer }}
+                </span>
+              </div>
+              <div class="quiz-summary-field">
+                <span>
+                  <span class="leader">Your Answer: </span>Option {{ question.selectedOption }}&nbsp;
+                    <mat-icon class="correct" *ngIf="question.answer === question.selectedOption">done</mat-icon>
+                    <mat-icon class="incorrect" *ngIf="question.answer !== question.selectedOption">clear</mat-icon>
+                    <span *ngIf="question.selectedOption == ''"> (no answer provided)</span>
+                </span>
+              </div>
+              <div class="quiz-summary-field">
+                <span>
+                  <span class="leader">Explanation: </span>
+                  Option {{ question.answer }} was correct because {{ question.explanation }}.
+                </span>
+              </div>
+            </div>
+          </accordion-group>
+        </accordion>
+      </section>
+      <br clear="all" />
     </section>
 
     <section class="return">

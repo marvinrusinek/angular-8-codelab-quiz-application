@@ -33,7 +33,7 @@ ol li {
 }
 
 /* Sweep To Left */
-.hvr-sweep-to-left {
+/* .hvr-sweep-to-left {
   display: inline-block;
   vertical-align: middle;
   -webkit-transform: translateZ(0);
@@ -74,7 +74,7 @@ ol li {
 .hvr-sweep-to-left:hover:before, .hvr-sweep-to-left:focus:before, .hvr-sweep-to-left:active:before {
   -webkit-transform: scaleX(1);
   transform: scaleX(1);
-}
+} */
 
 section.messages {
   display: flex;

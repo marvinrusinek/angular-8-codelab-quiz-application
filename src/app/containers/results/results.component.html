@@ -50,7 +50,7 @@
                   <span class="leader">Your Answer: </span>Option {{ question.selectedOption }} &mdash; {{ question.options[question.selectedOption - 1].optionText }}&nbsp;
                     <mat-icon class="correct" *ngIf="question.answer === question.selectedOption">done</mat-icon>
                     <mat-icon class="incorrect" *ngIf="question.answer !== question.selectedOption">clear</mat-icon>
-                    <span *ngIf="question.selectedOption == ''"> (no answer provided)</span>
+                    <span *ngIf="question.selectedOption === ''"> (no answer provided)</span>
                 </span>
               </div>
               <div class="quiz-summary-field">

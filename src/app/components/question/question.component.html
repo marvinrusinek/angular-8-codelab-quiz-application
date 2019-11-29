@@ -4,7 +4,7 @@
   <ol class="form-group">
     <mat-radio-group formControlName="answer" name="answer" (change)="radioChange($event.value)">
       <div class="radio-options" *ngFor="let option of question.options">
-        <mat-radio-button class="option hvr-sweep-to-left" [value]="option.optionValue"
+        <mat-radio-button class="option" [value]="option.optionValue"
                           [ngClass]="{'is-correct': isCorrect(option.optionValue),
                                       'is-incorrect': isIncorrect(option.optionValue)}">
           <li>{{ option.optionText }}</li>

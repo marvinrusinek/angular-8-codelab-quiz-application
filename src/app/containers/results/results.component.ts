@@ -8,7 +8,7 @@ import { QuizQuestion } from '../../model/QuizQuestion';
   styleUrls: ['./results.component.scss']
 })
 export class ResultsComponent implements OnInit {
-  @Input() allQuestions: QuizQuestion[];
+  @Input() allQuestions: QuizQuestion;
   @Input() totalQuestions: number;
   @Input() totalQuestionsAttempted: number;
   @Input() correctAnswersCount: number;

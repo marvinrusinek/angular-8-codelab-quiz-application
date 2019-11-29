@@ -188,8 +188,9 @@ export class QuestionComponent implements OnInit {
     document.getElementById('question').innerHTML = this.allQuestions[this.questionIndex].question;
     document.getElementById('question').style.border = this.blueBorder;
 
+    var liElems = document.getElementsByTagName('li');
     for (this.optionIndex = 0; this.optionIndex < 4; this.optionIndex++) {
-      document.getElementsByTagName('li')[this.optionIndex].innerHTML =
+      liElems[this.optionIndex].textContent =
         this.allQuestions[this.questionIndex].options[this.optionIndex].optionText; // add option text to the list items
     }
   }

@@ -2,7 +2,7 @@ import { Option } from './Option';
 
 export interface QuizQuestion {
   questionId: number;
-  question: string;
+  questionText: string;
   options: Option[];
   answer: string;
   explanation: string;

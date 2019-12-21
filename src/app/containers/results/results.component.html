@@ -10,47 +10,50 @@
       <section class="statistics">
         <h3>Statistics</h3>
         <span>You scored {{ correctAnswersCount }} out of {{ totalQuestions }} questions correctly.</span>
-        <span>You attempted {{ totalQuestionsAttempted }} questions and made {{ totalSelections }} selections.</span>
+        <!--<span>You attempted {{ totalQuestionsAttempted }} questions and made {{ totalSelections }} selections.</span>-->
         <span>You completed the quiz in {{ elapsedMinutes }} minutes and {{ elapsedSeconds }} seconds.</span>
 
         <div class="quiz-feedback">
-          <span *ngIf="percentage >= 80">
-            <img mat-card-image [src]="ANGULAR_TROPHY" alt="Photo of Angular Trophy">
+          <div *ngIf="percentage >= 80">
+            <div mat-card-image class="great-job"></div>
             <h3>Great job! </h3>
-          </span>
-          <span *ngIf="percentage >= 60 && percentage < 80">
-            <img mat-card-image [src]="NOT_BAD" alt="Photo of 'Not Bad'">
+          </div>
+          <div *ngIf="percentage >= 60 && percentage < 80">
+            <div mat-card-image class="not-bad"></div>
             <h3>Not bad! </h3>
-          </span>
-          <span *ngIf="percentage < 60">
-            <img mat-card-image [src]="TRY_AGAIN" alt="Photo of 'Try Again'"><br>
+          </div>
+          <div *ngIf="percentage < 60">
+            <div mat-card-image class="try-again"></div>
             <h3>Try again! </h3>
-          </span>
-          <span *ngIf="elapsedMinutes < 1">You answered {{ percentage }}% correctly (and quickly)!</span>
-          <span *ngIf="elapsedMinutes > 1">You answered {{ percentage }}% correct.</span>
+          </div>
+
+          <span *ngIf="elapsedMinutes < 1">You scored {{ percentage }}% correctly (and quickly)!</span>
+          <span *ngIf="elapsedMinutes > 1">You scored {{ percentage }}% correct.</span>
         </div>
       </section>
-      <section class="quizSummary" *ngIf="correctAnswersCount <= totalQuestions">
-        <accordion [isAnimated]="true" style="text-align: center; text-decoration: none; background-color: none !important; border: none !important;">
-          <accordion-group heading="View a more detailed summary of your quiz">
-            <div id="quiz-summary" class="quiz-summary-question" aria-labelledby="quizAccordion"
-              data-parent="#quizAccordion" *ngFor="let question of allQuestions">
+      <section class="quizSummary">
+        <details>
+          <summary>View a more detailed summary of your quiz</summary>
+          <div class="allQuestions" *ngFor='let question of allQuestions'>
+            <div class="quiz-summary-question">
               <div class="quiz-summary-field">
                 <span>
-                  <span class="leader">Question #{{ question.questionId }}: </span>{{ question.question }}
+                  <span class="leader">Question #{{ question.questionId }}: </span>{{ question.questionText }}
                 </span>
               </div>
               <div class="quiz-summary-field">
                 <span>
-                  <span class="leader">Correct Answer: </span>Option {{ question.answer }} &mdash; {{ question.options[question.answer - 1].optionText }}
+                  <span class="leader">Correct Answer: </span>
+                    Option {{ question.answer }} &mdash; {{ qAnswerOptionText }}
                 </span>
               </div>
               <div class="quiz-summary-field">
                 <span>
-                  <span class="leader">Your Answer: </span>Option {{ question.selectedOption }} &mdash; {{ question.options[question.selectedOption - 1].optionText }}&nbsp;
+                  <span class="leader">Your Answer: </span>
+                    Option {{ question.selectedOption }} &mdash; {{ qSelectedOptionOptionText }}&nbsp;
                     <mat-icon class="correct" *ngIf="question.answer === question.selectedOption">done</mat-icon>
                     <mat-icon class="incorrect" *ngIf="question.answer !== question.selectedOption">clear</mat-icon>
-                    <span *ngIf="question.selectedOption === ''"> (no answer provided)</span>
+                    <span *ngIf="question.selectedOption == ''"> (no answer provided)</span>
                 </span>
               </div>
               <div class="quiz-summary-field">
@@ -60,15 +63,15 @@
                 </span>
               </div>
             </div>
-          </accordion-group>
-        </accordion>
+          </div>
+        </details>
       </section>
       <br clear="all" />
     </section>
 
     <section class="return">
       <mat-card-actions>
-        <a routerLink="/intro" class="btn">Restart Quiz</a>
+        <a routerLink="/quiz/intro" class="btn">Restart Quiz</a>
         <a href="https://www.codelab.fun" class="btn">Back to Codelab</a>
       </mat-card-actions>
     </section>

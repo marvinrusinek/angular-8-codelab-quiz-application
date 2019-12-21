@@ -2,6 +2,9 @@ $font-stack: Space Mono, monospace;
 $font-weight-max: 900;
 
 section.results {
+  h3 {
+    text-align: center;
+  }
   img {
     width: 150px;
     height: 150px;
@@ -10,22 +13,9 @@ section.results {
     justify-content: center;
     text-align: center;
   }
-  h3, p, .quiz-summary-link, #quizAccordion {
-    text-align: center;
-  }
-  #quizAccordion {
-    margin-top: 10px;
-  }
-  button {
-    text-decoration: none;
-    font-weight: $font-weight-max;
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-  }
 
   section.statistics {
-    h3, span, div.quiz-feedback, div span {
+    h3, span, .quiz-feedback, div span {
       text-align: center;
     }
 
@@ -33,20 +23,50 @@ section.results {
       display: block;
     }
 
-    div.quiz-feedback {
+    .quiz-feedback {
       margin-top: 20px;
+
+      .great-job {
+        background: url('../../../../../../playground/assets/images/ngtrophy.png') no-repeat center center;
+      }
+      .not-bad {
+        background: url('../../../../../../playground/assets/images/notbad.jpg') no-repeat center center;
+      }
+      .try-again {
+        background: url('../../../../../../playground/assets/images/tryagain.jpeg') no-repeat center center;
+      }
+      .great-job, .not-bad, .try-again {
+        display: inline-block !important;
+        background-size: 100% !important;
+        border: 0 !important;
+        margin: -15px 0 0 -5px;
+        height: 160px !important;
+        width: 160px !important;
+      }
+      .great-job h3, .not-bad h3, .try-again h3 {
+        margin-top: -40px !important;
+      }
     }
   }
 
-  section .quizSummary {
-    display: inline-flex;
+  section.quizSummary {
+    display: flex;
     flex-direction: column;
-    text-align: left !important;
 
-    .accordion {
+    details {
       text-align: center !important;
-      text-decoration: none !important;
-      background-color: white !important;
+
+      summary {
+        font-size: 16px;
+        color: #007aff;
+        font-weight: $font-weight-max;
+        margin-bottom: 20px;
+        outline: none;
+      }
+
+      .allQuestions {
+        clear: left;
+      }
 
       .quiz-summary-question {
         font-family: $font-stack;
@@ -92,6 +112,7 @@ section.results {
 }
 
 section.return {
+  clear: left;
   text-align: center;
   margin-top: -10px;
 
@@ -117,22 +138,22 @@ section.challenge-social {
   }
   a.btn.facebook {
     background-color: #4267b2;
-    background-image: url('../../../assets/images/facebook.gif');
+    background-image: url('../../../../../assets/images/facebook.gif');
     top: 5px;
   }
   a.btn.twitter {
     background-color: #59adeb;
-    background-image: url('../../../assets/images/twitter.svg');
+    background-image: url('../../../../../assets/images/twitter.svg');
     top: 5px;
   }
   a.btn.email {
     background-color: #f0a121;
-    background-image: url('../../../assets/images/email.svg');
+    background-image: url('../../../../../assets/images/email.svg');
     top: 5px;
   }
 }
 
-/* add ripple effect to buttons on ResultsComponent */
+/* add ripple effect to buttons */
 a.btn {
   position: relative;
   overflow: hidden;

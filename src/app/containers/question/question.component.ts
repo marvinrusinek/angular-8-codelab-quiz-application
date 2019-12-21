@@ -5,27 +5,30 @@ import { FormGroup } from '@angular/forms';
 import { QuizQuestion } from '../../model/QuizQuestion';
 
 @Component({
-  selector: 'app-question-container',
+  selector: 'codelab-question-container',
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit {
+  @Input() answer: string;
   @Input() formGroup: FormGroup;
   @Output() question: QuizQuestion;
   @Output() totalQuestions: number;
-  @Output() totalSelections = 0;
-  @Output() totalQuestionsAttempted = 0;
   @Output() correctAnswersCount = 0;
   @Output() percentage = 0;
   @Output() completionTime: number;
+  // @Output() totalSelections = 0;
+  // @Output() totalQuestionsAttempted = 0;
 
   questionID = 0;
   currentQuestion = 0;
   questionIndex: number;
-  optionIndex = 0;
+  optionIndex: number;
   correctAnswer: boolean;
+  hasAnswer: boolean;
   disabled: boolean;
-  progressValue = 0;
+  quizIsOver: boolean;
+  progressValue: number;
   timeLeft: number;
   timePerQuestion = 20;
   interval: any;
@@ -36,7 +39,7 @@ export class QuestionComponent implements OnInit {
   @Output() allQuestions: QuizQuestion[] = [
     {
       questionId: 1,
-      question: 'What is the objective of dependency injection?',
+      questionText: 'What is the objective of dependency injection?',
       options: [
         { optionValue: '1', optionText: 'Pass the service to the client.' },
         { optionValue: '2', optionText: 'Allow the client to find service.' },
@@ -49,7 +52,7 @@ export class QuestionComponent implements OnInit {
     },
     {
       questionId: 2,
-      question: 'Which of the following benefit from dependency injection?',
+      questionText: 'Which of the following benefit from dependency injection?',
       options: [
         { optionValue: '1', optionText: 'Programming' },
         { optionValue: '2', optionText: 'Testability' },
@@ -62,11 +65,12 @@ export class QuestionComponent implements OnInit {
     },
     {
       questionId: 3,
-      question: 'Which of the following is the first step in setting up dependency injection?',
+      questionText: 'Which of the following is the first step in setting up dependency injection?',
       options: [
         { optionValue: '1', optionText: 'Require in the component.' },
         { optionValue: '2', optionText: 'Provide in the module.' },
-        { optionValue: '3', optionText: 'Mark dependency as @Injectable().' }
+        { optionValue: '3', optionText: 'Mark dependency as @Injectable().' },
+        { optionValue: '4', optionText: 'Declare an object.' }
       ],
       answer: '3',
       explanation: 'the first step is marking the class as @Injectable()',
@@ -74,7 +78,7 @@ export class QuestionComponent implements OnInit {
     },
     {
       questionId: 4,
-      question: 'In which of the following does dependency injection occur?',
+      questionText: 'In which of the following does dependency injection occur?',
       options: [
         { optionValue: '1', optionText: '@Injectable()' },
         { optionValue: '2', optionText: 'constructor' },
@@ -84,10 +88,10 @@ export class QuestionComponent implements OnInit {
       answer: '2',
       explanation: 'object instantiations are taken care of by the constructor by Angular',
       selectedOption: ''
-    },
+    }/* ,
     {
       questionId: 5,
-      question: 'Which access modifier is typically used in DI to make a service accessible in a class?',
+      questionText: 'Which access modifier is typically used in DI to make a service accessible within a class?',
       options: [
         { optionValue: '1', optionText: 'public' },
         { optionValue: '2', optionText: 'protected' },
@@ -95,12 +99,12 @@ export class QuestionComponent implements OnInit {
         { optionValue: '4', optionText: 'static' },
       ],
       answer: '3',
-      explanation: 'the private keyword, when used within the constructor, tells Angular that the service is accessible',
+      explanation: 'the private keyword indicates to Angular that the service is accessible across the class',
       selectedOption: ''
-    }/*,
+    },
     {
       questionId: 6,
-      question: 'How does Angular know that a service is available?',
+      questionText: 'How does Angular know that a service is available?',
       options: [
         { optionValue: '1', optionText: 'If listed in the constructor.' },
         { optionValue: '2', optionText: 'If listed in the providers section of NgModule.' },
@@ -113,7 +117,7 @@ export class QuestionComponent implements OnInit {
     },
     {
       questionId: 7,
-      question: 'How does Angular avoid conflicts caused by using hardcoded strings as tokens?',
+      questionText: 'How does Angular avoid conflicts caused by using hardcoded strings as tokens?',
       options: [
         { optionValue: '1', optionText: 'Use an InjectionToken class' },
         { optionValue: '2', optionText: 'Use @Inject()' },
@@ -126,7 +130,7 @@ export class QuestionComponent implements OnInit {
     },
     {
       questionId: 8,
-      question: 'Which is the preferred method for getting necessary data from a backend?',
+      questionText: 'Which is the preferred method for getting necessary data from a backend?',
       options: [
         { optionValue: '1', optionText: 'HttpClient' },
         { optionValue: '2', optionText: 'WebSocket' },
@@ -139,7 +143,7 @@ export class QuestionComponent implements OnInit {
     },
     {
       questionId: 9,
-      question: 'In which of the following can Angular use services?',
+      questionText: 'In which of the following can Angular use services?',
       options: [
         { optionValue: '1', optionText: 'Lazy-loaded modules' },
         { optionValue: '2', optionText: 'Eagerly loaded modules' },
@@ -152,7 +156,7 @@ export class QuestionComponent implements OnInit {
     },
     {
       questionId: 10,
-      question: 'Which of the following is true concerning dependency injection?',
+      questionText: 'Which of the following is true concerning dependency injection?',
       options: [
         { optionValue: '1', optionText: 'It is a software design pattern.' },
         { optionValue: '2', optionText: 'Injectors form a hierarchy.' },
@@ -162,13 +166,12 @@ export class QuestionComponent implements OnInit {
       answer: '4',
       explanation: 'all of these are correct statements about dependency injection',
       selectedOption: ''
-    }*/
+    } */
   ];
 
   constructor(private route: ActivatedRoute, private router: Router) {
     this.route.paramMap.subscribe(params => {
-      // get the question ID and store it.
-      this.setQuestionID(+params.get('questionId'));
+      this.setQuestionID(+params.get('questionId'));  // get the question ID and store it
       this.question = this.getQuestion;
     });
   }
@@ -177,48 +180,43 @@ export class QuestionComponent implements OnInit {
     this.question = this.getQuestion;
     this.totalQuestions = this.allQuestions.length;
     this.timeLeft = this.timePerQuestion;
+    this.progressValue = 100 * (this.currentQuestion + 1) / this.totalQuestions;
     this.countDown();
   }
 
-  displayNextQuestionWithOptions() {
+  displayNextQuestion() {
     this.resetTimer();
     this.increaseProgressValue();
+    this.questionIndex = this.questionID++;   // increment questionIndex for the next question
 
-    this.questionIndex = this.questionID++;
-    document.getElementById('question').innerHTML = this.allQuestions[this.questionIndex].question;
+    document.getElementById('question').innerHTML = this.allQuestions[this.questionIndex].questionText;
     document.getElementById('question').style.border = this.blueBorder;
 
-    var liElems = document.getElementsByTagName('li');
+    // show the options text in the ordered list for the next question
     for (this.optionIndex = 0; this.optionIndex < 4; this.optionIndex++) {
-      liElems[this.optionIndex].textContent =
-        this.allQuestions[this.questionIndex].options[this.optionIndex].optionText; // add option text to the list items
+      document.getElementsByTagName('li')[this.optionIndex].innerHTML =
+        this.allQuestions[this.questionIndex].options[this.optionIndex].optionText;
     }
-  }
 
-  displayPreviousQuestion() {
-    this.resetTimer();
-    this.decreaseProgressValue();
-
-    this.questionIndex = this.currentQuestion -= 1;   // decrease the question index by 2 for previous question
-    document.getElementById('question').innerHTML = this.allQuestions[this.questionIndex].question;
-    document.getElementById('question').style.border = this.blueBorder;
+    // set the answer and explanation for the next question
+    this.question.answer = this.allQuestions[this.questionIndex].answer;
+    this.question.explanation = this.allQuestions[this.questionIndex].explanation;
   }
 
   navigateToNextQuestion(): void {
-    this.currentQuestion++;
-
     if (this.isThereAnotherQuestion()) {
-      this.router.navigate(['/question', this.getQuestionID() + 1]);  // navigates to the next question
-      this.displayNextQuestionWithOptions();                          // displays the next question
+      this.currentQuestion++;
+      this.router.navigate(['/quiz/question', this.getQuestionID() + 1]);  // navigates to the next question
+      this.displayNextQuestion();                                                    // displays the next question
+      this.clearSelectedOption();
     }
-
-    this.resetTimer();
   }
 
-  navigateToPreviousQuestion(): void {
-    this.currentQuestion--;
-    this.router.navigate(['/question', this.getQuestionID() - 1]);  // navigates to the previous question
-    this.displayPreviousQuestion();                                 // display the previous question
+  // clears the selection before the next question is shown
+  clearSelectedOption() {
+    if (this.question.selectedOption !== '' && this.hasAnswer === true) {
+      delete this.question.selectedOption;
+    }
   }
 
   // increase the correct answer count when the correct answer is selected
@@ -226,43 +224,43 @@ export class QuestionComponent implements OnInit {
     if (this.question && this.question.selectedOption === this.question.answer) {
       this.correctAnswersCount++;
       this.correctAnswer = true;
+      this.hasAnswer = true;
     } else {
       this.correctAnswer = false;
+      this.hasAnswer = false;
     }
   }
 
-  // increase the progress value when the user presses the next button
-  increaseProgressValue() {
-    this.progressValue = 100 * (this.currentQuestion + 1) / this.totalQuestions;
-  }
-
-  // decrease the progress value when the user presses the previous button
-  decreaseProgressValue() {
-    this.progressValue = (100 / this.totalQuestions) * (this.getQuestionID() - 1);
-  }
-
-  // determine the percentage from amount of correct answers given and the total number of questions
-  calculatePercentage() {
-    this.percentage = 100 * (this.correctAnswersCount + 1) / this.totalQuestions;
-  }
-
-  recordSelections() {
-    if (this.question.selectedOption !== '') {
-      this.totalSelections++;
-    }
-  }
-
+  // checks whether the question is a valid question and is answered correctly
   checkIfValidAndCorrect(): void {
     if (this.question && this.currentQuestion <= this.totalQuestions &&
-        this.question.selectedOption === this.question.answer) {
-      this.disabled = false;  // trying to enable the next button when a correct answer is selected
+      this.question.selectedOption === this.question.answer) {
+      this.correctAnswer = true;
+      this.hasAnswer = true;
       this.incrementCorrectAnswersCount();
+      this.disabled = false;
       this.elapsedTime = Math.floor(this.timePerQuestion - this.timeLeft);
       this.elapsedTimes.push(this.elapsedTime);
       this.quizDelay(3000);
       this.navigateToNextQuestion();
     }
   }
+
+  // increase the progress value when the user presses the next button
+  increaseProgressValue() {
+    this.progressValue = 100 * (this.getQuestionID() + 1) / this.totalQuestions;
+  }
+
+  // determine the percentage from amount of correct answers given and the total number of questions
+  calculatePercentage() {
+    this.percentage = 100 * this.correctAnswersCount / this.totalQuestions;
+  }
+
+  /* recordSelections() {
+    if (this.question.selectedOption !== '') {
+      this.totalSelections++;
+    }
+  } */
 
   /****************  public API  ***************/
   getQuestionID() {
@@ -283,37 +281,37 @@ export class QuestionComponent implements OnInit {
     )[0];
   }
 
-  // countdown timer and associated methods
+  // countdown timer
   private countDown() {
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
         this.timeLeft--;
-        this.recordSelections();
+        // this.recordSelections();
 
-        // utilized for disabling the next button until an option has been selected
-        if (this.question.selectedOption === '') {
-          this.disabled = true;
-        } else {
-          this.disabled = false;
-        }
+        // disable the next button until an option has been selected
+       // (this.question.selectedOption === '') ? this.disabled = true : this.disabled = false;
 
-        if (this.question && this.currentQuestion <= this.totalQuestions && this.question.selectedOption !== '') {
+        /* if (this.question && this.currentQuestion <= this.totalQuestions && this.question.selectedOption !== '') {
           this.totalQuestionsAttempted++;
-        }
+        } */
 
-        this.checkIfValidAndCorrect();  // checks whether the question is valid and is answered correctly
+        this.checkIfValidAndCorrect();
         this.calculatePercentage();
         this.calculateTotalElapsedTime(this.elapsedTimes);
 
-        // check if the timer is expired
-        if (this.timeLeft === 0 && this.question && this.currentQuestion <= this.totalQuestions) {
-          this.question.questionId++;
-          this.displayNextQuestionWithOptions();
-          this.resetTimer();
+        // check if the timer is expired and if the question is less than the last question
+        if (this.timeLeft === 0 && this.question && this.currentQuestion < this.totalQuestions) {
+          this.navigateToNextQuestion();
         }
 
-        if (this.question.questionId > this.totalQuestions) {
-          this.router.navigateByUrl('/results');   // todo: pass the data to results!
+        /* if (this.currentQuestion === this.totalQuestions) {
+          console.log(this.allQuestions); // first q is showing up w/ id: 11 and wrong answer
+        } */
+
+        // check if the timer is expired and if the question is the last question
+        if (this.timeLeft === 0 && this.question && this.currentQuestion === this.totalQuestions) {
+          this.router.navigateByUrl('/quiz/results');
+          this.quizIsOver = true;
         }
       }
     }, 1000);
@@ -322,15 +320,12 @@ export class QuestionComponent implements OnInit {
   private resetTimer() {
     this.timeLeft = this.timePerQuestion;
   }
-  private stopTimer() {
-    this.timeLeft = 0;
-  }
 
   private calculateTotalElapsedTime(elapsedTimes) {
     this.completionTime = elapsedTimes.reduce((acc, cur) => acc + cur, 0);
   }
 
-  private quizDelay(milliseconds) {
+  quizDelay(milliseconds) {
     const start = new Date().getTime();
     let counter = 0;
     let end = 0;

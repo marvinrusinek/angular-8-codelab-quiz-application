@@ -1,6 +1,7 @@
 import { NgModule, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// import { CommonModule } from "@angular/common";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {BrowserModule} from "@angular/platform-browser";
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule, MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/radio';
@@ -16,6 +17,7 @@ import { QuestionComponent } from './containers/question/question.component';
 import * as QuestionComponent2 from './components/question/question.component';
 import { ResultsComponent } from './containers/results/results.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +27,7 @@ import { ResultsComponent } from './containers/results/results.component';
     ResultsComponent
   ],
   imports: [
+    // CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -34,7 +37,7 @@ import { ResultsComponent } from './containers/results/results.component';
     MatIconModule,
     MatButtonModule,
     NgbModule,
-    AccordionModule.forRoot() 
+    AccordionModule.forRoot()
   ],
   providers: [{
     provide: MAT_RADIO_DEFAULT_OPTIONS,

@@ -1,24 +1,23 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { QuizQuestion } from '../../model/QuizQuestion';
 
 @Component({
-  selector: 'app-question',
+  selector: 'codelab-quiz-question',
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit, OnChanges {
   @Output() answer = new EventEmitter<string>();
   @Output() formGroup: FormGroup;
-  @Input() question: QuizQuestion;
+  @Input() question: QuizQuestion = {questionId: 1, options: [], answer: '', explanation: '', questionText: '', selectedOption: ''};
   @Input() allQuestions: QuizQuestion[];
   @Input() totalQuestions: number;
   option = '';
-  selectedOption = '';
   grayBorder = '2px solid #979797';
 
-  constructor(private fb: FormBuilder) {}
+  constructor() {}
 
   ngOnInit() {
     this.buildForm();
@@ -30,12 +29,9 @@ export class QuestionComponent implements OnInit, OnChanges {
     }
   }
 
-  private buildForm() {
-    /* this.formGroup = this.fb.group({
-      answer: ['', Validators.required]
-    }); */
+  buildForm() {
     this.formGroup = new FormGroup({
-      answer: new FormControl('', Validators.required)
+      answer: new FormControl(['', Validators.required])
     });
   }
 
@@ -46,18 +42,20 @@ export class QuestionComponent implements OnInit, OnChanges {
   }
 
   displayExplanation(): void {
-    document.getElementById('question').innerHTML =
-      'Option ' + this.question.answer + ' was correct because ' + this.question.explanation + '.';
-    document.getElementById('question').style.border = this.grayBorder;
+    const questionEl = document.getElementById('question');
+    if (questionEl !== null) {
+      questionEl.innerHTML = 'Option ' + this.question.answer + ' was correct because ' + this.question.explanation + '.';
+      questionEl.style.border = this.grayBorder;
+    }
   }
 
+  // mark the correct answer regardless of which option is selected once answered
   isCorrect(option: string): boolean {
-    // mark the correct answer regardless of which option is selected once answered
     return this.question.selectedOption && option === this.question.answer;
   }
 
+  // mark incorrect answer if selected
   isIncorrect(option: string): boolean {
-    // mark incorrect answer if selected
     return option !== this.question.answer && option === this.question.selectedOption;
   }
 

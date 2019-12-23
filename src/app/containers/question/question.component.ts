@@ -197,14 +197,14 @@ export class QuestionComponent implements OnInit {
   navigateToNextQuestion(): void {
     if (this.isThereAnotherQuestion()) {
       this.currentQuestion++;
-      this.router.navigate(['/quiz/question', this.getQuestionID() + 1]);
+      this.router.navigate(['/question', this.getQuestionID() + 1]);
       this.displayNextQuestion();
     }
   }
 
   navigateToResults(): void {
     if (this.currentQuestion === this.totalQuestions && this.quizIsOver == true) {
-      this.router.navigateByUrl('/quiz/results');   // may need to pass data here
+      this.router.navigateByUrl('/results');   // may need to pass data here
     }
   }
 
@@ -288,7 +288,7 @@ export class QuestionComponent implements OnInit {
 
         // check if the timer is expired and if the question is the last question
         if (this.timeLeft === 0 && this.question && this.currentQuestion === this.totalQuestions) {
-          this.router.navigateByUrl('/quiz/results');
+          this.router.navigateByUrl('/results');
           this.quizIsOver = true;
         }
       }

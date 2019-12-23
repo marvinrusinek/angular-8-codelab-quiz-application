@@ -11,6 +11,6 @@ export class IntroductionComponent {
   constructor(private router: Router) {}
 
   startQuiz() {
-    this.router.navigateByUrl('/question/1');
+    this.router.navigateByUrl('/quiz/question/1');
   }
 }

@@ -17,8 +17,6 @@ export class QuestionComponent implements OnInit {
   @Output() correctAnswersCount = 0;
   @Output() percentage = 0;
   @Output() completionTime: number;
-  // @Output() totalSelections = 0;
-  // @Output() totalQuestionsAttempted = 0;
 
   questionID = 0;
   currentQuestion = 0;
@@ -88,7 +86,7 @@ export class QuestionComponent implements OnInit {
       answer: '2',
       explanation: 'object instantiations are taken care of by the constructor by Angular',
       selectedOption: ''
-    }/* ,
+    },
     {
       questionId: 5,
       questionText: 'Which access modifier is typically used in DI to make a service accessible within a class?',
@@ -166,7 +164,7 @@ export class QuestionComponent implements OnInit {
       answer: '4',
       explanation: 'all of these are correct statements about dependency injection',
       selectedOption: ''
-    } */
+    }
   ];
 
   constructor(private route: ActivatedRoute, private router: Router) {
@@ -187,35 +185,26 @@ export class QuestionComponent implements OnInit {
   displayNextQuestion() {
     this.resetTimer();
     this.increaseProgressValue();
-    this.questionIndex = this.questionID++;   // increment questionIndex for the next question
+    this.questionIndex = this.questionID++;
 
-    document.getElementById('question').innerHTML = this.allQuestions[this.questionIndex].questionText;
-    document.getElementById('question').style.border = this.blueBorder;
-
-    // show the options text in the ordered list for the next question
-    for (this.optionIndex = 0; this.optionIndex < 4; this.optionIndex++) {
-      document.getElementsByTagName('li')[this.optionIndex].innerHTML =
-        this.allQuestions[this.questionIndex].options[this.optionIndex].optionText;
+    const quest = document.getElementById('question');
+    if (typeof quest !== 'undefined') {
+      quest.innerHTML = this.allQuestions[this.questionIndex]['questionText'];
+      quest.style.border = this.blueBorder;
     }
-
-    // set the answer and explanation for the next question
-    this.question.answer = this.allQuestions[this.questionIndex].answer;
-    this.question.explanation = this.allQuestions[this.questionIndex].explanation;
   }
 
   navigateToNextQuestion(): void {
     if (this.isThereAnotherQuestion()) {
       this.currentQuestion++;
-      this.router.navigate(['/quiz/question', this.getQuestionID() + 1]);  // navigates to the next question
-      this.displayNextQuestion();                                                    // displays the next question
-      this.clearSelectedOption();
+      this.router.navigate(['/quiz/question', this.getQuestionID() + 1]);
+      this.displayNextQuestion();
     }
   }
 
-  // clears the selection before the next question is shown
-  clearSelectedOption() {
-    if (this.question.selectedOption !== '' && this.hasAnswer === true) {
-      delete this.question.selectedOption;
+  navigateToResults(): void {
+    if (this.currentQuestion === this.totalQuestions && this.quizIsOver == true) {
+      this.router.navigateByUrl('/quiz/results');   // may need to pass data here
     }
   }
 
@@ -256,12 +245,6 @@ export class QuestionComponent implements OnInit {
     this.percentage = 100 * this.correctAnswersCount / this.totalQuestions;
   }
 
-  /* recordSelections() {
-    if (this.question.selectedOption !== '') {
-      this.totalSelections++;
-    }
-  } */
-
   /****************  public API  ***************/
   getQuestionID() {
     return this.questionID;
@@ -286,14 +269,9 @@ export class QuestionComponent implements OnInit {
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
         this.timeLeft--;
-        // this.recordSelections();
 
         // disable the next button until an option has been selected
-       // (this.question.selectedOption === '') ? this.disabled = true : this.disabled = false;
-
-        /* if (this.question && this.currentQuestion <= this.totalQuestions && this.question.selectedOption !== '') {
-          this.totalQuestionsAttempted++;
-        } */
+        // (this.question.selectedOption === '') ? this.disabled = true : this.disabled = false;
 
         this.checkIfValidAndCorrect();
         this.calculatePercentage();

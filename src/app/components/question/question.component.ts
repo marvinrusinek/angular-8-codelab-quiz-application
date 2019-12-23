@@ -11,7 +11,7 @@ import { QuizQuestion } from '../../model/QuizQuestion';
 export class QuestionComponent implements OnInit, OnChanges {
   @Output() answer = new EventEmitter<string>();
   @Output() formGroup: FormGroup;
-  @Input() question: QuizQuestion = {questionId: 1, options: [], answer: '', explanation: '', questionText: '', selectedOption: ''};
+  @Input() question: QuizQuestion;
   @Input() allQuestions: QuizQuestion[];
   @Input() totalQuestions: number;
   option = '';

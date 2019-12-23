@@ -53,7 +53,7 @@ section.scoreboard {
   }
 }
 
-#question {
+section#question {
   font-family: $font-stack;
   font-weight: 700;
   font-size: 30px !important;
@@ -74,15 +74,17 @@ section.paging {
   mat-card-actions {
     margin: -10px 0 10px 0;
 
-    .previousQuestionNav {
-      float: left;
-      margin-left: 1.5rem;
-    }
     .nextQuestionNav {
       float: right;
       margin-right: -0.4rem;
     }
-    .previousQuestionNav:hover, .nextQuestionNav:hover {
+
+    .showScoreNav {
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    .nextQuestionNav:hover, .showScoreNav:hover {
       border: 1px solid #007aff;
     }
   }

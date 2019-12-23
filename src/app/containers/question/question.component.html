@@ -28,24 +28,25 @@
       </div>
     </section>
 
+    <section id="question">{{ question.questionText }}</section>
+
     <codelab-quiz-question
       [question]="question"
       [totalQuestions]="totalQuestions">
-        <div id="question">{{ question.questionText }}</div>
     </codelab-quiz-question>
   </mat-card-content>
 
   <mat-card-footer>
     <section class="paging">
       <mat-card-actions>
-        <!--<div class="previousQuestionNav" *ngIf="question && question.questionId !== 1">
-          <button type="button" (click)="navigateToPreviousQuestion()">
-            &laquo; Previous
-          </button>
-        </div>-->
-        <div class="nextQuestionNav" *ngIf="question && question.questionId !== totalQuestions">
+        <div class="nextQuestionNav" *ngIf="question && question.questionId < totalQuestions">
           <button type="button" [disabled]="disabled" (click)="navigateToNextQuestion()">
             Next &raquo;
+          </button>
+        </div>
+        <div class="showScoreNav" *ngIf="question && question.questionId === totalQuestions">
+          <button type="button" (click)="navigateToResults()">
+            Show Your Score!
           </button>
         </div>
       </mat-card-actions>

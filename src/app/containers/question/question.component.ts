@@ -21,7 +21,6 @@ export class QuestionComponent implements OnInit {
   questionID = 0;
   currentQuestion = 0;
   questionIndex: number;
-  optionIndex: number;
   correctAnswer: boolean;
   hasAnswer: boolean;
   disabled: boolean;
@@ -187,25 +186,23 @@ export class QuestionComponent implements OnInit {
     this.increaseProgressValue();
     this.questionIndex = this.questionID++;
 
-    const quest = document.getElementById('question');
-    if (typeof quest !== 'undefined') {
-      quest.innerHTML = this.allQuestions[this.questionIndex]['questionText'];
-      quest.style.border = this.blueBorder;
+    const questionElem = document.getElementById('question');
+    if (typeof questionElem !== 'undefined') {
+      questionElem.innerHTML = this.allQuestions[this.questionIndex]['questionText'];
+      questionElem.style.border = this.blueBorder;
     }
   }
 
   navigateToNextQuestion(): void {
     if (this.isThereAnotherQuestion()) {
       this.currentQuestion++;
-      this.router.navigate(['/question', this.getQuestionID() + 1]);
+      this.router.navigate(['/quiz/question', this.getQuestionID() + 1]);
       this.displayNextQuestion();
     }
   }
 
   navigateToResults(): void {
-    if (this.currentQuestion === this.totalQuestions && this.quizIsOver == true) {
-      this.router.navigateByUrl('/results');   // may need to pass data here
-    }
+    this.router.navigateByUrl('/quiz/results');   // todo: pass data here!
   }
 
   // increase the correct answer count when the correct answer is selected
@@ -241,7 +238,7 @@ export class QuestionComponent implements OnInit {
   }
 
   // determine the percentage from amount of correct answers given and the total number of questions
-  calculatePercentage() {
+  calculateQuizPercentage() {
     this.percentage = 100 * this.correctAnswersCount / this.totalQuestions;
   }
 
@@ -271,10 +268,10 @@ export class QuestionComponent implements OnInit {
         this.timeLeft--;
 
         // disable the next button until an option has been selected
-        // (this.question.selectedOption === '') ? this.disabled = true : this.disabled = false;
+        (this.question.selectedOption === '') ? this.disabled = true : this.disabled = false;
 
         this.checkIfValidAndCorrect();
-        this.calculatePercentage();
+        this.calculateQuizPercentage();
         this.calculateTotalElapsedTime(this.elapsedTimes);
 
         // check if the timer is expired and if the question is less than the last question
@@ -282,13 +279,9 @@ export class QuestionComponent implements OnInit {
           this.navigateToNextQuestion();
         }
 
-        /* if (this.currentQuestion === this.totalQuestions) {
-          console.log(this.allQuestions); // first q is showing up w/ id: 11 and wrong answer
-        } */
-
         // check if the timer is expired and if the question is the last question
         if (this.timeLeft === 0 && this.question && this.currentQuestion === this.totalQuestions) {
-          this.router.navigateByUrl('/results');
+          this.router.navigateByUrl('/quiz/results');
           this.quizIsOver = true;
         }
       }

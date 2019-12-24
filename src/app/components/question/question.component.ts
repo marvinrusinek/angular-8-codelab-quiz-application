@@ -42,10 +42,10 @@ export class QuestionComponent implements OnInit, OnChanges {
   }
 
   displayExplanation(): void {
-    const questionEl = document.getElementById('question');
-    if (questionEl !== null) {
-      questionEl.innerHTML = 'Option ' + this.question.answer + ' was correct because ' + this.question.explanation + '.';
-      questionEl.style.border = this.grayBorder;
+    const questionElem = document.getElementById('question');
+    if (questionElem !== null) {
+      questionElem.innerHTML = 'Option ' + this.question.answer + ' was correct because ' + this.question.explanation + '.';
+      questionElem.style.border = this.grayBorder;
     }
   }
 

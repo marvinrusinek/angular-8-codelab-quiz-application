@@ -80,12 +80,17 @@ section.paging {
     }
 
     .showScoreNav {
+      width: 150px;
       text-align: center;
       margin: 0 auto;
     }
 
     .nextQuestionNav:hover, .showScoreNav:hover {
       border: 1px solid #007aff;
+    }
+
+    .showScoreNav:hover {
+      width: 141.5px !important;
     }
   }
 }

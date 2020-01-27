@@ -1,7 +1,26 @@
 $font-stack: Space Mono, monospace;
 $font-weight-max: 900;
 
+mat-card-header {
+  display: block;
+
+  .header-image {
+    margin-left: 10px;
+  }
+
+  .mat-card-container {
+    float: right;
+    margin-top: 0;
+    margin-right: 15px;
+    margin-left: -5px !important;
+    text-align: center;
+  }
+}
+
 section.results {
+  display: block;
+  clear: both;
+
   h3 {
     text-align: center;
   }
@@ -26,14 +45,18 @@ section.results {
     .quiz-feedback {
       margin-top: 20px;
 
-      .great-job {
-        background: url('../../../../../../playground/assets/images/ngtrophy.png') no-repeat center center;
+      /* .great-job {
+        background: url('../../../../assets/images/ngtrophy.jpg') no-repeat center center;
+        object-fit: cover;
+        border: none !important;
       }
       .not-bad {
-        background: url('../../../../../../playground/assets/images/notbad.jpg') no-repeat center center;
+        background: url('../../../../assets/images/notbad.jpg') no-repeat center center;
+        background-size: contain;
       }
       .try-again {
-        background: url('../../../../../../playground/assets/images/tryagain.jpeg') no-repeat center center;
+        background: url('../../../../assets/images/tryagain.jpeg') no-repeat center center;
+        background-size: contain;
       }
       .great-job, .not-bad, .try-again {
         display: inline-block !important;
@@ -45,7 +68,7 @@ section.results {
       }
       .great-job h3, .not-bad h3, .try-again h3 {
         margin-top: -40px !important;
-      }
+      } */
     }
   }
 
@@ -54,7 +77,7 @@ section.results {
     flex-direction: column;
 
     details {
-      text-align: center !important;
+      display: block;
 
       summary {
         font-size: 16px;
@@ -62,10 +85,20 @@ section.results {
         font-weight: $font-weight-max;
         margin-bottom: 20px;
         outline: none;
+        text-align: center;
       }
 
-      .allQuestions {
-        clear: left;
+      accordion {
+        padding-bottom: 20px;
+      }
+
+      accordion-group:hover {
+        outline: blue;
+      }
+
+      span.accordion-heading {
+        background-color: #f5f5f5 !important;
+        color: #0f0000 !important;
       }
 
       .quiz-summary-question {
@@ -129,28 +162,35 @@ section.return {
 section.challenge-social {
   text-align: center;
 
-  a.btn {
-    text-decoration: none;
-    margin-right: 20px;
-    padding: 9px 15px 8px 42px;
-    background: no-repeat 10px 5px;
-    background-size: 25px 25px;
-    color: white;
-  }
-  a.btn.facebook {
-    background-color: #4267b2;
-    background-image: url('../../../../../assets/images/facebook.gif');
-    top: 5px;
-  }
-  a.btn.twitter {
-    background-color: #59adeb;
-    background-image: url('../../../../../assets/images/twitter.svg');
-    top: 5px;
-  }
-  a.btn.email {
-    background-color: #f0a121;
-    background-image: url('../../../../../assets/images/email.svg');
-    top: 5px;
+  .social-buttons {
+    display: block;
+
+    a.btn {
+      text-decoration: none;
+      margin-right: 20px;
+      padding: 9px 15px 8px 42px;
+      background: no-repeat 10px 5px;
+      background-size: 25px 25px;
+      color: white;
+    }
+
+    a.btn.facebook {
+      background-color: #4267b2;
+      background-image: url('../../../assets/images/facebook.gif');
+      top: 5px;
+    }
+
+    a.btn.twitter {
+      background-color: #59adeb;
+      background-image: url('../../../assets/images/twitter.svg');
+      top: 5px;
+    }
+
+    a.btn.email {
+      background-color: #f0a121;
+      background-image: url('../../../assets/images/email.svg');
+      top: 5px;
+    }
   }
 }
 

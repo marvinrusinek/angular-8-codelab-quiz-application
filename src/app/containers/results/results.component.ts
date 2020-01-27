@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { QuizQuestion } from '../../model/QuizQuestion';
+
 
 @Component({
   selector: 'codelab-quiz-results',
@@ -8,39 +10,31 @@ import { QuizQuestion } from '../../model/QuizQuestion';
   styleUrls: ['./results.component.scss']
 })
 export class ResultsComponent implements OnInit {
-  @Input() answer = '';
+  @Input() answer: string;
   @Input() question: QuizQuestion;
-  @Input() allQuestions: QuizQuestion[];
-  @Input() totalQuestions: number;
-  @Input() correctAnswersCount: number;
-  @Input() percentage: number;
-  @Input() completionTime: number;
-
+  totalQuestions: number;
+  allQuestions: QuizQuestion[];
+  correctAnswersCount: number;
+  percentage: number;
+  completionTime: number;
   elapsedMinutes: number;
   elapsedSeconds: number;
-
   codelabUrl = 'https://www.codelab.fun';
 
-  constructor() {}
+  CONGRATULATIONS = '../../../assets/images/ngtrophy.jpg';
+  NOT_BAD = '../../../assets/images/notbad.jpg';
+  TRY_AGAIN = '../../../assets/images/tryagain.jpeg';
+  
+  constructor(private router: Router) {
+    this.totalQuestions = this.router.getCurrentNavigation().extras.state.totalQuestions;
+    this.correctAnswersCount = this.router.getCurrentNavigation().extras.state.correctAnswersCount;
+    this.completionTime = this.router.getCurrentNavigation().extras.state.completionTime;
+    this.allQuestions = this.router.getCurrentNavigation().extras.state.allQuestions;
+  }
 
   ngOnInit() {
     this.elapsedMinutes = Math.floor(this.completionTime / 60);
     this.elapsedSeconds = this.completionTime % 60;
-    this.checkBounds();
-  }
-
-  checkBounds() {
-    // make sure the percentage is within bounds
-    if (this.percentage < 0) {
-      this.percentage = 0;
-    }
-    if (this.percentage > 100) {
-      this.percentage = 100;
-    }
-
-    // check if correct answer count is somehow greater than the total number of questions
-    if (this.correctAnswersCount > this.totalQuestions) {
-      this.correctAnswersCount = this.totalQuestions;
-    }
+    this.percentage = Math.round(100 * this.correctAnswersCount / this.totalQuestions);
   }
 }

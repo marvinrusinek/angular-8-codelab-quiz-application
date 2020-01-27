@@ -3,7 +3,27 @@ $font-weight-max: 900;
 
 @font-face {
   font-family: "Alarm Clock";
-  src: url("../../../../../assets/alarm-clock.ttf") format("truetype");
+  src: url("../../../assets/alarm-clock.ttf") format("truetype");
+}
+
+mat-card-header {
+  display: block;
+
+  .header-image {
+    margin-left: 15px;
+  }
+
+  .mat-card-container {
+    float: right;
+    margin-top: -85px;
+    margin-right: 15px;
+    margin-left: 5px !important;
+    text-align: center;
+
+    .subtitle2 {
+      display: block;
+    }
+  }
 }
 
 section.scoreboard {
@@ -73,6 +93,11 @@ section.paging {
 
   mat-card-actions {
     margin: -10px 0 10px 0;
+
+    .previousQuestionNav {
+      float: left;
+      margin-left: 1.5rem;
+    }
 
     .nextQuestionNav {
       float: right;

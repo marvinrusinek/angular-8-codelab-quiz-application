@@ -1,10 +1,12 @@
-<mat-card *ngIf="question && question.questionId <= totalQuestions; else quiz_results;">
+<mat-card>
   <mat-card-header>
     <div mat-card-avatar class="header-image"></div>
+    <div class="mat-card-container">
       <mat-card-title>Dependency Injection Quiz</mat-card-title>
       <mat-card-subtitle>
-        Assess your knowledge of Dependency Injection (<abbr>DI</abbr>)
+        Assess your knowledge of Dependency Injection
       </mat-card-subtitle>
+    </div>
   </mat-card-header>
 
   <mat-card-content>
@@ -30,16 +32,18 @@
 
     <section id="question">{{ question.questionText }}</section>
 
-    <codelab-quiz-question
-      [question]="question"
-      [totalQuestions]="totalQuestions">
-    </codelab-quiz-question>
+    <codelab-quiz-question [question]="question"></codelab-quiz-question>
   </mat-card-content>
 
   <mat-card-footer>
     <section class="paging">
       <mat-card-actions>
-        <div class="nextQuestionNav" *ngIf="question && question.questionId < totalQuestions">
+        <!-- <div class="previousQuestionNav" *ngIf="question && question.questionId !== 1">
+          <button type="button" (click)="navigateToPreviousQuestion()">
+            &laquo; Previous
+          </button>
+        </div> -->
+        <div class="nextQuestionNav" *ngIf="question && question.questionId !== totalQuestions">
           <button type="button" [disabled]="disabled" (click)="navigateToNextQuestion()">
             Next &raquo;
           </button>
@@ -56,20 +60,8 @@
       <ngb-progressbar *ngIf="(progressValue >= 0 && progressValue <= 100) &&
                               question && question.questionId <= totalQuestions"
                        type="success" [striped]="true" [animated]="true" [value]="progressValue">
-        <strong>{{ progressValue.toFixed(0) }}%</strong>
+        <strong>{{ progressValue }}%</strong>
       </ngb-progressbar>
     </section>
   </mat-card-footer>
 </mat-card>
-
-<ng-template #quiz_results>
-  <codelab-quiz-results
-    [question]="question"
-    [answer]="answer"
-    [allQuestions]="allQuestions"
-    [totalQuestions]="totalQuestions"
-    [correctAnswersCount]="correctAnswersCount"
-    [percentage]="percentage"
-    [completionTime]="completionTime">
-  </codelab-quiz-results>
-</ng-template>
